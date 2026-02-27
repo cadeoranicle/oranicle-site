@@ -1,5 +1,6 @@
 {
-  "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/npi_index/:path*", "destination": "/npi_index/:path*" },
+    { "source": "/", "destination": "/index.html" }
   ]
 }
