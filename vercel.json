@@ -1,9 +1,7 @@
-cat > vercel.json <<'JSON' 
 {
   "version": 2,
   "routes": [
     { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    { "src": "/.*", "dest": "/index.html" }
   ]
 }
-JSON
