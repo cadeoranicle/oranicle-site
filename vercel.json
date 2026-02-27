@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/npi_index/:path*", "destination": "/npi_index/:path*" },
-    { "source": "/", "destination": "/index.html" }
+    { "source": "/npi_index/:path*", "destination": "/public/npi_index/:path*" },
+    { "source": "/", "destination": "/public/index.html" }
   ]
 }
