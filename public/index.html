@@ -103,6 +103,28 @@
       <!-- You can replace this entire block later with richer prose -->
     </div>
 
+<div class="card">
+  <h2>Provider Access</h2>
+  <p class="muted">
+    Enter your Provider ID to see how your activity aligns with regional care-delivery models — before diving deeper.
+  </p>
+
+  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+    <input id="npiInput" inputmode="numeric" pattern="[0-9]*" maxlength="10"
+           placeholder="Enter 10-digit NPI"
+           style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;min-width:260px;" />
+    <button id="npiGo"
+            style="padding:10px 14px;border-radius:10px;border:1px solid #111;background:#fff;cursor:pointer;">
+      View Snapshot
+    </button>
+  </div>
+
+  <p id="status" class="muted" style="margin-top:10px;"></p>
+</div>
+
+
+
+
     <!-- RIGHT: Interaction -->
     <div>
 
@@ -226,6 +248,43 @@
 
 
 
+<script>
+  const input = document.querySelector('input[type="text"]');
+  const button = document.querySelector('button');
+
+  button.addEventListener('click', () => {
+    const npi = input.value.trim();
+
+    if (!/^\d{10}$/.test(npi)) {
+      alert("Please enter a valid 10-digit NPI");
+      return;
+    }
+
+    console.log("NPI entered:", npi);
+  });
+</script>
+
+
+<script>
+  (function () {
+    const input = document.getElementById("npiInput");
+    const btn = document.getElementById("npiGo");
+    const status = document.getElementById("status");
+
+    if (!input || !btn) {
+      console.error("Missing #npiInput or #npiGo in DOM");
+      return;
+    }
+
+    btn.addEventListener("click", () => {
+      const raw = (input.value || "").trim();
+      console.log("Button clicked. NPI entered =", raw);
+      status.textContent = raw ? `You entered: ${raw}` : "Please enter a 10-digit NPI.";
+    });
+
+    console.log("NPI UI wired OK");
+  })();
+</script>
 
 </body>
 </html>
