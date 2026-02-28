@@ -101,10 +101,19 @@ async function lookupProvider() {
     const found = Array.isArray(arr) && arr.includes(npi);
 
     if (!found) {
-      status.className = "muted bad";
-      status.textContent = `❌ NPI not found in shard ${shard}.`;
-      return;
-    }
+  status.className = "muted bad";
+  status.innerHTML = `
+    ❌ <strong>Not in current coverage set</strong><br>
+    We’re starting with <strong>Tri-State (NY / NJ / CT)</strong> providers.<br>
+    <span style="opacity:0.85;">
+      Want early access when we expand your region?
+      <a href="mailto:you@oranicle.com?subject=Early%20Access%20Request">
+        Join the waitlist
+      </a>.
+    </span>
+  `;
+  return;
+}
 
     status.className = "muted ok";
     status.textContent = `✅ NPI found in shard ${shard}.`;
