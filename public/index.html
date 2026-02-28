@@ -128,38 +128,6 @@
     <!-- RIGHT: Interaction -->
     <div>
 
-      <div class="card">
-        <h3>Start with your Provider ID</h3>
-        <p class="muted">Enter your 10-digit NPI to view your regional snapshot.</p>
-
-        <input
-          id="providerInput"
-          type="text"
-          placeholder="e.g. 1234567890"
-          maxlength="10"
-        />
-
-        <button onclick="lookupProvider()">View Snapshot</button>
-
-        <div id="result" class="result">
-          <p class="muted">
-            Regional canonical detected: <strong id="region-name"></strong>
-          </p>
-
-          <!-- Placeholder image -->
-          <img
-            id="snapshot-img"
-            src=""
-            alt="Canonical Snapshot"
-            style="max-width:100%; margin-top:12px; border-radius:12px;"
-          />
-
-          <div class="sku">
-            <a href="#" id="freeLink">SKU 1 — Free Snapshot</a>
-            <a href="#" id="paidLink">SKU 2 — Deep Dive ($1 test)</a>
-          </div>
-        </div>
-      </div>
 
     </div>
   </div>
@@ -175,7 +143,7 @@
         alert("Please enter a valid 10-digit Provider ID (NPI).");
         return;
       }
-
+	</script>
 const shard = npi.substring(0, 3); // shard = first 3 digits
 const indexUrl = `/npi_index/shard_${shard}.json`;
 
