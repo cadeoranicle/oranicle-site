@@ -177,5 +177,56 @@
     }
   </script>
 
+<script>
+  (function () {
+    const input = document.querySelector('input[type="text"], input[type="search"], input');
+    const button = document.querySelector('button');
+    const statusEl = document.createElement('div');
+    statusEl.style.marginTop = '12px';
+    statusEl.style.fontSize = '14px';
+    statusEl.style.opacity = '0.9';
+    button.parentElement.appendChild(statusEl);
+
+    async function onSubmit() {
+      const npi = (input.value || '').trim();
+
+      // Validate
+      if (!/^\d{10}$/.test(npi)) {
+        statusEl.textContent = 'Please enter a valid 10-digit NPI.';
+        return;
+      }
+
+      const shard = npi.slice(0, 3);                 // "100"
+      const url = `/npi_index/npi_${shard}.json`;    // "/npi_index/npi_100.json"
+
+      statusEl.textContent = `Checking NPI in ${url} ...`;
+
+      try {
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const list = await res.json();
+
+        const found = Array.isArray(list) && list.includes(npi);
+
+        if (found) {
+          statusEl.textContent = `✅ NPI found in shard ${shard}. Next: load PCA/SKU data.`;
+        } else {
+          statusEl.textContent = `❌ NPI not found in shard ${shard}.`;
+        }
+      } catch (e) {
+        statusEl.textContent = `⚠️ Error fetching ${url}: ${e.message}`;
+      }
+    }
+
+    button.addEventListener('click', onSubmit);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') onSubmit();
+    });
+  })();
+</script>
+
+
+
+
 </body>
 </html>
