@@ -1,7 +1,8 @@
 {
   "version": 2,
   "routes": [
+    { "src": "/npi_index/(.*)", "dest": "/npi_index/$1" },
     { "handle": "filesystem" },
-    { "src": "/.*", "dest": "/index.html" }
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
