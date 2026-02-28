@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Oranicle</title>
-
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 40px; max-width: 1100px; }
     h1 { margin-bottom: 8px; }
@@ -12,19 +11,15 @@
     .layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 32px; margin-top: 32px; }
     .intro { min-height: 360px; border: 1px dashed #ddd; border-radius: 14px; padding: 22px; }
     .card { border: 1px solid #ddd; border-radius: 14px; padding: 18px; margin-bottom: 16px; }
-    input[type="text"] { width: 100%; padding: 10px 12px; font-size: 16px; border-radius: 10px; border: 1px solid #aaa; margin-top: 8px; }
+    input { width: 100%; padding: 10px 12px; font-size: 16px; border-radius: 10px; border: 1px solid #aaa; margin-top: 8px; }
     button { margin-top: 12px; padding: 10px 14px; border-radius: 10px; border: 1px solid #111; background: #fff; cursor: pointer; font-size: 15px; }
-    .result { display: none; margin-top: 14px; }
-    .sku a { display: inline-block; padding: 10px 14px; border-radius: 10px; border: 1px solid #111; text-decoration: none; margin-right: 8px; }
   </style>
 </head>
-
 <body>
   <h1>Oranicle</h1>
   <p class="muted">
-    Canonical snapshots for healthcare providers — fast, visual, explainable.
-    <br>
-    Currently serving <strong id="region-text">(Tri-State)</strong>
+    Canonical snapshots for healthcare providers — fast, visual, explainable.<br>
+    Currently serving <strong>(Tri-State)</strong>
   </p>
 
   <div class="layout">
@@ -35,32 +30,20 @@
         explainable behavioral patterns across providers.
       </p>
       <p class="muted">
-        Enter your Provider ID to see how your activity aligns with
-        regional care-delivery models — before diving deeper.
+        Enter your Provider ID to see how your activity aligns with regional
+        care-delivery models — before diving deeper.
       </p>
     </div>
 
     <div>
       <div class="card">
         <h2>Provider Access</h2>
-        <p class="muted">Enter your 10-digit NPI to view your regional snapshot.</p>
+        <p class="muted">Enter your 10-digit NPI to check availability.</p>
 
-        <input id="npiInput" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Enter 10-digit NPI" />
+        <input id="npiInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="Enter 10-digit NPI" />
         <button id="npiGo" type="button">View Snapshot</button>
 
         <p id="status" class="muted" style="margin-top:10px;"></p>
-
-        <div id="result" class="result">
-          <p class="muted">Regional canonical detected: <strong id="region-name"></strong></p>
-
-          <img id="snapshot-img" src="" alt="Canonical Snapshot"
-               style="max-width:100%; margin-top:12px; border-radius:12px; border:1px solid #eee;" />
-
-          <div class="sku" style="margin-top:12px;">
-            <a id="freeLink" href="#" target="_blank" rel="noopener">SKU 1 — Free Snapshot</a>
-            <a id="paidLink" href="#" target="_blank" rel="noopener">SKU 2 — Deep Dive ($1 test)</a>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -68,62 +51,48 @@
   <p class="muted" style="margin-top:48px;">Contact: you@oranicle.com</p>
 
   <script>
+  (function () {
+    const input = document.getElementById("npiInput");
+    const button = document.getElementById("npiGo");
+    const status = document.getElementById("status");
+
     async function lookupProvider() {
-      console.log("[lookupProvider] fired");
+      const npi = (input.value || "").trim();
+      console.log("[lookupProvider] fired with:", npi);
 
-      const statusEl = document.getElementById("status");
-      const resultEl = document.getElementById("result");
-
-      const npi = (document.getElementById("npiInput").value || "").trim();
-      if (!/^[0-9]{10}$/.test(npi)) {
-        statusEl.textContent = "Please enter a valid 10-digit NPI.";
-        resultEl.style.display = "none";
+      if (!/^\d{10}$/.test(npi)) {
+        status.textContent = "❌ Please enter a valid 10-digit NPI.";
         return;
       }
 
       const shard = npi.slice(0, 3);
       const url = `/npi_index/npi_${shard}.json`;
 
-      statusEl.textContent = `Checking shard ${shard}...`;
+      status.textContent = `Checking shard ${shard}...`;
 
-      let list;
       try {
         const res = await fetch(url, { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        list = await res.json();
-      } catch (e) {
-        statusEl.textContent = `Could not load shard data for ${shard}.`;
-        resultEl.style.display = "none";
-        console.error("Shard load error:", e);
-        return;
+        const list = await res.json();
+
+        if (Array.isArray(list) && list.includes(npi)) {
+          status.textContent = `✅ NPI found in shard ${shard}.`;
+        } else {
+          status.textContent = `❌ NPI not found in shard ${shard}.`;
+        }
+      } catch (err) {
+        console.error(err);
+        status.textContent = `⚠️ Could not load shard data for ${shard}.`;
       }
-
-      const found = Array.isArray(list) && list.includes(npi);
-      if (!found) {
-        statusEl.textContent = `❌ NPI not found in shard ${shard}.`;
-        resultEl.style.display = "none";
-        return;
-      }
-
-      // TEMP: hardcode region/canonical until canonical mapping exists
-      const region = "Tri-State (NY / NJ / CT)";
-      const canonicalId = "ORANICLE_TRISTATE_CANONICAL_V1";
-
-      document.getElementById("region-name").textContent = region;
-      document.getElementById("snapshot-img").src = `/canonicals/${canonicalId}/pca_geometry_C1_C2.png`;
-      document.getElementById("freeLink").href = `/canonicals/${canonicalId}/snapshot.pdf`;
-      document.getElementById("paidLink").href = "https://buy.stripe.com/test-link-goes-here";
-
-      statusEl.textContent = `✅ NPI found in shard ${shard}.`;
-      resultEl.style.display = "block";
     }
 
-    document.getElementById("npiGo").addEventListener("click", lookupProvider);
-    document.getElementById("npiInput").addEventListener("keydown", (e) => {
+    button.addEventListener("click", lookupProvider);
+    input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") lookupProvider();
     });
 
-    console.log("UI wired: npiGo → lookupProvider()");
+    console.log("NPI lookup wired OK");
+  })();
   </script>
 </body>
 </html>
