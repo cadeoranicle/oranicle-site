@@ -11,9 +11,7 @@
       margin: 40px;
       max-width: 1100px;
     }
-
     h1 { margin-bottom: 8px; }
-
     .muted { color: #666; }
 
     .layout {
@@ -21,6 +19,7 @@
       grid-template-columns: 1.2fr 0.8fr;
       gap: 32px;
       margin-top: 32px;
+      align-items: start;
     }
 
     .intro {
@@ -34,7 +33,6 @@
       border: 1px solid #ddd;
       border-radius: 14px;
       padding: 18px;
-      margin-bottom: 16px;
     }
 
     input[type="text"] {
@@ -44,6 +42,7 @@
       border-radius: 10px;
       border: 1px solid #aaa;
       margin-top: 8px;
+      box-sizing: border-box;
     }
 
     button {
@@ -63,6 +62,9 @@
 
     .sku {
       margin-top: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .sku a {
@@ -71,7 +73,23 @@
       border-radius: 10px;
       border: 1px solid #111;
       text-decoration: none;
-      margin-right: 8px;
+      color: #0b3dff;
+      background: #fff;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .ok { color: #0a7a2f; }
+    .bad { color: #b00020; }
+
+    img.snapshot {
+      max-width: 100%;
+      margin-top: 12px;
+      border-radius: 12px;
+      border: 1px solid #eee;
     }
   </style>
 </head>
@@ -86,194 +104,169 @@
   </p>
 
   <div class="layout">
-
-    <!-- LEFT: Narrative / Explanation -->
+    <!-- LEFT -->
     <div class="intro">
       <h2>What Oranicle Shows</h2>
       <p class="muted">
         Oranicle analyzes nationwide HCPCS utilization data to uncover stable,
         explainable behavioral patterns across providers.
       </p>
-
       <p class="muted">
         Enter your Provider ID to see how your activity aligns with
-        regional care-delivery models — before diving deeper.
+        regional care-delivery geometry — before diving deeper.
       </p>
-
-      <!-- You can replace this entire block later with richer prose -->
     </div>
 
-<div class="card">
-  <h2>Provider Access</h2>
-  <p class="muted">
-    Enter your Provider ID to see how your activity aligns with regional care-delivery models — before diving deeper.
-  </p>
+    <!-- RIGHT -->
+    <div class="card">
+      <h2>Start with your Provider ID</h2>
+      <p class="muted">Enter your 10-digit NPI to view your regional snapshot.</p>
 
-  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-    <input id="npiInput" inputmode="numeric" pattern="[0-9]*" maxlength="10"
-           placeholder="Enter 10-digit NPI"
-           style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;min-width:260px;" />
-    <button id="npiGo"
-            style="padding:10px 14px;border-radius:10px;border:1px solid #111;background:#fff;cursor:pointer;">
-      View Snapshot
-    </button>
-  </div>
+      <input
+        id="providerInput"
+        type="text"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        maxlength="10"
+        placeholder="e.g. 1234567890"
+      />
 
-  <p id="status" class="muted" style="margin-top:10px;"></p>
-</div>
+      <button id="btnLookup" type="button">View Snapshot</button>
 
+      <div id="status" class="status muted"></div>
 
+      <div id="result" class="result">
+        <p class="muted">
+          Regional canonical detected: <strong id="region-name"></strong>
+        </p>
 
+        <img
+          id="snapshot-img"
+          class="snapshot"
+          src=""
+          alt="Canonical Snapshot"
+        />
 
-    <!-- RIGHT: Interaction -->
-    <div>
-
-
+        <div class="sku">
+          <a href="#" id="freeLink">SKU 1 — Free Snapshot</a>
+          <a href="#" id="paidLink">SKU 2 — Deep Dive ($1 test)</a>
+        </div>
+      </div>
     </div>
   </div>
 
-  <p class="muted" style="margin-top:48px;">
-    Contact: you@oranicle.com
-  </p>
+  <p class="muted" style="margin-top:48px;">Contact: you@oranicle.com</p>
 
   <script>
-	async function lookupProvider() {
+    async function lookupProvider() {
+      const statusEl = document.getElementById("status");
+      const resultEl = document.getElementById("result");
+
       const npi = document.getElementById("providerInput").value.trim();
+
+      // Reset UI
+      statusEl.className = "status muted";
+      statusEl.textContent = "";
+      resultEl.style.display = "none";
+
       if (!/^[0-9]{10}$/.test(npi)) {
-        alert("Please enter a valid 10-digit Provider ID (NPI).");
-        return;
-      }
-	</script>
-const shard = npi.substring(0, 3); // shard = first 3 digits
-const indexUrl = `/npi_index/shard_${shard}.json`;
-
-console.log("Looking up NPI", npi, "in", indexUrl);
-
-let indexData;
-try {
-  const resp = await fetch(indexUrl);
-  if (!resp.ok) throw new Error("Shard not found");
-  indexData = await resp.json();
-} catch (e) {
-  document.getElementById("result").innerHTML =
-    `<p style="color:red;">❌ NPI not found in shard ${shard}.</p>`;
-  document.getElementById("result").style.display = "block";
-  return;
-}
-
-if (!indexData[npi]) {
-  document.getElementById("result").innerHTML =
-    `<p style="color:red;">❌ NPI not found in shard ${shard}.</p>`;
-  document.getElementById("result").style.display = "block";
-  return;
-}
-
-const entry = indexData[npi];
-const region = entry.region;
-const canonicalId = entry.canonical;
-
-
-      document.getElementById("region-name").textContent = region;
-      document.getElementById("snapshot-img").src =
-        "/canonicals/" + canonicalId + "/pca_geometry_C1_C2.png";
-
-      document.getElementById("freeLink").href =
-        "/canonicals/" + canonicalId + "/snapshot.pdf";
-
-      document.getElementById("paidLink").href =
-        "https://buy.stripe.com/test-link-goes-here";
-
-      document.getElementById("result").style.display = "block";
-    }
-  </script>
-
-<script>
-  (function () {
-    const input = document.querySelector('input[type="text"], input[type="search"], input');
-    const button = document.querySelector('button');
-    const statusEl = document.createElement('div');
-    statusEl.style.marginTop = '12px';
-    statusEl.style.fontSize = '14px';
-    statusEl.style.opacity = '0.9';
-    button.parentElement.appendChild(statusEl);
-
-    async function onSubmit() {
-      const npi = (input.value || '').trim();
-
-      // Validate
-      if (!/^\d{10}$/.test(npi)) {
-        statusEl.textContent = 'Please enter a valid 10-digit NPI.';
+        statusEl.className = "status bad";
+        statusEl.textContent = "Please enter a valid 10-digit NPI.";
         return;
       }
 
-      const shard = npi.slice(0, 3);                 // "100"
-      const url = `/npi_index/npi_${shard}.json`;    // "/npi_index/npi_100.json"
+      const shard = npi.substring(0, 3);
 
-      statusEl.textContent = `Checking NPI in ${url} ...`;
+      // Primary expected format: /npi_index/shard_110.json  => { "1104362169": { "region": "...", "canonical": "..." } }
+      // Some earlier files may be /npi_index/npi_110.json => ["110...","..."] (array)
+      const candidates = [
+        `/npi_index/shard_${shard}.json`,
+        `/npi_index/npi_${shard}.json`
+      ];
 
-      try {
-        const res = await fetch(url, { cache: "no-store" });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const list = await res.json();
+      statusEl.textContent = `Checking NPI in shard ${shard}...`;
 
-        const found = Array.isArray(list) && list.includes(npi);
+      let data = null;
+      let usedUrl = null;
 
-        if (found) {
-          statusEl.textContent = `✅ NPI found in shard ${shard}. Next: load PCA/SKU data.`;
-        } else {
-          statusEl.textContent = `❌ NPI not found in shard ${shard}.`;
+      for (const url of candidates) {
+        try {
+          const res = await fetch(url, { cache: "no-store" });
+          if (!res.ok) continue;
+          data = await res.json();
+          usedUrl = url;
+          break;
+        } catch (e) {
+          // try next candidate
         }
-      } catch (e) {
-        statusEl.textContent = `⚠️ Error fetching ${url}: ${e.message}`;
       }
+
+      if (!data) {
+        statusEl.className = "status bad";
+        statusEl.textContent = `Could not load shard data for ${shard}.`;
+        return;
+      }
+
+      // Case A: mapping object (preferred)
+      if (data && typeof data === "object" && !Array.isArray(data) && data[npi]) {
+        const entry = data[npi];
+        const region = entry.region || "Unknown region";
+        const canonicalId = entry.canonical || entry.canonicalId || "";
+
+        document.getElementById("region-name").textContent = region;
+        document.getElementById("region-text").textContent = `(${region})`;
+
+        // If you have canonicals hosted under /canonicals/<canonicalId>/...
+        if (canonicalId) {
+          document.getElementById("snapshot-img").src =
+            `/canonicals/${canonicalId}/pca_geometry_C1_C2.png`;
+          document.getElementById("freeLink").href =
+            `/canonicals/${canonicalId}/snapshot.pdf`;
+        } else {
+          document.getElementById("snapshot-img").src = "";
+          document.getElementById("freeLink").href = "#";
+        }
+
+        // TODO: replace with real Stripe link
+        document.getElementById("paidLink").href = "https://buy.stripe.com/test-link-goes-here";
+
+        resultEl.style.display = "block";
+        statusEl.className = "status ok";
+        statusEl.textContent = `✅ NPI found (source: ${usedUrl}).`;
+        return;
+      }
+
+      // Case B: array list (older shard format)
+      if (Array.isArray(data)) {
+        const found = data.includes(npi);
+        if (!found) {
+          statusEl.className = "status bad";
+          statusEl.textContent = `❌ NPI not found in shard ${shard}.`;
+          return;
+        }
+
+        // Minimal behavior for list-only shards (no region/canonical yet)
+        document.getElementById("region-name").textContent = "Tri-State (NY / NJ / CT)";
+        document.getElementById("region-text").textContent = "(Tri-State)";
+        document.getElementById("snapshot-img").src = "";
+        document.getElementById("freeLink").href = "#";
+        document.getElementById("paidLink").href = "https://buy.stripe.com/test-link-goes-here";
+
+        resultEl.style.display = "block";
+        statusEl.className = "status ok";
+        statusEl.textContent = `✅ NPI found (list-only shard: ${usedUrl}). Next: add region/canonical mapping.`;
+        return;
+      }
+
+      statusEl.className = "status bad";
+      statusEl.textContent = `❌ NPI not found in shard ${shard}.`;
     }
 
-    button.addEventListener('click', onSubmit);
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') onSubmit();
+    // Wire UI
+    document.getElementById("btnLookup").addEventListener("click", lookupProvider);
+    document.getElementById("providerInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") lookupProvider();
     });
-  })();
-</script>
-
-
-
-<script>
-  const input = document.querySelector('input[type="text"]');
-  const button = document.querySelector('button');
-
-  button.addEventListener('click', () => {
-    const npi = input.value.trim();
-
-    if (!/^\d{10}$/.test(npi)) {
-      alert("Please enter a valid 10-digit NPI");
-      return;
-    }
-
-    console.log("NPI entered:", npi);
-  });
-</script>
-
-
-<script>
-  (function () {
-    const input = document.getElementById("npiInput");
-    const btn = document.getElementById("npiGo");
-    const status = document.getElementById("status");
-
-    if (!input || !btn) {
-      console.error("Missing #npiInput or #npiGo in DOM");
-      return;
-    }
-
-    btn.addEventListener("click", () => {
-      const raw = (input.value || "").trim();
-      console.log("Button clicked. NPI entered =", raw);
-      status.textContent = raw ? `You entered: ${raw}` : "Please enter a 10-digit NPI.";
-    });
-
-    console.log("NPI UI wired OK");
-  })();
-</script>
-
+  </script>
 </body>
 </html>
