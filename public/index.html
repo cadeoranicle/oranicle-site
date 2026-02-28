@@ -169,20 +169,41 @@
   </p>
 
   <script>
-    function lookupProvider() {
+	async function lookupProvider() {
       const npi = document.getElementById("providerInput").value.trim();
       if (!/^[0-9]{10}$/.test(npi)) {
         alert("Please enter a valid 10-digit Provider ID (NPI).");
         return;
       }
 
-      /*
-        TEMPORARY MOCK (replace with /api/resolve later)
-        This lets you demo instantly without backend work.
-      */
+const shard = npi.substring(0, 3); // shard = first 3 digits
+const indexUrl = `/npi_index/shard_${shard}.json`;
 
-      const region = "Tri-State (NY / NJ / CT)";
-      const canonicalId = "ORANICLE_TRISTATE_CANONICAL_V1";
+console.log("Looking up NPI", npi, "in", indexUrl);
+
+let indexData;
+try {
+  const resp = await fetch(indexUrl);
+  if (!resp.ok) throw new Error("Shard not found");
+  indexData = await resp.json();
+} catch (e) {
+  document.getElementById("result").innerHTML =
+    `<p style="color:red;">❌ NPI not found in shard ${shard}.</p>`;
+  document.getElementById("result").style.display = "block";
+  return;
+}
+
+if (!indexData[npi]) {
+  document.getElementById("result").innerHTML =
+    `<p style="color:red;">❌ NPI not found in shard ${shard}.</p>`;
+  document.getElementById("result").style.display = "block";
+  return;
+}
+
+const entry = indexData[npi];
+const region = entry.region;
+const canonicalId = entry.canonical;
+
 
       document.getElementById("region-name").textContent = region;
       document.getElementById("snapshot-img").src =
