@@ -77,7 +77,6 @@
 </head>
 
 <body>
-  <div style="background:#fff3cd;border:1px solid #ffeeba;padding:12px;border-radius:12px;margin-bottom:18px;font-weight:600;text-align:center;">STAGING PREVIEW — NOT PRODUCTION</div>
 
   <h1>Oranicle</h1>
   <p class="muted">
@@ -103,6 +102,28 @@
 
       <!-- You can replace this entire block later with richer prose -->
     </div>
+
+<div class="card">
+  <h2>Provider Access</h2>
+  <p class="muted">
+    Enter your Provider ID to see how your activity aligns with regional care-delivery models — before diving deeper.
+  </p>
+
+  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+    <input id="npiInput" inputmode="numeric" pattern="[0-9]*" maxlength="10"
+           placeholder="Enter 10-digit NPI"
+           style="padding:10px 12px;border:1px solid #ddd;border-radius:10px;min-width:260px;" />
+    <button id="npiGo"
+            style="padding:10px 14px;border-radius:10px;border:1px solid #111;background:#fff;cursor:pointer;">
+      View Snapshot
+    </button>
+  </div>
+
+  <p id="status" class="muted" style="margin-top:10px;"></p>
+</div>
+
+
+
 
     <!-- RIGHT: Interaction -->
     <div>
@@ -148,20 +169,41 @@
   </p>
 
   <script>
-    function lookupProvider() {
+	async function lookupProvider() {
       const npi = document.getElementById("providerInput").value.trim();
       if (!/^[0-9]{10}$/.test(npi)) {
         alert("Please enter a valid 10-digit Provider ID (NPI).");
         return;
       }
 
-      /*
-        TEMPORARY MOCK (replace with /api/resolve later)
-        This lets you demo instantly without backend work.
-      */
+const shard = npi.substring(0, 3); // shard = first 3 digits
+const indexUrl = `/npi_index/shard_${shard}.json`;
 
-      const region = "Tri-State (NY / NJ / CT)";
-      const canonicalId = "ORANICLE_TRISTATE_CANONICAL_V1";
+console.log("Looking up NPI", npi, "in", indexUrl);
+
+let indexData;
+try {
+  const resp = await fetch(indexUrl);
+  if (!resp.ok) throw new Error("Shard not found");
+  indexData = await resp.json();
+} catch (e) {
+  document.getElementById("result").innerHTML =
+    `<p style="color:red;">❌ NPI not found in shard ${shard}.</p>`;
+  document.getElementById("result").style.display = "block";
+  return;
+}
+
+if (!indexData[npi]) {
+  document.getElementById("result").innerHTML =
+    `<p style="color:red;">❌ NPI not found in shard ${shard}.</p>`;
+  document.getElementById("result").style.display = "block";
+  return;
+}
+
+const entry = indexData[npi];
+const region = entry.region;
+const canonicalId = entry.canonical;
+
 
       document.getElementById("region-name").textContent = region;
       document.getElementById("snapshot-img").src =
@@ -227,6 +269,43 @@
 
 
 
+<script>
+  const input = document.querySelector('input[type="text"]');
+  const button = document.querySelector('button');
+
+  button.addEventListener('click', () => {
+    const npi = input.value.trim();
+
+    if (!/^\d{10}$/.test(npi)) {
+      alert("Please enter a valid 10-digit NPI");
+      return;
+    }
+
+    console.log("NPI entered:", npi);
+  });
+</script>
+
+
+<script>
+  (function () {
+    const input = document.getElementById("npiInput");
+    const btn = document.getElementById("npiGo");
+    const status = document.getElementById("status");
+
+    if (!input || !btn) {
+      console.error("Missing #npiInput or #npiGo in DOM");
+      return;
+    }
+
+    btn.addEventListener("click", () => {
+      const raw = (input.value || "").trim();
+      console.log("Button clicked. NPI entered =", raw);
+      status.textContent = raw ? `You entered: ${raw}` : "Please enter a 10-digit NPI.";
+    });
+
+    console.log("NPI UI wired OK");
+  })();
+</script>
 
 </body>
 </html>
