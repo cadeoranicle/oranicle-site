@@ -118,22 +118,29 @@ async function lookupProvider() {
     status.className = "muted ok";
     status.textContent = `✅ NPI found in shard ${shard}.`;
 
-    // For now we hardcode region/canonical until you add a mapping file.
-    // Next step after this: add a lookup JSON that maps NPI -> canonicalId.
-    const region = "Tri-State (NY / NJ / CT)";
-    const canonicalId = "ORANICLE_TRISTATE_CANONICAL_V1";
+// For now we hardcode region/canonical until you add a mapping file.
+const region = "Tri-State (NY / NJ / CT)";
+const canonicalId = "ORANICLE_TRISTATE_CANONICAL_V1";
 
-    document.getElementById("region-name").textContent = region;
+// Show result box
+const result = document.getElementById("result");
+result.style.display = "block";
 
-    const img = document.getElementById("snapshot-img");
-    img.src = `/canonicals/${canonicalId}/pca_geometry_C1_C2.png`;
-    img.style.display = "block";
+// Fill region
+document.getElementById("region-name").textContent = region;
 
-    document.getElementById("freeLink").href = `/canonicals/${canonicalId}/snapshot.pdf`;
-    document.getElementById("paidLink").href = "https://buy.stripe.com/test-link-goes-here";
+// Show canonical image
+const img = document.getElementById("snapshot-img");
+img.src = `/canonicals/${canonicalId}/pca_geometry_C1_C2.png`;
+img.style.display = "block";
 
-    result.style.display = "block";
-  } catch (e) {
+// Wire SKU links
+document.getElementById("freeLink").href =
+  `/canonicals/${canonicalId}/snapshot.pdf`;
+document.getElementById("paidLink").href =
+  "https://buy.stripe.com/test-link-goes-here"; // replace later
+
+} catch (e) {
     console.error(e);
     status.className = "muted bad";
     status.textContent = `⚠️ Could not load shard data for ${shard}.`;
