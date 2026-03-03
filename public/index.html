@@ -78,6 +78,12 @@
       margin-right: 8px;
     }
 
+    .sku a.disabled {
+      opacity: 0.45;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
     .ok {
       color: #0a7;
     }
@@ -92,7 +98,7 @@
 
   <h1>Oranicle</h1>
   <p class="muted">
-    Canonical snapshots for healthcare providers — fast, visual, explainable.<br>
+    Data-driven Canonical snapshots for healthcare providers — fast, visual, explainable.<br>
     Currently serving <strong>(Tri-State)</strong>
   </p>
 
@@ -122,19 +128,18 @@
         <div id="result" class="result">
           <p class="muted">Regional canonical detected: <strong id="region-name"></strong></p>
 
-          <img id="snapshot-img" src="" alt="Canonical Snapshot"
-            style="max-width:100%; margin-top:12px; border-radius:12px; display:none;" />
+
 
           <div class="sku">
             <a href="#" id="freeLink">SKU 1 — Free Snapshot</a>
-            <a href="#" id="paidLink">SKU 2 — Deep Dive ($1 test)</a>
+            <a href="#" id="paidLink" aria-disabled="true">SKU 2 — Deep Dive (coming soon)</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <p class="muted" style="margin-top:48px;">Contact: you@oranicle.com</p>
+  <!-- <p class="muted" style="margin-top:48px;">Contact: you@oranicle.com</p> -->
 
   <script>
     async function lookupProvider() {
@@ -186,7 +191,7 @@
         }
 
         status.className = "muted ok";
-        status.textContent = `✅ NPI found in shard ${shard}.`;
+        status.textContent = "✅ NPI validated.";
 
         // For now we hardcode region/canonical until you add a mapping file.
         // Next step after this: add a lookup JSON that maps NPI -> canonicalId.
@@ -195,15 +200,16 @@
 
         document.getElementById("region-name").textContent = region;
 
-        const img = document.getElementById("snapshot-img");
-        // IMPORTANT:
-// SKU-1 MUST load the web-annotated PCA (axes-relative, deterministic).
-// Do NOT point this to pca_geometry_* (raw matplotlib output).
-        img.src = `/canonicals/${canonicalId}/pca_web_points.png`;
-        img.style.display = "block";
 
-        document.getElementById("freeLink").href = `/canonicals/${canonicalId}/snapshot.pdf`;
-        document.getElementById("paidLink").href = "https://buy.stripe.com/test-link-goes-here";
+        // IMPORTANT:
+        // SKU-1 MUST load the web-annotated PCA (axes-relative, deterministic).
+        // Do NOT point this to pca_geometry_* (raw matplotlib output).
+
+        document.getElementById("freeLink").href = `/sku1.html?canonicalId=${canonicalId}&npi=${npi}`;
+        const paid = document.getElementById("paidLink");
+        paid.href = "#";
+        paid.classList.add("disabled");
+        paid.title = "SKU 2 is not enabled yet.";
 
         result.style.display = "block";
       } catch (e) {
