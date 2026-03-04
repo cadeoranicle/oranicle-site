@@ -212,7 +212,7 @@
       <div id="meta" class="small"></div>
 
 
-      <img id="oranicle-manifold-img" />
+      <img id="pcaImage" />
 
       <h2>Axis Interpretation</h2>
       <div class="small">
@@ -248,7 +248,7 @@
         Scroll in this panel for details ↓
       </div>
 
-      <div id="oranicle-semantics" class="rhsScroll">
+      <div class="rhsScroll">
         <section class="panelSection">
           <h2>Clinical &amp; Operational Interpretation</h2>
 
@@ -335,51 +335,51 @@
         </section>
       </div>
     </div>
-  </div>
 
-  <script>
+    <script>
 
-    function qp(name, fallback = null) {
-      const u = new URL(window.location.href);
-      return u.searchParams.get(name) ?? fallback;
-    }
-
-    async function loadSKU(canonId) {
-
-      const base = `/canonicals/${canonId}`;
-      const semUrl = `${base}/pca_geometry_C1_C2.semantics.authoritative.json`;
-      const imgUrl = `${base}/pca_web_points.png?v=${Date.now()}`;
-      document.getElementById("title").textContent =
-        "Tri-State Claims Behavioral Manifold";
-
-      document.getElementById("oranicle-manifold-img").src = imgUrl;
-
-      const r = await fetch(semUrl, { cache: "no-store" });
-      if (!r.ok) {
-        document.getElementById("anchors").innerHTML =
-          `<div class="small">Semantics file not found.</div>`;
-        return;
+      function qp(name, fallback = null) {
+        const u = new URL(window.location.href);
+        return u.searchParams.get(name) ?? fallback;
       }
 
-      const sem = await r.json();
+      async function loadSKU(canonId) {
 
-      const src = sem.source ?? {};
-      document.getElementById("meta").innerHTML =
+        const base = `/canonicals/${canonId}`;
+        const semUrl = `${base}/pca_geometry_C1_C2.semantics.authoritative.json`;
+        const imgUrl = `${base}/pca_web_points.png`;
+
+        document.getElementById("title").textContent =
+          "Tri-State Claims Behavioral Manifold";
+
+        document.getElementById("pcaImage").src = imgUrl;
+
+        const r = await fetch(semUrl, { cache: "no-store" });
+        if (!r.ok) {
+          document.getElementById("anchors").innerHTML =
+            `<div class="small">Semantics file not found.</div>`;
+          return;
+        }
+
+        const sem = await r.json();
+
+        const src = sem.source ?? {};
+        document.getElementById("meta").innerHTML =
 
 
-        document.getElementById("provenance").textContent =
-        JSON.stringify(src, null, 2);
+          document.getElementById("provenance").textContent =
+          JSON.stringify(src, null, 2);
 
-      const container = document.getElementById("anchors");
-      container.innerHTML = "";
+        const container = document.getElementById("anchors");
+        container.innerHTML = "";
 
-      for (const key of Object.keys(sem.anchors)) {
-        const a = sem.anchors[key];
+        for (const key of Object.keys(sem.anchors)) {
+          const a = sem.anchors[key];
 
-        const div = document.createElement("div");
-        div.className = "anchor";
+          const div = document.createElement("div");
+          div.className = "anchor";
 
-        div.innerHTML = `
+          div.innerHTML = `
       <h2>${key} — ${a.label ?? ""}</h2>
       <div class="small">${a.summary ?? ""}</div>
       <table>
@@ -404,14 +404,14 @@
       </table>
     `;
 
-        container.appendChild(div);
+          container.appendChild(div);
+        }
       }
-    }
 
-    const canonicalId = qp("canonicalId", "ORANICLE_TRISTATE_CANONICAL_V1");
-    loadSKU(canonicalId);
+      const canonicalId = qp("canonicalId", "ORANICLE_TRISTATE_CANONICAL_V1");
+      loadSKU(canonicalId);
 
-  </script>
+    </script>
 
 </body>
 
