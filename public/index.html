@@ -155,11 +155,11 @@
         return;
       }
 
-      const shard = npi.slice(0, 3);
-      const url = `/npi_index/npi_${shard}.json`;
+      const prefix = npi.slice(0, 3);
+      const url = `/reference/npi_index/US_NPI_2026-03-05_PDT/npi_${prefix}.json`;
 
-      console.log("[lookupProvider] fired with:", npi, "shard:", shard, "url:", url);
-      status.textContent = `Checking shard ${shard}...`;
+      console.log("[lookupProvider] fired with:", npi, "prefix:", prefix, "url:", url);
+      status.textContent = `Checking national NPI registry...`;
 
       try {
         const res = await fetch(url, { cache: "no-store" });
@@ -172,50 +172,71 @@
           throw new Error(`Expected JSON but got "${ct}". First 40 chars: ${txt.slice(0, 40)}`);
         }
 
-        const arr = await res.json(); // array of NPIs in this shard
-        const found = Array.isArray(arr) && arr.includes(npi);
+        const lookup = await res.json();
+        const foundNational = Array.isArray(lookup) && lookup.includes(npi);
 
-        if (!found) {
+        if (!foundNational) {
           status.className = "muted bad";
           status.innerHTML = `
-    ❌ <strong>Not in current coverage set</strong><br>
-    We’re starting with <strong>Tri-State (NY / NJ / CT)</strong> providers.<br>
-    <span style="opacity:0.85;">
-      Want early access when we expand your region?
-      <a href="mailto:you@oranicle.com?subject=Early%20Access%20Request">
-        Join the waitlist
-      </a>.
-    </span>
-  `;
+            ❌ <strong>NPI not found in national NPI reference</strong><br>
+            Please verify your 10-digit NPI and try again.
+          `;
           return;
         }
 
         status.className = "muted ok";
         status.textContent = "✅ NPI validated.";
 
-        // For now we hardcode region/canonical until you add a mapping file.
-        // Next step after this: add a lookup JSON that maps NPI -> canonicalId.
-        const region = "Tri-State (NY / NJ / CT)";
-        const canonicalId = "ORANICLE_TRISTATE_CANONICAL_V1";
+        // For now we keep canonicalId fixed for SKU1 (national SKU1 will still render whatever it can).
+        const region = "United States (national)";
+        const canonicalId = "ORANICLE_TRISTATE_CANONICAL_V1"; // keep as-is for now unless SKU1 has a national canonical
 
         document.getElementById("region-name").textContent = region;
 
-
-        // IMPORTANT:
-        // SKU-1 MUST load the web-annotated PCA (axes-relative, deterministic).
-        // Do NOT point this to pca_geometry_* (raw matplotlib output).
-
+        // SKU1: always enabled if national NPI is valid
         document.getElementById("freeLink").href = `/sku1.html?canonicalId=${canonicalId}&npi=${npi}`;
+
+        // SKU2: enable only if NPI exists in the tri-state shard index
         const paid = document.getElementById("paidLink");
-        paid.href = "#";
         paid.classList.add("disabled");
-        paid.title = "SKU 2 is not enabled yet.";
+        paid.href = "#";
+        paid.title = "Checking tri-state activity...";
+
+        try {
+          const triPrefix = npi.slice(0, 3);
+          const triUrl = `/reference/tristate_index/NYNJCT_PCA_2026-03-05_PDT/tri_${triPrefix}.json`;
+          const tr2 = await fetch(triUrl, { cache: "no-store" });
+
+          if (tr2.ok) {
+            const triArr = await tr2.json();
+            const foundTri = Array.isArray(triArr) && triArr.includes(npi);
+
+            if (foundTri) {
+              paid.classList.remove("disabled");
+              paid.href = `/sku2.html?canonicalId=${canonicalId}&npi=${npi}`;
+              paid.title = "SKU 2 — Deep Dive";
+            } else {
+              paid.classList.add("disabled");
+              paid.href = "#";
+              paid.title = "No or very limited activity detected in the NY NJ CT tri-state region.";
+            }
+          } else {
+            paid.classList.add("disabled");
+            paid.href = "#";
+            paid.title = "No or very limited activity detected in the NY NJ CT tri-state region.";
+          }
+        } catch (e2) {
+          paid.classList.add("disabled");
+          paid.href = "#";
+          paid.title = "Could not verify tri-state activity right now.";
+        }
 
         result.style.display = "block";
+
       } catch (e) {
         console.error(e);
         status.className = "muted bad";
-        status.textContent = `⚠️ Could not load shard data for ${shard}.`;
+        status.textContent = `⚠️ Could not load NPI lookup data.`;
       }
     }
 
