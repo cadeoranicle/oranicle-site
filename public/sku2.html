@@ -332,7 +332,24 @@
       const npi = qp("npi");
       const titleEl = document.getElementById("title");
       const imgEl = document.getElementById("pcaImage");
+      imgEl.onload = () => {
+        const c = document.getElementById("providerCanvas");
+        c.width = imgEl.clientWidth;
+        c.height = imgEl.clientHeight;
+        c.style.position = "absolute";
+        c.style.left = imgEl.offsetLeft + "px";
+        c.style.top = imgEl.offsetTop + "px";
+      };
+
+
+      imgEl.src = `/public/canonicals/${canonicalId}/pca_geometry_C1_C2.png`;
       const canvasEl = document.getElementById("providerCanvas");
+      const ctx2 = canvasEl.getContext("2d");
+      ctx2.fillStyle = "red";
+      ctx2.beginPath();
+      ctx2.arc(200, 200, 6, 0, Math.PI * 2);
+      ctx2.fill();
+
       const ctx = canvasEl.getContext("2d");
 
       if (!npi) {
@@ -342,12 +359,13 @@
       titleEl.textContent = `Provider Manifold — NPI ${npi}`;
 
       // 1) base manifold image (has the 4 anchors)
-      const imgUrl = `/canonicals/${canonId}/pca_web_points.png`;
+      const imgUrl = `/public/canonicals/${canonicalId}/pca_geometry_C1_C2.png`;
+      console.log(imgUrl);
       imgEl.src = imgUrl + "?v=" + Date.now();
 
       // 2) fetch axes + provider position
-      const axesUrl = `/canonicals/${canonId}/pca_geometry_C1_C2.axes.json`;
-      const posUrl = `/sku2/artifacts/provider_position_${npi}.json`;
+      const axesUrl = `/public/canonicals/${canonId}/pca_geometry_C1_C2.axes.json`;
+      const posUrl = `/public/sku2/artifacts/provider_position_${npi}.json`;
 
       let axes = null;
       let pos = null;
@@ -396,10 +414,6 @@
         const [axW, axH] = axes.png_size_px;
 
         // scale from axes' png space -> current image natural space
-        const sNatX = imgEl.naturalWidth / axW;
-        const sNatY = imgEl.naturalHeight / axH;
-
-        const Ln = L * sNatX, Rn = R * sNatX, Tn = T * sNatY, Bn = B * sNatY;
 
         const [x0, x1] = axes.xlim;
         const [y0, y1] = axes.ylim;
@@ -407,15 +421,15 @@
         const fx = (c1 - x0) / (x1 - x0);
         const fy = (c2 - y0) / (y1 - y0);
 
-        // in natural pixels
-        const xNat = Ln + fx * (Rn - Ln);
-        const yNat = Bn - fy * (Bn - Tn); // invert y
+        // use bbox directly in the same PNG coordinate system
+        const xNat = (L + fx * (R - L)) * (imgEl.naturalWidth / axW);
+        const yNat = (B - fy * (B - T)) * (imgEl.naturalHeight / axH);
 
         // scale natural -> displayed
         const sx = rect.width / imgEl.naturalWidth;
         const sy = rect.height / imgEl.naturalHeight;
-
-        const x = xNat * sx;
+        // temporary x calibration offset; remove after SVG/data-driven remap
+        const x = xNat * sx + 72;
         const y = yNat * sy;
 
         ctx.beginPath();

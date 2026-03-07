@@ -210,7 +210,7 @@
     <div class="card">
       <h1 id="title">Canonical View</h1>
       <div id="meta" class="small"></div>
-
+      
 
       <img id="oranicle-manifold-img" />
 
@@ -364,13 +364,15 @@
       const sem = await r.json();
 
       const src = sem.source ?? {};
-      document.getElementById("meta").innerHTML =
+      document.getElementById("meta").innerHTML = "";
 
-
-        document.getElementById("provenance").textContent =
-        JSON.stringify(src, null, 2);
+      const prov = document.getElementById("provenance");
+      if (prov) {
+        prov.textContent = JSON.stringify(src, null, 2);
+      }
 
       const container = document.getElementById("anchors");
+      if (!container) return;
       container.innerHTML = "";
 
       for (const key of Object.keys(sem.anchors)) {
