@@ -342,7 +342,7 @@
       };
 
 
-      imgEl.src = `/public/canonicals/${canonicalId}/pca_geometry_C1_C2.png`;
+      imgEl.src = `/canonicals/${canonicalId}/pca_geometry_C1_C2.png`;
       const canvasEl = document.getElementById("providerCanvas");
       const ctx2 = canvasEl.getContext("2d");
       ctx2.fillStyle = "red";
@@ -359,7 +359,7 @@
       titleEl.textContent = `Provider Manifold — NPI ${npi}`;
 
       // 1) base manifold image (has the 4 anchors)
-      const imgUrl = `/public/canonicals/${canonicalId}/pca_geometry_C1_C2.png`;
+      const imgUrl = `/canonicals/${canonicalId}/pca_geometry_C1_C2.png`;
       console.log(imgUrl);
       imgEl.src = imgUrl + "?v=" + Date.now();
 
