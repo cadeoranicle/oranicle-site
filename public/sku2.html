@@ -364,8 +364,8 @@
       imgEl.src = imgUrl + "?v=" + Date.now();
 
       // 2) fetch axes + provider position
-      const axesUrl = `/public/canonicals/${canonId}/pca_geometry_C1_C2.axes.json`;
-      const posUrl = `/public/sku2/artifacts/provider_position_${npi}.json`;
+      const axesUrl = `/canonicals/${canonId}/pca_geometry_C1_C2.axes.json`;
+      const posUrl = `/sku2/artifacts/provider_position_${npi}.json`;
 
       let axes = null;
       let pos = null;
