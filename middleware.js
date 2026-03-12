@@ -4,24 +4,13 @@ const LOGOUT_PATH = '/__demo_logout';
 const COOKIE_NAME = 'oranicle_demo';
 const DEFAULT_NEXT = '/index.html';
 
-function hex(buffer) {
-    return [...new Uint8Array(buffer)]
-        .map((b) => b.toString(16).padStart(2, '0'))
-        .join('');
-}
-
-async function sha256(input) {
-    const data = new TextEncoder().encode(input);
-    const digest = await crypto.subtle.digest('SHA-256', data);
-    return hex(digest);
-}
-
-async function buildCookieToken(passkey, secret) {
-    return sha256(`${secret}::${passkey}`);
-}
-
-function redirect(to, status = 302) {
-    return Response.redirect(typeof to === 'string' ? to : to.toString(), status);
+function redirectResponse(to, cookieHeader = null, status = 302) {
+    const headers = new Headers();
+    headers.set('Location', typeof to === 'string' ? to : to.toString());
+    if (cookieHeader) {
+        headers.append('Set-Cookie', cookieHeader);
+    }
+    return new Response(null, { status, headers });
 }
 
 function setCookieHeader(name, value, maxAgeSeconds) {
@@ -53,11 +42,6 @@ export default async function middleware(request) {
     const url = new URL(request.url);
     const pathname = url.pathname;
 
-    const secret = process.env.DEMO_COOKIE_SECRET;
-    if (!secret) {
-        return new Response('DEMO_COOKIE_SECRET is not configured.', { status: 500 });
-    }
-
     let passkey;
     try {
         passkey = await getDemoPasskey();
@@ -65,28 +49,14 @@ export default async function middleware(request) {
         return new Response(`Failed to read demo passkey: ${String(err)}`, { status: 500 });
     }
 
-    if (!passkey) {
-        return new Response('Edge Config key "demo_passkey" is not configured.', { status: 500 });
-    }
-
-    const expectedToken = await buildCookieToken(passkey, secret);
-
     const cookieHeader = request.headers.get('cookie') || '';
-    const currentToken =
-        cookieHeader
-            .split(';')
-            .map((x) => x.trim())
-            .find((x) => x.startsWith(`${COOKIE_NAME}=`))
-            ?.split('=')
-            ?.slice(1)
-            ?.join('=') || '';
-
-    const isAuthenticated = currentToken === expectedToken;
+    const isAuthenticated = cookieHeader.includes(`${COOKIE_NAME}=ok`);
 
     if (pathname === LOGOUT_PATH) {
-        const res = redirect(new URL(HERO_PATH, request.url), 302);
-        res.headers.append('Set-Cookie', clearCookieHeader(COOKIE_NAME));
-        return res;
+        return redirectResponse(
+            new URL(HERO_PATH, request.url),
+            clearCookieHeader(COOKIE_NAME)
+        );
     }
 
     if (pathname === LOGIN_PATH && request.method === 'POST') {
@@ -97,23 +67,21 @@ export default async function middleware(request) {
         const next = (form.get('next') || DEFAULT_NEXT).trim();
 
         if (submittedPasskey === passkey) {
-            const res = redirect(new URL(next, request.url), 302);
-            res.headers.append(
-                'Set-Cookie',
-                setCookieHeader(COOKIE_NAME, expectedToken, 60 * 60 * 8)
+            return redirectResponse(
+                new URL(next, request.url),
+                setCookieHeader(COOKIE_NAME, 'ok', 60 * 60 * 8)
             );
-            return res;
         }
 
         const failUrl = new URL(HERO_PATH, request.url);
         failUrl.searchParams.set('error', '1');
         failUrl.searchParams.set('next', next || DEFAULT_NEXT);
-        return redirect(failUrl, 302);
+        return redirectResponse(failUrl);
     }
 
     if (isPublicPath(pathname)) {
         if (pathname === HERO_PATH && isAuthenticated) {
-            return redirect(new URL(DEFAULT_NEXT, request.url), 302);
+            return redirectResponse(new URL(DEFAULT_NEXT, request.url));
         }
         return;
     }
@@ -121,7 +89,7 @@ export default async function middleware(request) {
     if (!isAuthenticated) {
         const loginUrl = new URL(HERO_PATH, request.url);
         loginUrl.searchParams.set('next', pathname + url.search);
-        return redirect(loginUrl, 302);
+        return redirectResponse(loginUrl);
     }
 
     return;
