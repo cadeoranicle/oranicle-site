@@ -1,4 +1,3 @@
-cat > middleware.ts << 'EOF'
 const HERO_PATH = '/hero.html';
 const LOGIN_PATH = '/__demo_login';
 const LOGOUT_PATH = '/__demo_logout';
@@ -49,9 +48,6 @@ async function getDemoPasskeyFromEdgeConfig() {
     }
 
     const base = new URL(connectionString);
-
-    // EDGE_CONFIG is a connection string URL; Vercel documents that the endpoint
-    // is edge-config.vercel.com and single-item reads use /<id>/item/<key>.
     const itemUrl = new URL(base.pathname.replace(/\/$/, '') + '/item/demo_passkey', base.origin);
     itemUrl.search = base.search;
 
@@ -66,7 +62,6 @@ async function getDemoPasskeyFromEdgeConfig() {
         throw new Error(`Edge Config fetch failed with status ${res.status}`);
     }
 
-    // Vercel documents that single-item reads return the raw value.
     return await res.json();
 }
 
@@ -151,4 +146,3 @@ export default async function middleware(request) {
 export const config = {
     matcher: ['/((?!_next).*)'],
 };
-EOF
