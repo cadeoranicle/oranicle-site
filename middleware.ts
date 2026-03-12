@@ -1,40 +1,39 @@
-import { get } from '@vercel/edge-config';
-
+cat > middleware.ts << 'EOF'
 const HERO_PATH = '/hero.html';
 const LOGIN_PATH = '/__demo_login';
 const LOGOUT_PATH = '/__demo_logout';
 const COOKIE_NAME = 'oranicle_demo';
 const DEFAULT_NEXT = '/index.html';
 
-function hex(buffer: ArrayBuffer) {
+function hex(buffer) {
     return [...new Uint8Array(buffer)]
         .map((b) => b.toString(16).padStart(2, '0'))
         .join('');
 }
 
-async function sha256(input: string) {
+async function sha256(input) {
     const data = new TextEncoder().encode(input);
     const digest = await crypto.subtle.digest('SHA-256', data);
     return hex(digest);
 }
 
-async function buildCookieToken(passkey: string, secret: string) {
+async function buildCookieToken(passkey, secret) {
     return sha256(`${secret}::${passkey}`);
 }
 
-function redirect(to: URL | string, status = 302) {
+function redirect(to, status = 302) {
     return Response.redirect(typeof to === 'string' ? to : to.toString(), status);
 }
 
-function setCookieHeader(name: string, value: string, maxAgeSeconds: number) {
+function setCookieHeader(name, value, maxAgeSeconds) {
     return `${name}=${value}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAgeSeconds}`;
 }
 
-function clearCookieHeader(name: string) {
+function clearCookieHeader(name) {
     return `${name}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
 }
 
-function isPublicPath(pathname: string) {
+function isPublicPath(pathname) {
     return (
         pathname === HERO_PATH ||
         pathname === LOGIN_PATH ||
@@ -43,7 +42,35 @@ function isPublicPath(pathname: string) {
     );
 }
 
-export default async function middleware(request: Request) {
+async function getDemoPasskeyFromEdgeConfig() {
+    const connectionString = process.env.EDGE_CONFIG;
+    if (!connectionString) {
+        throw new Error('EDGE_CONFIG is not configured.');
+    }
+
+    const base = new URL(connectionString);
+
+    // EDGE_CONFIG is a connection string URL; Vercel documents that the endpoint
+    // is edge-config.vercel.com and single-item reads use /<id>/item/<key>.
+    const itemUrl = new URL(base.pathname.replace(/\/$/, '') + '/item/demo_passkey', base.origin);
+    itemUrl.search = base.search;
+
+    const res = await fetch(itemUrl.toString(), {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+        },
+    });
+
+    if (!res.ok) {
+        throw new Error(`Edge Config fetch failed with status ${res.status}`);
+    }
+
+    // Vercel documents that single-item reads return the raw value.
+    return await res.json();
+}
+
+export default async function middleware(request) {
     const url = new URL(request.url);
     const pathname = url.pathname;
 
@@ -52,7 +79,13 @@ export default async function middleware(request: Request) {
         return new Response('DEMO_COOKIE_SECRET is not configured.', { status: 500 });
     }
 
-    const passkey = await get<string>('demo_passkey');
+    let passkey;
+    try {
+        passkey = await getDemoPasskeyFromEdgeConfig();
+    } catch (err) {
+        return new Response(`Failed to read Edge Config: ${String(err)}`, { status: 500 });
+    }
+
     if (!passkey) {
         return new Response('Edge Config key "demo_passkey" is not configured.', { status: 500 });
     }
@@ -118,3 +151,4 @@ export default async function middleware(request: Request) {
 export const config = {
     matcher: ['/((?!_next).*)'],
 };
+EOF
