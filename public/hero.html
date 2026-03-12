@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Oranicle Demo Access</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #0b1220;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .box {
+            background: #121a2e;
+            padding: 40px;
+            border-radius: 10px;
+            width: 420px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            background: #2f7fff;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Oranicle</h2>
+
+        <p>
+            Canonical intelligence for healthcare provider analytics.
+        </p>
+
+        <input id="key" placeholder="Enter demo passkey">
+
+        <button onclick="login()">Enter Demo</button>
+
+    </div>
+
+    <script>
+
+        async function login() {
+
+            const passkey = document.getElementById("key").value
+
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ passkey })
+            })
+
+            if (res.ok) {
+                location.href = "/"
+            } else {
+                alert("Invalid passkey")
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
