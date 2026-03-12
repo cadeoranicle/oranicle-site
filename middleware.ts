@@ -1,21 +1,120 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { get } from '@vercel/edge-config';
 
-export const config = {
-    matcher: ['/((?!hero.html|api|favicon.ico).*)'],
+const HERO_PATH = '/hero.html';
+const LOGIN_PATH = '/__demo_login';
+const LOGOUT_PATH = '/__demo_logout';
+const COOKIE_NAME = 'oranicle_demo';
+const DEFAULT_NEXT = '/index.html';
+
+function hex(buffer: ArrayBuffer) {
+    return [...new Uint8Array(buffer)]
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('');
 }
 
-export default function middleware(req: NextRequest) {
+async function sha256(input: string) {
+    const data = new TextEncoder().encode(input);
+    const digest = await crypto.subtle.digest('SHA-256', data);
+    return hex(digest);
+}
 
-    const cookie = req.cookies.get('oranicle_demo')
+async function buildCookieToken(passkey: string, secret: string) {
+    return sha256(`${secret}::${passkey}`);
+}
 
-    if (cookie?.value === 'ok') {
-        return NextResponse.next()
+function redirect(to: URL | string, status = 302) {
+    return Response.redirect(typeof to === 'string' ? to : to.toString(), status);
+}
+
+function setCookieHeader(name: string, value: string, maxAgeSeconds: number) {
+    return `${name}=${value}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAgeSeconds}`;
+}
+
+function clearCookieHeader(name: string) {
+    return `${name}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
+}
+
+function isPublicPath(pathname: string) {
+    return (
+        pathname === HERO_PATH ||
+        pathname === LOGIN_PATH ||
+        pathname === LOGOUT_PATH ||
+        pathname === '/favicon.ico'
+    );
+}
+
+export default async function middleware(request: Request) {
+    const url = new URL(request.url);
+    const pathname = url.pathname;
+
+    const secret = process.env.DEMO_COOKIE_SECRET;
+    if (!secret) {
+        return new Response('DEMO_COOKIE_SECRET is not configured.', { status: 500 });
     }
 
-    const url = req.nextUrl.clone()
-    url.pathname = '/hero.html'
+    const passkey = await get<string>('demo_passkey');
+    if (!passkey) {
+        return new Response('Edge Config key "demo_passkey" is not configured.', { status: 500 });
+    }
 
-    return NextResponse.redirect(url)
+    const expectedToken = await buildCookieToken(passkey, secret);
 
+    const cookieHeader = request.headers.get('cookie') || '';
+    const currentToken =
+        cookieHeader
+            .split(';')
+            .map((x) => x.trim())
+            .find((x) => x.startsWith(`${COOKIE_NAME}=`))
+            ?.split('=')
+            ?.slice(1)
+            ?.join('=') || '';
+
+    const isAuthenticated = currentToken === expectedToken;
+
+    if (pathname === LOGOUT_PATH) {
+        const res = redirect(new URL(HERO_PATH, request.url), 302);
+        res.headers.append('Set-Cookie', clearCookieHeader(COOKIE_NAME));
+        return res;
+    }
+
+    if (pathname === LOGIN_PATH && request.method === 'POST') {
+        const body = await request.text();
+        const form = new URLSearchParams(body);
+
+        const submittedPasskey = (form.get('passkey') || '').trim();
+        const next = (form.get('next') || DEFAULT_NEXT).trim();
+
+        if (submittedPasskey === passkey) {
+            const res = redirect(new URL(next, request.url), 302);
+            res.headers.append(
+                'Set-Cookie',
+                setCookieHeader(COOKIE_NAME, expectedToken, 60 * 60 * 8)
+            );
+            return res;
+        }
+
+        const failUrl = new URL(HERO_PATH, request.url);
+        failUrl.searchParams.set('error', '1');
+        failUrl.searchParams.set('next', next || DEFAULT_NEXT);
+        return redirect(failUrl, 302);
+    }
+
+    if (isPublicPath(pathname)) {
+        if (pathname === HERO_PATH && isAuthenticated) {
+            return redirect(new URL(DEFAULT_NEXT, request.url), 302);
+        }
+        return;
+    }
+
+    if (!isAuthenticated) {
+        const loginUrl = new URL(HERO_PATH, request.url);
+        loginUrl.searchParams.set('next', pathname + url.search);
+        return redirect(loginUrl, 302);
+    }
+
+    return;
 }
+
+export const config = {
+    matcher: ['/((?!_next).*)'],
+};
