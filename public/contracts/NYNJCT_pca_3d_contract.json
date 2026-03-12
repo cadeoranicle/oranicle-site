@@ -1,0 +1,23 @@
+{
+  "canonical_id": "ORANICLE_TRISTATE_CANONICAL_V1",
+  "dimensions": [
+    "C1",
+    "C2",
+    "C3"
+  ],
+  "ranges": {
+    "C1": {
+      "min": -6.858378304561626,
+      "max": 8.559911394238414
+    },
+    "C2": {
+      "min": -2.6173570839268256,
+      "max": 3.805624383934212
+    },
+    "C3": {
+      "min": -3.41779281129883,
+      "max": 5.82301496529941
+    }
+  },
+  "source_scores_file": "NYNJCT_pca_scores.parquet"
+}

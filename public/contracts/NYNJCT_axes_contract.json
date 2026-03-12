@@ -1,0 +1,16 @@
+{
+  "canonical_id": "ORANICLE_TRISTATE_CANONICAL_V1",
+  "axes": {
+    "C1": {
+      "min": -6.858378304561626,
+      "max": 8.559911394238414,
+      "label": "Care Economic Intensity"
+    },
+    "C2": {
+      "min": -2.6173570839268256,
+      "max": 3.805624383934212,
+      "label": "Utilization Structure"
+    }
+  },
+  "source": "NYNJCT_pca_scores.parquet"
+}

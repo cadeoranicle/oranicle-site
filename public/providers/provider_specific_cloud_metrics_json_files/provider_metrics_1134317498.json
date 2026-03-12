@@ -1,0 +1,140 @@
+{
+  "npi": "1134317498",
+  "region": "NYNJCT",
+  "source": "NYNJCT_pca_scores.parquet",
+  "row_count": 1,
+  "state_coverage": [
+    "NY"
+  ],
+  "month_count": 1,
+  "first_month": "2023-04",
+  "last_month": "2023-04",
+  "representative_position_3d": {
+    "C1": 4.292312721391459,
+    "C2": 2.50326484140374,
+    "C3": 3.026128607645734
+  },
+  "representative_position_2d": {
+    "C1_C2": {
+      "C1": 4.292312721391459,
+      "C2": 2.50326484140374
+    },
+    "C1_C3": {
+      "C1": 4.292312721391459,
+      "C3": 3.026128607645734
+    },
+    "C2_C3": {
+      "C2": 2.50326484140374,
+      "C3": 3.026128607645734
+    }
+  },
+  "canonical_metrics": {
+    "coords_axes": {
+      "A1": 4.292312721391459,
+      "A2": 2.50326484140374,
+      "A3": 3.026128607645734
+    },
+    "axis_position_normalized_rank": {
+      "A1": {
+        "value": 4.292312721391459,
+        "min": -6.858378304561626,
+        "max": 8.559911394238414,
+        "span": 15.41828969880004,
+        "normalized_rank_0_1": 0.7232119284164774,
+        "normalized_rank_pct": 72.32,
+        "distance_to_min": 11.150691025953085,
+        "distance_to_max": 4.267598672846955
+      },
+      "A2": {
+        "value": 2.50326484140374,
+        "min": -2.6173570839268256,
+        "max": 3.805624383934212,
+        "span": 6.422981467861037,
+        "normalized_rank_0_1": 0.797234423134,
+        "normalized_rank_pct": 79.72,
+        "distance_to_min": 5.120621925330566,
+        "distance_to_max": 1.3023595425304717
+      },
+      "A3": {
+        "value": 3.026128607645734,
+        "min": -3.41779281129883,
+        "max": 5.82301496529941,
+        "span": 9.24080777659824,
+        "normalized_rank_0_1": 0.697333130904788,
+        "normalized_rank_pct": 69.73,
+        "distance_to_min": 6.443921418944564,
+        "distance_to_max": 2.7968863576536758
+      }
+    },
+    "centroid_distance": {
+      "absolute_distance": 5.817880861141706,
+      "distance_stats_reference": {
+        "min": 0.22628436550575579,
+        "mean": 2.0739440511767295,
+        "max": 10.491929331186657
+      },
+      "normalized_position_0_1": 0.5446902278745492,
+      "relative_to_mean": 2.805225559407311,
+      "interpretation": "above_mean_distance"
+    },
+    "canonical_region": {
+      "region_id": "3_3_3",
+      "a1_band": 3,
+      "a2_band": 3,
+      "a3_band": 3,
+      "region_center": [
+        5.990196444438407,
+        2.735127472624039,
+        4.28288033586637
+      ],
+      "region_point_count": 325
+    },
+    "density_rarity": {
+      "region_id": "3_3_3",
+      "region_point_count": 325,
+      "relative_density_ratio": 0.030536502865733346,
+      "rarity_class": "very_sparse",
+      "is_low_density_region": false
+    },
+    "nearest_anchor": {
+      "label": "A1_max",
+      "point": [
+        8.559911394238414,
+        3.075585044702582,
+        5.229653396373806
+      ],
+      "distance": 4.836886430559251
+    },
+    "extremity_relation": {
+      "A1": {
+        "distance_to_min": 11.150691025953085,
+        "distance_to_max": 4.267598672846955,
+        "nearer_extreme": "A1_max",
+        "nearer_extreme_distance": 4.267598672846955
+      },
+      "A2": {
+        "distance_to_min": 5.120621925330566,
+        "distance_to_max": 1.3023595425304717,
+        "nearer_extreme": "A2_max",
+        "nearer_extreme_distance": 1.3023595425304717
+      },
+      "A3": {
+        "distance_to_min": 6.443921418944564,
+        "distance_to_max": 2.7968863576536758,
+        "nearer_extreme": "A3_max",
+        "nearer_extreme_distance": 2.7968863576536758
+      }
+    },
+    "frontier_relation": {
+      "method": "proxy_centroid_to_hull_band",
+      "proxy_score_0_1": 1.0,
+      "distance_stats_reference": {
+        "min": 0.0,
+        "mean": 1.1427390091060177,
+        "max": 2.937088550623116
+      },
+      "frontier_class": "near_frontier",
+      "note": "First-pass proxy. Replace later with exact point-to-hull distance if needed."
+    }
+  }
+}

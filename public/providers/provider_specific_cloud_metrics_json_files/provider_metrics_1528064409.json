@@ -1,0 +1,140 @@
+{
+  "npi": "1528064409",
+  "region": "NYNJCT",
+  "source": "NYNJCT_pca_scores.parquet",
+  "row_count": 51,
+  "state_coverage": [
+    "NJ"
+  ],
+  "month_count": 48,
+  "first_month": "2018-01",
+  "last_month": "2024-11",
+  "representative_position_3d": {
+    "C1": -0.20643695619972838,
+    "C2": 3.4176849468325923,
+    "C3": 0.485172029640123
+  },
+  "representative_position_2d": {
+    "C1_C2": {
+      "C1": -0.20643695619972838,
+      "C2": 3.4176849468325923
+    },
+    "C1_C3": {
+      "C1": -0.20643695619972838,
+      "C3": 0.485172029640123
+    },
+    "C2_C3": {
+      "C2": 3.4176849468325923,
+      "C3": 0.485172029640123
+    }
+  },
+  "canonical_metrics": {
+    "coords_axes": {
+      "A1": -0.20643695619972838,
+      "A2": 3.4176849468325923,
+      "A3": 0.485172029640123
+    },
+    "axis_position_normalized_rank": {
+      "A1": {
+        "value": -0.20643695619972838,
+        "min": -6.858378304561626,
+        "max": 8.559911394238414,
+        "span": 15.41828969880004,
+        "normalized_rank_0_1": 0.4314318564710584,
+        "normalized_rank_pct": 43.14,
+        "distance_to_min": 6.651941348361897,
+        "distance_to_max": 8.766348350438143
+      },
+      "A2": {
+        "value": 3.4176849468325923,
+        "min": -2.6173570839268256,
+        "max": 3.805624383934212,
+        "span": 6.422981467861037,
+        "normalized_rank_0_1": 0.9396013457235134,
+        "normalized_rank_pct": 93.96,
+        "distance_to_min": 6.035042030759418,
+        "distance_to_max": 0.3879394371016196
+      },
+      "A3": {
+        "value": 0.485172029640123,
+        "min": -3.41779281129883,
+        "max": 5.82301496529941,
+        "span": 9.24080777659824,
+        "normalized_rank_0_1": 0.4223618687127076,
+        "normalized_rank_pct": 42.24,
+        "distance_to_min": 3.902964840938953,
+        "distance_to_max": 5.337842935659287
+      }
+    },
+    "centroid_distance": {
+      "absolute_distance": 3.458117769977799,
+      "distance_stats_reference": {
+        "min": 0.22628436550575579,
+        "mean": 2.0739440511767295,
+        "max": 10.491929331186657
+      },
+      "normalized_position_0_1": 0.3148202977286271,
+      "relative_to_mean": 1.6674113113204316,
+      "interpretation": "above_mean_distance"
+    },
+    "canonical_region": {
+      "region_id": "2_3_2",
+      "a1_band": 2,
+      "a2_band": 3,
+      "a3_band": 2,
+      "region_center": [
+        0.8507665448383936,
+        2.735127472624039,
+        1.2026110770002902
+      ],
+      "region_point_count": 2402
+    },
+    "density_rarity": {
+      "region_id": "2_3_2",
+      "region_point_count": 2402,
+      "relative_density_ratio": 0.22568824579535846,
+      "rarity_class": "sparse",
+      "is_low_density_region": false
+    },
+    "nearest_anchor": {
+      "label": "A2_max",
+      "point": [
+        -4.741702622301038,
+        3.805624383934212,
+        -2.3697469162883658
+      ],
+      "distance": 5.373052564120094
+    },
+    "extremity_relation": {
+      "A1": {
+        "distance_to_min": 6.651941348361897,
+        "distance_to_max": 8.766348350438143,
+        "nearer_extreme": "A1_min",
+        "nearer_extreme_distance": 6.651941348361897
+      },
+      "A2": {
+        "distance_to_min": 6.035042030759418,
+        "distance_to_max": 0.3879394371016196,
+        "nearer_extreme": "A2_max",
+        "nearer_extreme_distance": 0.3879394371016196
+      },
+      "A3": {
+        "distance_to_min": 3.902964840938953,
+        "distance_to_max": 5.337842935659287,
+        "nearer_extreme": "A3_min",
+        "nearer_extreme_distance": 3.902964840938953
+      }
+    },
+    "frontier_relation": {
+      "method": "proxy_centroid_to_hull_band",
+      "proxy_score_0_1": 1.0,
+      "distance_stats_reference": {
+        "min": 0.0,
+        "mean": 1.1427390091060177,
+        "max": 2.937088550623116
+      },
+      "frontier_class": "near_frontier",
+      "note": "First-pass proxy. Replace later with exact point-to-hull distance if needed."
+    }
+  }
+}

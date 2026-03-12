@@ -1,0 +1,140 @@
+{
+  "npi": "1427380625",
+  "region": "NYNJCT",
+  "source": "NYNJCT_pca_scores.parquet",
+  "row_count": 12,
+  "state_coverage": [
+    "NJ"
+  ],
+  "month_count": 12,
+  "first_month": "2018-08",
+  "last_month": "2020-01",
+  "representative_position_3d": {
+    "C1": 2.367725693024493,
+    "C2": 1.6589212932263457,
+    "C3": 0.3823585920423167
+  },
+  "representative_position_2d": {
+    "C1_C2": {
+      "C1": 2.367725693024493,
+      "C2": 1.6589212932263457
+    },
+    "C1_C3": {
+      "C1": 2.367725693024493,
+      "C3": 0.3823585920423167
+    },
+    "C2_C3": {
+      "C2": 1.6589212932263457,
+      "C3": 0.3823585920423167
+    }
+  },
+  "canonical_metrics": {
+    "coords_axes": {
+      "A1": 2.367725693024493,
+      "A2": 1.6589212932263457,
+      "A3": 0.3823585920423167
+    },
+    "axis_position_normalized_rank": {
+      "A1": {
+        "value": 2.367725693024493,
+        "min": -6.858378304561626,
+        "max": 8.559911394238414,
+        "span": 15.41828969880004,
+        "normalized_rank_0_1": 0.5983869921904607,
+        "normalized_rank_pct": 59.84,
+        "distance_to_min": 9.226103997586119,
+        "distance_to_max": 6.192185701213921
+      },
+      "A2": {
+        "value": 1.6589212932263457,
+        "min": -2.6173570839268256,
+        "max": 3.805624383934212,
+        "span": 6.422981467861037,
+        "normalized_rank_0_1": 0.6657777853712609,
+        "normalized_rank_pct": 66.58,
+        "distance_to_min": 4.276278377153171,
+        "distance_to_max": 2.146703090707866
+      },
+      "A3": {
+        "value": 0.3823585920423167,
+        "min": -3.41779281129883,
+        "max": 5.82301496529941,
+        "span": 9.24080777659824,
+        "normalized_rank_0_1": 0.41123584595762175,
+        "normalized_rank_pct": 41.12,
+        "distance_to_min": 3.8001514033411468,
+        "distance_to_max": 5.440656373257093
+      }
+    },
+    "centroid_distance": {
+      "absolute_distance": 2.9162206547922036,
+      "distance_stats_reference": {
+        "min": 0.22628436550575579,
+        "mean": 2.0739440511767295,
+        "max": 10.491929331186657
+      },
+      "normalized_position_0_1": 0.2620328579723124,
+      "relative_to_mean": 1.4061231078714862,
+      "interpretation": "above_mean_distance"
+    },
+    "canonical_region": {
+      "region_id": "2_2_2",
+      "a1_band": 2,
+      "a2_band": 2,
+      "a3_band": 2,
+      "region_center": [
+        0.8507665448383936,
+        0.5941336500036927,
+        1.2026110770002902
+      ],
+      "region_point_count": 2437
+    },
+    "density_rarity": {
+      "region_id": "2_2_2",
+      "region_point_count": 2437,
+      "relative_density_ratio": 0.22897679225782205,
+      "rarity_class": "sparse",
+      "is_low_density_region": false
+    },
+    "nearest_anchor": {
+      "label": "A3_max",
+      "point": [
+        -0.09588704520530078,
+        1.5091348887625995,
+        5.82301496529941
+      ],
+      "distance": 5.974325523671547
+    },
+    "extremity_relation": {
+      "A1": {
+        "distance_to_min": 9.226103997586119,
+        "distance_to_max": 6.192185701213921,
+        "nearer_extreme": "A1_max",
+        "nearer_extreme_distance": 6.192185701213921
+      },
+      "A2": {
+        "distance_to_min": 4.276278377153171,
+        "distance_to_max": 2.146703090707866,
+        "nearer_extreme": "A2_max",
+        "nearer_extreme_distance": 2.146703090707866
+      },
+      "A3": {
+        "distance_to_min": 3.8001514033411468,
+        "distance_to_max": 5.440656373257093,
+        "nearer_extreme": "A3_min",
+        "nearer_extreme_distance": 3.8001514033411468
+      }
+    },
+    "frontier_relation": {
+      "method": "proxy_centroid_to_hull_band",
+      "proxy_score_0_1": 0.9928950402852221,
+      "distance_stats_reference": {
+        "min": 0.0,
+        "mean": 1.1427390091060177,
+        "max": 2.937088550623116
+      },
+      "frontier_class": "near_frontier",
+      "note": "First-pass proxy. Replace later with exact point-to-hull distance if needed."
+    }
+  }
+}

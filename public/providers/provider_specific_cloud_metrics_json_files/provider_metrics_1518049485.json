@@ -1,0 +1,140 @@
+{
+  "npi": "1518049485",
+  "region": "NYNJCT",
+  "source": "NYNJCT_pca_scores.parquet",
+  "row_count": 101,
+  "state_coverage": [
+    "NY"
+  ],
+  "month_count": 84,
+  "first_month": "2018-01",
+  "last_month": "2024-12",
+  "representative_position_3d": {
+    "C1": -2.2157128767655148,
+    "C2": -1.338880747176308,
+    "C3": 1.723935563419719
+  },
+  "representative_position_2d": {
+    "C1_C2": {
+      "C1": -2.2157128767655148,
+      "C2": -1.338880747176308
+    },
+    "C1_C3": {
+      "C1": -2.2157128767655148,
+      "C3": 1.723935563419719
+    },
+    "C2_C3": {
+      "C2": -1.338880747176308,
+      "C3": 1.723935563419719
+    }
+  },
+  "canonical_metrics": {
+    "coords_axes": {
+      "A1": -2.2157128767655148,
+      "A2": -1.338880747176308,
+      "A3": 1.723935563419719
+    },
+    "axis_position_normalized_rank": {
+      "A1": {
+        "value": -2.2157128767655148,
+        "min": -6.858378304561626,
+        "max": 8.559911394238414,
+        "span": 15.41828969880004,
+        "normalized_rank_0_1": 0.3011141649619825,
+        "normalized_rank_pct": 30.11,
+        "distance_to_min": 4.642665427796111,
+        "distance_to_max": 10.77562427100393
+      },
+      "A2": {
+        "value": -1.338880747176308,
+        "min": -2.6173570839268256,
+        "max": 3.805624383934212,
+        "span": 6.422981467861037,
+        "normalized_rank_0_1": 0.1990471781909519,
+        "normalized_rank_pct": 19.9,
+        "distance_to_min": 1.2784763367505176,
+        "distance_to_max": 5.14450513111052
+      },
+      "A3": {
+        "value": 1.723935563419719,
+        "min": -3.41779281129883,
+        "max": 5.82301496529941,
+        "span": 9.24080777659824,
+        "normalized_rank_0_1": 0.556415467026557,
+        "normalized_rank_pct": 55.64,
+        "distance_to_min": 5.141728374718549,
+        "distance_to_max": 4.099079401879691
+      }
+    },
+    "centroid_distance": {
+      "absolute_distance": 3.1102956506170223,
+      "distance_stats_reference": {
+        "min": 0.22628436550575579,
+        "mean": 2.0739440511767295,
+        "max": 10.491929331186657
+      },
+      "normalized_position_0_1": 0.2809381480416292,
+      "relative_to_mean": 1.4997008472105504,
+      "interpretation": "above_mean_distance"
+    },
+    "canonical_region": {
+      "region_id": "1_1_2",
+      "a1_band": 1,
+      "a2_band": 1,
+      "a3_band": 2,
+      "region_center": [
+        -4.288663354761619,
+        -1.5468601726166529,
+        1.2026110770002902
+      ],
+      "region_point_count": 2723
+    },
+    "density_rarity": {
+      "region_id": "1_1_2",
+      "region_point_count": 2723,
+      "relative_density_ratio": 0.25584891477966737,
+      "rarity_class": "sparse",
+      "is_low_density_region": false
+    },
+    "nearest_anchor": {
+      "label": "A2_min",
+      "point": [
+        -4.973033713836528,
+        -2.6173570839268256,
+        1.9527461354843927
+      ],
+      "distance": 3.047896687892419
+    },
+    "extremity_relation": {
+      "A1": {
+        "distance_to_min": 4.642665427796111,
+        "distance_to_max": 10.77562427100393,
+        "nearer_extreme": "A1_min",
+        "nearer_extreme_distance": 4.642665427796111
+      },
+      "A2": {
+        "distance_to_min": 1.2784763367505176,
+        "distance_to_max": 5.14450513111052,
+        "nearer_extreme": "A2_min",
+        "nearer_extreme_distance": 1.2784763367505176
+      },
+      "A3": {
+        "distance_to_min": 5.141728374718549,
+        "distance_to_max": 4.099079401879691,
+        "nearer_extreme": "A3_max",
+        "nearer_extreme_distance": 4.099079401879691
+      }
+    },
+    "frontier_relation": {
+      "method": "proxy_centroid_to_hull_band",
+      "proxy_score_0_1": 1.0,
+      "distance_stats_reference": {
+        "min": 0.0,
+        "mean": 1.1427390091060177,
+        "max": 2.937088550623116
+      },
+      "frontier_class": "near_frontier",
+      "note": "First-pass proxy. Replace later with exact point-to-hull distance if needed."
+    }
+  }
+}

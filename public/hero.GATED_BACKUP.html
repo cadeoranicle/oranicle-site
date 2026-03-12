@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Oranicle | Controlled Demo Access</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b1220;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .box {
+            background: #121a2e;
+            padding: 40px;
+            border-radius: 14px;
+            width: 420px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #2f7fff;
+            background: #0e1628;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 12px;
+            width: 100%;
+            background: #2f7fff;
+            color: white;
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .error {
+            display: none;
+            margin-top: 12px;
+            color: #ffb4b4;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <form class="box" method="POST" action="/__demo_login">
+        <h2>Oranicle</h2>
+        <p>Canonical intelligence for healthcare provider analytics.</p>
+
+        <input id="passkey" name="passkey" type="password" placeholder="Enter demo passkey" required />
+        <input type="hidden" id="next" name="next" value="/index.html" />
+        <button type="submit">Enter Demo</button>
+
+        <div id="errorBox" class="error">Invalid passkey. Please retry.</div>
+    </form>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const next = params.get("next");
+        const error = params.get("error");
+
+        if (next) {
+            document.getElementById("next").value = next;
+        }
+
+        if (error === "1") {
+            document.getElementById("errorBox").style.display = "block";
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,140 @@
+{
+  "npi": "1285641514",
+  "region": "NYNJCT",
+  "source": "NYNJCT_pca_scores.parquet",
+  "row_count": 21,
+  "state_coverage": [
+    "NY"
+  ],
+  "month_count": 20,
+  "first_month": "2021-02",
+  "last_month": "2024-03",
+  "representative_position_3d": {
+    "C1": 6.8898890301301146,
+    "C2": 3.1926074035068863,
+    "C3": 4.184268330221566
+  },
+  "representative_position_2d": {
+    "C1_C2": {
+      "C1": 6.8898890301301146,
+      "C2": 3.1926074035068863
+    },
+    "C1_C3": {
+      "C1": 6.8898890301301146,
+      "C3": 4.184268330221566
+    },
+    "C2_C3": {
+      "C2": 3.1926074035068863,
+      "C3": 4.184268330221566
+    }
+  },
+  "canonical_metrics": {
+    "coords_axes": {
+      "A1": 6.8898890301301146,
+      "A2": 3.1926074035068863,
+      "A3": 4.184268330221566
+    },
+    "axis_position_normalized_rank": {
+      "A1": {
+        "value": 6.8898890301301146,
+        "min": -6.858378304561626,
+        "max": 8.559911394238414,
+        "span": 15.41828969880004,
+        "normalized_rank_0_1": 0.89168562812526,
+        "normalized_rank_pct": 89.17,
+        "distance_to_min": 13.74826733469174,
+        "distance_to_max": 1.6700223641082994
+      },
+      "A2": {
+        "value": 3.1926074035068863,
+        "min": -2.6173570839268256,
+        "max": 3.805624383934212,
+        "span": 6.422981467861037,
+        "normalized_rank_0_1": 0.9045588122128787,
+        "normalized_rank_pct": 90.46,
+        "distance_to_min": 5.809964487433712,
+        "distance_to_max": 0.6130169804273256
+      },
+      "A3": {
+        "value": 4.184268330221566,
+        "min": -3.41779281129883,
+        "max": 5.82301496529941,
+        "span": 9.24080777659824,
+        "normalized_rank_0_1": 0.8226619712588475,
+        "normalized_rank_pct": 82.27,
+        "distance_to_min": 7.602061141520396,
+        "distance_to_max": 1.638746635077844
+      }
+    },
+    "centroid_distance": {
+      "absolute_distance": 8.67014500107867,
+      "distance_stats_reference": {
+        "min": 0.22628436550575579,
+        "mean": 2.0739440511767295,
+        "max": 10.491929331186657
+      },
+      "normalized_position_0_1": 0.8225358137556482,
+      "relative_to_mean": 4.180510557244463,
+      "interpretation": "above_mean_distance"
+    },
+    "canonical_region": {
+      "region_id": "3_3_3",
+      "a1_band": 3,
+      "a2_band": 3,
+      "a3_band": 3,
+      "region_center": [
+        5.990196444438407,
+        2.735127472624039,
+        4.28288033586637
+      ],
+      "region_point_count": 325
+    },
+    "density_rarity": {
+      "region_id": "3_3_3",
+      "region_point_count": 325,
+      "relative_density_ratio": 0.030536502865733346,
+      "rarity_class": "very_sparse",
+      "is_low_density_region": false
+    },
+    "nearest_anchor": {
+      "label": "A1_max",
+      "point": [
+        8.559911394238414,
+        3.075585044702582,
+        5.229653396373806
+      ],
+      "distance": 1.9737018178073706
+    },
+    "extremity_relation": {
+      "A1": {
+        "distance_to_min": 13.74826733469174,
+        "distance_to_max": 1.6700223641082994,
+        "nearer_extreme": "A1_max",
+        "nearer_extreme_distance": 1.6700223641082994
+      },
+      "A2": {
+        "distance_to_min": 5.809964487433712,
+        "distance_to_max": 0.6130169804273256,
+        "nearer_extreme": "A2_max",
+        "nearer_extreme_distance": 0.6130169804273256
+      },
+      "A3": {
+        "distance_to_min": 7.602061141520396,
+        "distance_to_max": 1.638746635077844,
+        "nearer_extreme": "A3_max",
+        "nearer_extreme_distance": 1.638746635077844
+      }
+    },
+    "frontier_relation": {
+      "method": "proxy_centroid_to_hull_band",
+      "proxy_score_0_1": 1.0,
+      "distance_stats_reference": {
+        "min": 0.0,
+        "mean": 1.1427390091060177,
+        "max": 2.937088550623116
+      },
+      "frontier_class": "near_frontier",
+      "note": "First-pass proxy. Replace later with exact point-to-hull distance if needed."
+    }
+  }
+}

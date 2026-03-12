@@ -1,0 +1,140 @@
+{
+  "npi": "1891246971",
+  "region": "NYNJCT",
+  "source": "NYNJCT_pca_scores.parquet",
+  "row_count": 70,
+  "state_coverage": [
+    "NY"
+  ],
+  "month_count": 70,
+  "first_month": "2019-01",
+  "last_month": "2024-11",
+  "representative_position_3d": {
+    "C1": 0.03808137106214207,
+    "C2": -0.47656693477542506,
+    "C3": -0.8431991770149154
+  },
+  "representative_position_2d": {
+    "C1_C2": {
+      "C1": 0.03808137106214207,
+      "C2": -0.47656693477542506
+    },
+    "C1_C3": {
+      "C1": 0.03808137106214207,
+      "C3": -0.8431991770149154
+    },
+    "C2_C3": {
+      "C2": -0.47656693477542506,
+      "C3": -0.8431991770149154
+    }
+  },
+  "canonical_metrics": {
+    "coords_axes": {
+      "A1": 0.03808137106214207,
+      "A2": -0.47656693477542506,
+      "A3": -0.8431991770149154
+    },
+    "axis_position_normalized_rank": {
+      "A1": {
+        "value": 0.03808137106214207,
+        "min": -6.858378304561626,
+        "max": 8.559911394238414,
+        "span": 15.41828969880004,
+        "normalized_rank_0_1": 0.4472908351281335,
+        "normalized_rank_pct": 44.73,
+        "distance_to_min": 6.896459675623768,
+        "distance_to_max": 8.521830023176271
+      },
+      "A2": {
+        "value": -0.47656693477542506,
+        "min": -2.6173570839268256,
+        "max": 3.805624383934212,
+        "span": 6.422981467861037,
+        "normalized_rank_0_1": 0.3333016232202084,
+        "normalized_rank_pct": 33.33,
+        "distance_to_min": 2.1407901491514005,
+        "distance_to_max": 4.2821913187096365
+      },
+      "A3": {
+        "value": -0.8431991770149154,
+        "min": -3.41779281129883,
+        "max": 5.82301496529941,
+        "span": 9.24080777659824,
+        "normalized_rank_0_1": 0.2786113180282691,
+        "normalized_rank_pct": 27.86,
+        "distance_to_min": 2.5745936342839144,
+        "distance_to_max": 6.666214142314326
+      }
+    },
+    "centroid_distance": {
+      "absolute_distance": 0.9693044342526487,
+      "distance_stats_reference": {
+        "min": 0.22628436550575579,
+        "mean": 2.0739440511767295,
+        "max": 10.491929331186657
+      },
+      "normalized_position_0_1": 0.072379287539252,
+      "relative_to_mean": 0.4673725087726825,
+      "interpretation": "below_mean_distance"
+    },
+    "canonical_region": {
+      "region_id": "2_1_1",
+      "a1_band": 2,
+      "a2_band": 1,
+      "a3_band": 1,
+      "region_center": [
+        0.8507665448383936,
+        -1.5468601726166529,
+        -1.8776581818657898
+      ],
+      "region_point_count": 2515
+    },
+    "density_rarity": {
+      "region_id": "2_1_1",
+      "region_point_count": 2515,
+      "relative_density_ratio": 0.23630555294559805,
+      "rarity_class": "sparse",
+      "is_low_density_region": false
+    },
+    "nearest_anchor": {
+      "label": "A3_min",
+      "point": [
+        -4.162697729887137,
+        -0.7083793014282777,
+        -3.41779281129883
+      ],
+      "distance": 4.932424800237778
+    },
+    "extremity_relation": {
+      "A1": {
+        "distance_to_min": 6.896459675623768,
+        "distance_to_max": 8.521830023176271,
+        "nearer_extreme": "A1_min",
+        "nearer_extreme_distance": 6.896459675623768
+      },
+      "A2": {
+        "distance_to_min": 2.1407901491514005,
+        "distance_to_max": 4.2821913187096365,
+        "nearer_extreme": "A2_min",
+        "nearer_extreme_distance": 2.1407901491514005
+      },
+      "A3": {
+        "distance_to_min": 2.5745936342839144,
+        "distance_to_max": 6.666214142314326,
+        "nearer_extreme": "A3_min",
+        "nearer_extreme_distance": 2.5745936342839144
+      }
+    },
+    "frontier_relation": {
+      "method": "proxy_centroid_to_hull_band",
+      "proxy_score_0_1": 0.33002220312595154,
+      "distance_stats_reference": {
+        "min": 0.0,
+        "mean": 1.1427390091060177,
+        "max": 2.937088550623116
+      },
+      "frontier_class": "deep_interior",
+      "note": "First-pass proxy. Replace later with exact point-to-hull distance if needed."
+    }
+  }
+}

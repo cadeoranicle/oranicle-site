@@ -1,0 +1,9 @@
+{
+  "explained_variance_ratio": [
+    0.5037495556646874,
+    0.3365279856439049,
+    0.15953218590853502
+  ],
+  "explained_variance_ratio_sum_c1_c2": 0.8402775413085923,
+  "explained_variance_ratio_sum_c1_c2_c3": 0.9998097272171274
+}
