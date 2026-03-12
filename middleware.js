@@ -13,8 +13,8 @@ function redirectResponse(to, cookieHeader = null, status = 302) {
     return new Response(null, { status, headers });
 }
 
-function setCookieHeader(name, value, maxAgeSeconds) {
-    return `${name}=${value}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAgeSeconds}`;
+function setCookieHeader(name, value) {
+    return `${name}=${value}; Path=/; HttpOnly; Secure; SameSite=Lax`;
 }
 
 function clearCookieHeader(name) {
@@ -69,7 +69,7 @@ export default async function middleware(request) {
         if (submittedPasskey === passkey) {
             return redirectResponse(
                 new URL(next, request.url),
-                setCookieHeader(COOKIE_NAME, 'ok', 60 * 60 * 8)
+                setCookieHeader(COOKIE_NAME, 'ok')
             );
         }
 
