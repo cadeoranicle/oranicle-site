@@ -4,6 +4,22 @@ const LOGOUT_PATH = '/__demo_logout';
 const COOKIE_NAME = 'oranicle_demo_v2';
 const DEFAULT_NEXT = '/index.html';
 
+function getCookieValue(cookieHeader, name) {
+    const cookies = cookieHeader.split(';').map(c => c.trim());
+
+    for (const cookie of cookies) {
+        const parts = cookie.split('=');
+        const key = parts.shift();
+        const value = parts.join('=');
+
+        if (key === name) {
+            return value;
+        }
+    }
+
+    return null;
+}
+
 function redirectResponse(to, cookieHeader = null, status = 302) {
     const headers = new Headers();
     headers.set('Location', typeof to === 'string' ? to : to.toString());
@@ -54,24 +70,9 @@ export default async function middleware(request) {
     }
 
     const cookieHeader = request.headers.get('cookie') || '';
-    const isAuthenticated = cookieHeader.includes(`${COOKIE_NAME}=ok`);
+    const cookieValue = getCookieValue(cookieHeader, COOKIE_NAME);
+    const isAuthenticated = cookieValue === 'ok';
 
-    return new Response(
-        JSON.stringify(
-            {
-                pathname,
-                cookieHeader,
-                isAuthenticated,
-                cookieName: COOKIE_NAME
-            },
-            null,
-            2
-        ),
-        {
-            status: 200,
-            headers: { 'content-type': 'application/json' }
-        }
-    );
 
     if (pathname === LOGOUT_PATH) {
         return redirectResponse(
