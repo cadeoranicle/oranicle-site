@@ -58,9 +58,6 @@ export default async function middleware(request) {
     const url = new URL(request.url);
     const pathname = url.pathname;
 
-    if (pathname === "/") {
-        return redirectResponse(new URL(HERO_PATH, request.url));
-    }
 
     let passkey;
     try {
@@ -86,7 +83,10 @@ export default async function middleware(request) {
         const form = new URLSearchParams(body);
 
         const submittedPasskey = (form.get('passkey') || '').trim();
-        const next = (form.get('next') || DEFAULT_NEXT).trim();
+        let next = (form.get('next') || DEFAULT_NEXT).trim();
+        if (next === "/") {
+            next = DEFAULT_NEXT;
+        }
 
         if (submittedPasskey === passkey) {
             return redirectResponse(
@@ -110,7 +110,7 @@ export default async function middleware(request) {
 
     if (!isAuthenticated) {
         const loginUrl = new URL(HERO_PATH, request.url);
-        loginUrl.searchParams.set('next', pathname + url.search);
+        loginUrl.searchParams.set('next', pathname === "/" ? "/index.html" : pathname + url.search);
         return redirectResponse(loginUrl);
     }
 
