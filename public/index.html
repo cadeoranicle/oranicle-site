@@ -6,7 +6,17 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Oranicle Canonical Viewer</title>
     <link rel="stylesheet" href="css/style.css" />
+    <script>
+        const demoSession = sessionStorage.getItem("oranicle_demo_session");
+
+        if (demoSession !== "ok") {
+            window.location.replace("/hero.html");
+        }
+    </script>
 </head>
+
+
+
 
 <body>
 
