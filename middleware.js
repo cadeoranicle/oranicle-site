@@ -102,9 +102,6 @@ export default async function middleware(request) {
     }
 
     if (isPublicPath(pathname)) {
-        if (pathname === HERO_PATH && isAuthenticated) {
-            return redirectResponse(new URL(DEFAULT_NEXT, request.url));
-        }
         return;
     }
 
