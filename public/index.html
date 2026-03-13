@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="css/style.css" />
     <script>
         try {
-            const demoSession = sessionStorage.getItem("oranicle_demo_session");
-            if (demoSession !== "ok") {
+            const s = sessionStorage.getItem("oranicle_demo_session");
+
+            if (s !== "ok") {
+                sessionStorage.removeItem("oranicle_demo_session");
                 location.replace("/hero.html");
             }
         } catch (e) {
-            window.location.replace("/hero.html");
+            location.replace("/hero.html");
         }
     </script>
 </head>
