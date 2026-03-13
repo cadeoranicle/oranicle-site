@@ -1,7 +1,7 @@
 const HERO_PATH = '/hero.html';
 const LOGIN_PATH = '/__demo_login';
 const LOGOUT_PATH = '/__demo_logout';
-const COOKIE_NAME = 'oranicle_demo';
+const COOKIE_NAME = 'oranicle_demo_v2';
 const DEFAULT_NEXT = '/index.html';
 
 function redirectResponse(to, cookieHeader = null, status = 302) {
