@@ -56,6 +56,23 @@ export default async function middleware(request) {
     const cookieHeader = request.headers.get('cookie') || '';
     const isAuthenticated = cookieHeader.includes(`${COOKIE_NAME}=ok`);
 
+    return new Response(
+        JSON.stringify(
+            {
+                pathname,
+                cookieHeader,
+                isAuthenticated,
+                cookieName: COOKIE_NAME
+            },
+            null,
+            2
+        ),
+        {
+            status: 200,
+            headers: { 'content-type': 'application/json' }
+        }
+    );
+
     if (pathname === LOGOUT_PATH) {
         return redirectResponse(
             new URL(HERO_PATH, request.url),
