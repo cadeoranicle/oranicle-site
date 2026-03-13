@@ -14,7 +14,7 @@ function redirectResponse(to, cookieHeader = null, status = 302) {
 }
 
 function setCookieHeader(name, value) {
-    return `${name}=${value}; Path=/; HttpOnly; Secure; SameSite=Lax`;
+    return `${name}=${value}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=180`;
 }
 
 function clearCookieHeader(name) {
@@ -41,6 +41,10 @@ async function getDemoPasskey() {
 export default async function middleware(request) {
     const url = new URL(request.url);
     const pathname = url.pathname;
+
+    if (pathname === "/") {
+        return redirectResponse(new URL(HERO_PATH, request.url));
+    }
 
     let passkey;
     try {
