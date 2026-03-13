@@ -7,9 +7,12 @@
     <title>Oranicle Canonical Viewer</title>
     <link rel="stylesheet" href="css/style.css" />
     <script>
-        const demoSession = sessionStorage.getItem("oranicle_demo_session");
-
-        if (demoSession !== "ok") {
+        try {
+            const demoSession = sessionStorage.getItem("oranicle_demo_session");
+            if (demoSession !== "ok") {
+                location.replace("/hero.html");
+            }
+        } catch (e) {
             window.location.replace("/hero.html");
         }
     </script>
