@@ -42,7 +42,12 @@ function isPublicPath(pathname) {
         pathname === HERO_PATH ||
         pathname === LOGIN_PATH ||
         pathname === LOGOUT_PATH ||
-        pathname === '/favicon.ico'
+        pathname === '/favicon.ico' ||
+        pathname.startsWith('/viewers/') ||
+        pathname.startsWith('/css/') ||
+        pathname.startsWith('/js/') ||
+        pathname.startsWith('/canonicals/') ||
+        pathname.startsWith('/reference/')
     );
 }
 
