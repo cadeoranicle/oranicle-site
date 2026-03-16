@@ -49,6 +49,7 @@ function isPublicPath(pathname) {
         pathname.startsWith('/js/') ||
         pathname.startsWith('/canonicals/') ||
         pathname.startsWith('/reference/') ||
+        pathname.startsWith('/providers/') ||
         pathname.startsWith('/southeast_region/')
     );
 }
