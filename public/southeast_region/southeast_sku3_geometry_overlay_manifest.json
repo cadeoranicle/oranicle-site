@@ -1,0 +1,57 @@
+{
+  "dataset_id": "SOUTHEAST_PROVIDER_BEHAVIOR_CANONICAL_V1",
+  "region": "southeast_region",
+  "sku": "SKU3",
+  "base_geometry": {
+    "canonical_points_parquet": "southeast_sku3_canonical_points.parquet",
+    "canonical_geometry_json": "southeast_provider_behavior_canonical_3d.json",
+    "canonical_geometry_metadata": "southeast_provider_behavior_canonical_3d_metadata.json",
+    "pca_scores": "southeast_pca_scores.parquet",
+    "pca_scores_pc45": "southeast_pca_scores_pc45.parquet",
+    "umap_2d_embedding": "southeast_umap_2d_pc45_full.parquet",
+    "umap_3d_embedding": "southeast_umap_3d_pc45_full.parquet",
+    "umap_2d_model": "southeast_umap_2d_model.pkl",
+    "umap_3d_model": "southeast_umap_3d_model.pkl"
+  },
+  "overlays": {
+    "archetype_overlay_json": "southeast_archetype_overlay.json",
+    "archetype_overlay_metadata": "southeast_archetype_overlay_metadata.json",
+    "kmeans_cluster_labels": "southeast_kmeans_cluster_labels_pc45.parquet",
+    "kmeans_cluster_centroids": "southeast_kmeans_cluster_centroids_pc45.json",
+    "kmeans_cluster_metadata": "southeast_kmeans_cluster_metadata_pc45.json",
+    "archetype_catalog_csv": "southeast_provider_archetype_catalog.csv",
+    "archetype_catalog_json": "southeast_provider_archetype_catalog.json"
+  },
+  "identity_fields": [
+    "BILLING_PROVIDER_NPI_NUM",
+    "CLAIM_FROM_MONTH",
+    "BILLING_PROVIDER_STATE_CLEAN"
+  ],
+  "runtime_fields": {
+    "raw_metrics": [
+      "TOTAL_CLAIMS_SUM",
+      "TOTAL_PAID_SUM",
+      "PAID_PER_CLAIM",
+      "UNIQUE_CPT_COUNT"
+    ],
+    "pca_axes": [
+      "PC1",
+      "PC2",
+      "PC3"
+    ],
+    "umap_axes": [
+      "UMAP1",
+      "UMAP2",
+      "UMAP3"
+    ],
+    "overlay_fields": [
+      "KMEANS_CLUSTER",
+      "ARCHETYPE_LABEL"
+    ]
+  },
+  "notes": [
+    "Base canonical geometry is frozen for v1",
+    "Overlay artifacts can be expanded without regenerating base geometry",
+    "Future DBSCAN and HDBSCAN overlays should be added under overlays"
+  ]
+}

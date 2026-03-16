@@ -2,9 +2,6 @@
 <html lang="en">
 
 <head>
-    <script>
-        sessionStorage.removeItem("oranical_demo_session");
-    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Oranicle | Controlled Demo Access</title>
@@ -25,7 +22,6 @@
         * {
             box-sizing: border-box;
         }
-
 
         body {
             font-family: Arial, sans-serif;
@@ -67,42 +63,26 @@
             margin-bottom: 28px;
         }
 
-
-        .logo-mark {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            border: 1px solid rgba(47, 127, 255, 0.35);
-            background:
-                radial-gradient(circle at center, rgba(47, 127, 255, 0.24), transparent 52%),
-                #101726;
-            position: relative;
-            flex: 0 0 42px;
+        .logo-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 22px;
         }
 
-        .logo-mark::before,
-        .logo-mark::after {
-            content: "";
-            position: absolute;
-            background: rgba(47, 127, 255, 0.55);
+        .logo-icon {
+            height: 90px;
+            width: auto;
+            opacity: 0.95;
+            filter: drop-shadow(0 4px 12px rgba(47, 127, 255, 0.25));
         }
 
-        .logo-mark::before {
-            width: 1px;
-            height: 26px;
-            left: 50%;
-            top: 8px;
-            transform: translateX(-50%);
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #dfe9ff;
         }
-
-        .logo-mark::after {
-            height: 1px;
-            width: 26px;
-            top: 50%;
-            left: 8px;
-            transform: translateY(-50%);
-        }
-
 
         .tagline {
             font-size: 54px;
@@ -191,13 +171,6 @@
             cursor: pointer;
             font-weight: 700;
             font-size: 14px;
-        }
-
-        .logo-icon {
-            height: 90px;
-            width: auto;
-            opacity: 0.95;
-            filter: drop-shadow(0 4px 12px rgba(47, 127, 255, 0.25));
         }
 
         .error {
@@ -299,10 +272,8 @@
 
             <div class="copy">
                 <p>Modern healthcare generates immense volumes of data.<br>Yet its patterns often remain hidden.</p>
-
-                <p>Oranical uncovers these patterns through canonical models of healthcare behavior,.</p>
-
-                <p class="closing">transforming complex healthcare data into insight that is explainable, measurable,
+                <p>Oranical uncovers these patterns through canonical models of healthcare behavior.</p>
+                <p class="closing">Transforming complex healthcare data into insight that is explainable, measurable,
                     and actionable.</p>
             </div>
 
@@ -310,7 +281,7 @@
         </div>
 
         <div class="access-wrap">
-            <form class="access-card" id="heroLoginForm">
+            <form class="access-card" id="heroLoginForm" method="POST" action="/__demo_login">
                 <div class="access-title">Demo Access</div>
                 <p class="access-copy">Enter the session passkey to continue to the live demonstration environment.</p>
 
@@ -324,44 +295,7 @@
     </div>
 
     <script>
-        async function login(e) {
-            e.preventDefault();
-
-            const passkey = document.getElementById("passkey").value;
-            let next = document.getElementById("next").value || "/index.html";
-
-            if (next === "/") {
-                next = "/index.html";
-            }
-
-            const res = await fetch("/__demo_login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: new URLSearchParams({
-                    passkey,
-                    next
-                }).toString(),
-                redirect: "follow"
-            });
-
-            if (res.url && res.url.includes("/hero.html?error=1")) {
-                document.getElementById("errorBox").style.display = "block";
-                sessionStorage.removeItem("oranical_demo_session");
-                return;
-            }
-
-            sessionStorage.setItem("oranical_demo_session", "ok");
-            window.location.href = next;
-        }
-
         document.addEventListener("DOMContentLoaded", () => {
-            const form = document.getElementById("heroLoginForm");
-            if (form) {
-                form.addEventListener("submit", login);
-            }
-
             const params = new URLSearchParams(window.location.search);
             const next = params.get("next");
             const error = params.get("error");
@@ -372,7 +306,6 @@
 
             if (error === "1") {
                 document.getElementById("errorBox").style.display = "block";
-                sessionStorage.removeItem("oranicle_demo_session");
             }
 
             document.getElementById("passkey").focus();

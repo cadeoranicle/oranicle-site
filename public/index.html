@@ -4,24 +4,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Oranical Canonical Viewer</title>
+    <title>Oranicle Canonical Viewer</title>
     <link rel="stylesheet" href="css/style.css" />
-    <script>
-        try {
-            const s = sessionStorage.getItem("oranicle_demo_session");
-
-            if (s !== "ok") {
-                sessionStorage.removeItem("oranicle_demo_session");
-                location.replace("/hero.html");
-            }
-        } catch (e) {
-            location.replace("/hero.html");
-        }
-    </script>
 </head>
-
-
-
 
 <body>
 
@@ -32,32 +17,70 @@
 
                 <h1 class="page-title">Provider Canonical Map</h1>
                 <p class="page-subtitle">
-                    Explore the current NY NJ CT provider canonical. Enter a 10-digit NPI to check whether personal
-                    positioning is available.
+                    Select a region, enter a 10-digit NPI, and explore provider position inside the regional canonical
+                    manifold.
                 </p>
 
                 <div class="section">
-                    <div class="input-group">
-                        <label class="label" for="npiInput">Provider NPI</label>
-                        <input id="npiInput" class="input" type="text" placeholder="Enter 10-digit NPI" />
+
+                    <div class="control-bar">
+
+                        <div class="control-item">
+                            <label>Region</label>
+                            <select id="regionSelect">
+                                <option value="tristate">Tri-State</option>
+                                <option value="southeast">Southeast</option>
+                            </select>
+                        </div>
+
+                        <div class="control-item">
+                            <label>Geometry</label>
+                            <select id="geometryMode">
+                                <option value="pca3d">PCA 3D</option>
+                                <option value="umap3d">UMAP 3D</option>
+                            </select>
+                        </div>
+
+                        <div class="control-item control-npi">
+                            <label>Provider NPI</label>
+                            <input id="npiInput" type="text" placeholder="Enter 10-digit NPI">
+                            <div id="npiStatus" class="npi-status"></div>
+                        </div>
+
+                        <div class="control-actions">
+                            <button id="checkBtn" class="btn btn-primary">Check</button>
+                            <button id="viewBtn" class="btn btn-secondary" disabled>View</button>
+                        </div>
+
                     </div>
 
-                    <div class="button-row">
-                        <button id="checkBtn" class="btn btn-primary">Check Provider</button>
-                        <button id="viewBtn" class="btn btn-secondary" disabled>See Your Position</button>
+
+                    <!--    <div id="statusBox" class="status-card hidden">  -->
+                    <!--    <h3 id="statusTitle" class="status-title"></h3> -->
+                    <!--   <p id="statusText" class="status-text"></p> -->
+                    <!--  </div> -->
+
+                </div>
+
+                <div id="providerMetaCard" class="provider-meta hidden">
+
+                    <div class="meta-row">
+                        <div><span>Provider</span><b id="metaProvider"></b></div>
+                        <div><span>Region</span><b id="metaRegion"></b></div>
+                        <div><span>Archetype</span><b id="metaArchetype"></b></div>
+                        <div><span>Cluster</span><b id="metaCluster"></b></div>
+                        <div><span>Months</span><b id="metaMonths"></b></div>
                     </div>
 
-                    <div id="statusBox" class="status-card hidden">
-                        <h3 id="statusTitle" class="status-title"></h3>
-                        <p id="statusText" class="status-text"></p>
-                    </div>
                 </div>
 
                 <div class="section">
-                    <h2 class="section-title">Current Canonical Viewer</h2>
+                    <h2 class="section-title">Canonical Viewer</h2>
                     <div class="viewer-shell">
-                        <div style="padding:20px;color:#9fb0c3">
-                            Canonical viewer will appear here after provider validation.
+                        <div id="sku3Viewer" style="width:100%;height:520px;position:relative;">
+                            <div style="padding:20px;color:#9fb0c3">
+                                Regional canonical viewer will appear here after loading geometry.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,25 +93,36 @@
 
                 <h2 class="section-title">Canonical Interpretation</h2>
                 <p class="copy">
-                    This viewer currently serves the NY NJ CT canonical only. A supported provider can be positioned on
-                    the current regional manifold. Unsupported providers may still explore the population-level map.
+                    The viewer supports multiple regional canonicals. A provider can be projected relative to the
+                    selected
+                    regional manifold and viewed in either PCA 3D or UMAP 3D space.
                 </p>
 
                 <div class="section">
-                    <h3 class="section-title">Axes</h3>
+                    <h3 class="section-title">Controls</h3>
                     <ul class="list">
-                        <li>A1 — Care Intensity</li>
-                        <li>A2 — Care Utilization</li>
-                        <li>A3 — Care Scaleƒ</li>
+                        <li>Region — choose the canonical region</li>
+                        <li>Geometry Mode — switch between UMAP 3D and PCA 3D</li>
+                        <li>NPI — locate a specific provider in the selected region</li>
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">View Modes</h3>
+                    <ul class="list">
+                        <li>PCA 3D — formal canonical axis view</li>
+                        <li>UMAP 3D — manifold topology view</li>
                     </ul>
                 </div>
 
                 <div class="section">
                     <h3 class="section-title">What this means</h3>
                     <p class="copy">
-                        The canonical map is generated offline from provider-month behavioral data and then served as a
-                        deterministic visualization layer. Provider lookup in this first release is restricted to the
-                        active NY NJ CT set.
+                        Regional canonical manifolds are generated offline from provider-month behavioral data and then
+                        served
+                        as deterministic geometry layers. Provider lookup highlights a selected NPI relative to the
+                        active
+                        region’s archetypes and manifold structure.
                     </p>
                 </div>
 
@@ -97,7 +131,10 @@
 
     </div>
 
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/sku3-loader.js"></script>
+    <script src="js/sku3-viewer.js"></script>
 </body>
 
 </html>

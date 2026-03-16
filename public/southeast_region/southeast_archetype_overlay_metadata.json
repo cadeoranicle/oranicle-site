@@ -1,0 +1,20 @@
+{
+  "dataset_id": "SOUTHEAST_PROVIDER_BEHAVIOR_CANONICAL_V1",
+  "overlay_type": "archetype_overlay",
+  "source_files": {
+    "cluster_labels": "/Volumes/oranical/source/raw/hcpcs/regions/south_east_region/southeast_region_artifacts/southeast_region_post_PCA/southeast_kmeans_cluster_labels_pc45.parquet",
+    "archetype_catalog": "/Volumes/oranical/source/raw/hcpcs/regions/south_east_region/southeast_region_artifacts/southeast_region_post_PCA/southeast_provider_archetype_catalog.csv"
+  },
+  "fields": {
+    "provider_npi": "string",
+    "claim_month": "string",
+    "billing_state": "string",
+    "kmeans_cluster": "int",
+    "archetype_label": "string"
+  },
+  "notes": [
+    "Overlay attaches archetype labels to the frozen canonical geometry",
+    "Base geometry is unchanged",
+    "Additional overlays like DBSCAN and HDBSCAN can be added later"
+  ]
+}

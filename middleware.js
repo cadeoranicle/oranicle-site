@@ -30,7 +30,8 @@ function redirectResponse(to, cookieHeader = null, status = 302) {
 }
 
 function setCookieHeader(name, value) {
-    return `${name}=${value}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=180`;
+    const secure = process.env.VERCEL ? "; Secure" : "";
+    return `${name}=${value}; Path=/; HttpOnly${secure}; SameSite=Lax; Max-Age=180`;
 }
 
 function clearCookieHeader(name) {
@@ -47,7 +48,8 @@ function isPublicPath(pathname) {
         pathname.startsWith('/css/') ||
         pathname.startsWith('/js/') ||
         pathname.startsWith('/canonicals/') ||
-        pathname.startsWith('/reference/')
+        pathname.startsWith('/reference/') ||
+        pathname.startsWith('/southeast_region/')
     );
 }
 
