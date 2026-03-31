@@ -28,16 +28,16 @@
                         <div class="control-item">
                             <label>Region</label>
                             <select id="regionSelect">
-                                <option value="tristate">Tri-State</option>
+                                <option value="NYNJCT">NYNJCT</option>
                                 <option value="southeast">Southeast</option>
                             </select>
                         </div>
 
                         <div class="control-item">
-                            <label>Geometry</label>
+                            <label>Infograph</label>
                             <select id="geometryMode">
-                                <option value="pca3d">PCA 3D</option>
-                                <option value="umap3d">UMAP 3D</option>
+                                <option value="pca3d">Billing</option>
+                                <option value="umap3d">Billing-CPT</option>
                             </select>
                         </div>
 
@@ -48,82 +48,171 @@
                         </div>
 
                         <div class="control-actions">
-                            <button id="checkBtn" class="btn btn-primary">Check</button>
-                            <button id="viewBtn" class="btn btn-secondary" disabled>View</button>
+                            <button id="checkBtn" class="metric-btn">Check</button>
+                            <button id="viewBtn" class="metric-btn" disabled>View</button>
                         </div>
 
                     </div>
 
-
-                    <!--    <div id="statusBox" class="status-card hidden">  -->
-                    <!--    <h3 id="statusTitle" class="status-title"></h3> -->
-                    <!--   <p id="statusText" class="status-text"></p> -->
-                    <!--  </div> -->
-
-                </div>
-
-                <div id="providerMetaCard" class="provider-meta hidden">
-
                     <div class="meta-row">
-                        <div><span>Provider</span><b id="metaProvider"></b></div>
-                        <div><span>Region</span><b id="metaRegion"></b></div>
-                        <div><span>Archetype</span><b id="metaArchetype"></b></div>
-                        <div><span>Cluster</span><b id="metaCluster"></b></div>
-                        <div><span>Months</span><b id="metaMonths"></b></div>
+                        <div><span>X Axis</span><b id="rhsAxisX">-</b></div>
+                        <div><span>Y Axis</span><b id="rhsAxisY">-</b></div>
+                        <div><span>Z Axis</span><b id="rhsAxisZ">-</b></div>
                     </div>
 
-                </div>
-
-                <div class="section">
-                    <h2 class="section-title">Canonical Viewer</h2>
-                    <div class="viewer-shell">
-                        <div id="sku3Viewer" style="width:100%;height:520px;position:relative;">
-                            <div style="padding:20px;color:#9fb0c3">
-                                Regional canonical viewer will appear here after loading geometry.
+                    <div class="section">
+                        <h2 class="section-title"><span id="viewerTitleRegion">NYNJCT</span> Viewer</h2>
+                        <div class="viewer-shell">
+                            <div id="sku3Viewer" style="width:100%;height:620px;position:relative;">
+                                <div style="padding:20px;color:#9fb0c3">
+                                    Regional canonical viewer will appear here after loading Infograph.
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
+                    <button id="toggleLayersBtn" class="metric-btn secondary-btn" style="display:none;">
+                        Explore Layers
+                    </button>
+
+                    <div class="legend-box">
+                        <div class="legend-item" data-asset-id="legend-provider">
+                            <span class="dot provider"></span> Provider
+                        </div>
+
+                        <div class="legend-item" data-asset-id="legend-regional-centroid">
+                            <span class="dot regional-centroid"></span> Regional Centroid
+                        </div>
+
+                        <div class="legend-item" data-asset-id="legend-zone-centroid">
+                            <span class="dot zone-centroid"></span> Zone Centroid
+                        </div>
+
+                        <div class="legend-item" data-asset-id="legend-provider-zone-link">
+                            <span class="line provider-zone-link"></span> Provider to Zone Centroid
+                        </div>
+
+                        <div class="legend-item" data-asset-id="legend-current-zone">
+                            <span class="line current-zone-box"></span> Current Zone
+                        </div>
+
+                        <div class="legend-item" data-asset-id="legend-adjacent-zones">
+                            <span class="dot adjacent-zone"></span> Adjacent Zones
+                        </div>
+
+                        <div class="legend-item" data-asset-id="legend-adjacent-links">
+                            <span class="line adjacent-link"></span> Adjacent Zone Links
+                        </div>
+
+                        <div class="legend-item" data-asset-id="legend-manifold">
+                            <span class="dot canonical-manifold"></span> Canonical Manifold
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
 
         <div class="panel right-panel">
             <div class="panel-inner">
 
-                <h2 class="section-title">Canonical Interpretation</h2>
-                <p class="copy">
-                    The viewer supports multiple regional canonicals. A provider can be projected relative to the
-                    selected
-                    regional manifold and viewed in either PCA 3D or UMAP 3D space.
-                </p>
-
                 <div class="section">
-                    <h3 class="section-title">Controls</h3>
-                    <ul class="list">
-                        <li>Region — choose the canonical region</li>
-                        <li>Geometry Mode — switch between UMAP 3D and PCA 3D</li>
-                        <li>NPI — locate a specific provider in the selected region</li>
-                    </ul>
-                </div>
 
-                <div class="section">
-                    <h3 class="section-title">View Modes</h3>
-                    <ul class="list">
-                        <li>PCA 3D — formal canonical axis view</li>
-                        <li>UMAP 3D — manifold topology view</li>
-                    </ul>
-                </div>
+                    <div class="summary-header-inline">
+                        <h2 class="section-title">View Summary</h2>
 
-                <div class="section">
-                    <h3 class="section-title">What this means</h3>
-                    <p class="copy">
-                        Regional canonical manifolds are generated offline from provider-month behavioral data and then
-                        served
-                        as deterministic geometry layers. Provider lookup highlights a selected NPI relative to the
-                        active
-                        region’s archetypes and manifold structure.
-                    </p>
+                        <div class="summary-inline-item">
+                            <span>NPI</span>
+                            <b id="rhsProvider">-</b>
+                        </div>
+
+                        <div class="summary-inline-item">
+                            <span>Region</span>
+                            <b id="rhsRegion">-</b>
+                        </div>
+                    </div>
+
+                    <div id="rhsSummaryCard" class="provider-meta">
+                        <div class="hr"></div>
+
+                        <div class="section" id="skuCtaPanel">
+                            <div id="ctaActionsCard" class="provider-meta">
+                                <div class="meta-row">
+                                    <div>
+                                        <button id="ctaSku32" class="metric-btn">View Market Benchmark</button>
+                                    </div>
+                                    <div>
+                                        <button id="ctaSku33" class="metric-btn">View Zonal Averages</button>
+                                    </div>
+                                    <div>
+                                        <button id="ctaSku34" class="metric-btn">View Peer Benchmark</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="section" id="ctaStatusCard">
+                                <div id="ctaNextStep">
+                                    <div id="ctaChevron"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section" data-asset-id="rhs-region-context">
+                            <h3 class="section-title">Regional Benchmark</h3>
+                            <div class="provider-meta">
+                                <div class="meta-row">
+                                    <div><span>$/Claim (Avg)</span><b id="rhsCentroidIntensity">-</b></div>
+                                    <div><span>Claims/Beneficiary (Avg)</span><b id="rhsCentroidUtilization">-</b></div>
+                                    <div><span>Revenue (Avg)</span><b id="rhsCentroidRevenue">-</b></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section" data-asset-id="rhs-provider-region-benchmark">
+                            <h3 class="section-title">Provider vs Regional Benchmark</h3>
+                            <div class="provider-meta">
+                                <div class="meta-row">
+                                    <div><span>Δ $/Claim</span><b id="rhsDeltaIntensity">-</b></div>
+                                    <div><span>Δ Utilization</span><b id="rhsDeltaUtilization">-</b></div>
+                                    <div><span>Δ Revenue</span><b id="rhsDeltaRevenue">-</b></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section" data-asset-id="rhs-provider-region-interpretation">
+                            <h3 class="section-title">Interpretation</h3>
+                            <p id="rhsInterpretation" class="copy">-</p>
+                        </div>
+
+                        <div class="section" data-asset-id="rhs-peer-context">
+                            <h3 class="section-title">Peer Cohort</h3>
+                            <div class="provider-meta">
+                                <div class="meta-row">
+                                    <div><span>$/Claim (Zone Avg)</span><b id="rhsZoneAvgIntensity">-</b></div>
+                                    <div><span>Claims/Beneficiary (Zone Avg)</span><b id="rhsZoneAvgUtilization">-</b>
+                                    </div>
+                                    <div><span>Revenue (Zone Avg)</span><b id="rhsZoneAvgRevenue">-</b></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section" data-asset-id="rhs-provider-peer-benchmark">
+                            <h3 class="section-title">Provider vs Peer Benchmark</h3>
+                            <div class="provider-meta">
+                                <div class="meta-row">
+                                    <div><span>Δ $/Claim</span><b id="rhsZoneDeltaIntensity">-</b></div>
+                                    <div><span>Δ Utilization</span><b id="rhsZoneDeltaUtilization">-</b></div>
+                                    <div><span>Δ Revenue</span><b id="rhsZoneDeltaRevenue">-</b></div>
+                                </div>
+
+                                <div class="section">
+                                    <h3 class="section-title">Peer Interpretation</h3>
+                                    <p id="rhsZoneInterpretation" class="copy">-</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
@@ -132,9 +221,15 @@
     </div>
 
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
-    <script src="js/index.js"></script>
     <script src="js/sku3-loader.js"></script>
+    <script src="js/sku-registry.js"></script>
+    <script src="js/sku3-interpretation.js"></script>
+    <script src="js/sku3-canonical-interpretation.js"></script>
     <script src="js/sku3-viewer.js"></script>
+    <script src="js/provider-billing-viewer-layer-config.js"></script>
+    <script src="/js/viewer-layer-engine.js"></script>
+    <script src="js/index.js"></script>
+
 </body>
 
 </html>
