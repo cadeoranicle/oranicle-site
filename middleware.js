@@ -47,6 +47,7 @@ function isPublicPath(pathname) {
         pathname.startsWith('/viewers/') ||
         pathname.startsWith('/css/') ||
         pathname.startsWith('/js/') ||
+        pathname.startsWith('/canonical/') ||
         pathname.startsWith('/canonicals/') ||
         pathname.startsWith('/reference/') ||
         pathname.startsWith('/providers/') ||
