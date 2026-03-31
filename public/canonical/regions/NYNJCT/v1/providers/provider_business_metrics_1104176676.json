@@ -1,0 +1,17 @@
+{
+  "npi": "1104176676",
+  "region": "NYNJCT",
+  "state_coverage": [
+    "NJ"
+  ],
+  "month_count": 84,
+  "first_month": "2018-01",
+  "last_month": "2024-12",
+  "business_metrics": {
+    "revenue": 4094388.8134523807,
+    "claims": 9333.464285714286,
+    "beneficiaries": 313.3095238095238,
+    "intensity": 432.3521083369484,
+    "utilization": 29.674101315199373
+  }
+}
