@@ -1,0 +1,52 @@
+{
+  "dataset_id": "NYNJCT_CANONICAL_3D_V1",
+  "region": "NYNJCT",
+  "region_display": "NYNJCT",
+  "sku": "SKU3",
+  "version": "v1",
+  "base_geometry": {
+    "canonical_geometry_json": "geometry/canonical_3d.json",
+    "canonical_geometry_metadata": "geometry/canonical_3d_metadata.json"
+  },
+  "overlays": {},
+  "contracts": {
+    "master_contract_json": "contracts/canonical_master_3d_contract.json",
+    "axes_contract_json": "contracts/NYNJCT_axes_contract.json",
+    "pca_contract_json": "contracts/NYNJCT_pca_3d_contract.json"
+  },
+  "metrics": {
+    "region_metrics_json": "metrics/region_metrics.json",
+    "provider_metrics_base": "providers/"
+  },
+  "viewer_defaults": {
+    "default_geometry_mode": "pca3d",
+    "umap_enabled": false,
+    "region_metrics_enabled": true,
+    "provider_metrics_enabled": true,
+    "business_metrics_source": "real_space_raw_mean",
+    "canonical_metrics_source": "real_space_inverse_log_mean",
+    "latent_metrics_source": "log_space"
+  },
+  "axis_labels": {
+    "C1": "Care Economic Intensity",
+    "C2": "Utilization Structure",
+    "C3": "Revenue Scale"
+  },
+  "summary": {
+    "provider_count": 682,
+    "point_count": 33810,
+    "state_coverage": [
+      "CT",
+      "NJ",
+      "NY"
+    ],
+    "month_min": "2018-01",
+    "month_max": "2024-12"
+  },
+  "notes": [
+    "NYNJCT SKU3 runtime bundle manifest",
+    "PCA 3D enabled",
+    "Region metrics load from local metrics layer",
+    "Provider metrics load on demand after provider lookup"
+  ]
+}
