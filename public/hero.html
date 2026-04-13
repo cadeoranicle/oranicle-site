@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
 
+
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -264,7 +266,7 @@
             <div class="eyebrow">Controlled Demo Access</div>
 
             <div class="logo-row">
-                <img src="/viewers/oranical_thinker.png" alt="Oranical logo" class="logo-icon">
+
                 <div class="logo-text">Oranical</div>
             </div>
 
@@ -281,36 +283,162 @@
         </div>
 
         <div class="access-wrap">
-            <form class="access-card" id="heroLoginForm" method="POST" action="/__demo_login">
+            <div class="access-card" id="heroLauncherCard">
                 <div class="access-title">Demo Access</div>
-                <p class="access-copy">Enter the session passkey to continue to the live demonstration environment.</p>
+                <p class="access-copy">Enter each value and press Return to continue.</p>
 
-                <input id="passkey" name="passkey" type="password" placeholder="Enter demo passkey" required />
-                <input type="hidden" id="next" name="next" value="/index.html" />
-                <button type="submit">Enter Demo</button>
+                <div id="heroFlowStack">
+                    <div class="hero-step" id="step-passkey">
+                        <div class="step-label">Passkey</div>
+                        <input id="passkey" type="password" placeholder="Enter demo passkey" />
+                    </div>
 
-                <div id="errorBox" class="error">Invalid passkey. Please retry.</div>
-            </form>
+                    <div class="hero-step" id="step-region" style="display:none;">
+                        <div class="step-label">Region</div>
+                        <input id="regionInput" type="text" placeholder="Enter region" value="NYNJCT" />
+                    </div>
+
+                    <div class="hero-step" id="step-model" style="display:none;">
+                        <div class="step-label">Model</div>
+                        <input id="modelInput" type="text" placeholder="Enter model: billing or cpt_billing" />
+                    </div>
+
+                    <div class="hero-step" id="step-npi" style="display:none;">
+                        <div class="step-label">Provider NPI</div>
+                        <input id="npiInput" type="text" placeholder="Enter 10-digit provider NPI" />
+                    </div>
+                </div>
+
+                <div id="heroSummary" style="display:none; margin-top:16px;"></div>
+                <div id="errorBox" class="error">Please complete the current field correctly.</div>
+            </div>
         </div>
-    </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const params = new URLSearchParams(window.location.search);
-            const next = params.get("next");
-            const error = params.get("error");
+        <script>
+            console.log("NEW HERO SCRIPT LOADED");
 
-            if (next) {
-                document.getElementById("next").value = (next === "/") ? "/index.html" : next;
-            }
+            document.addEventListener("DOMContentLoaded", () => {
+                const passkey = document.getElementById("passkey");
+                const regionInput = document.getElementById("regionInput");
+                const modelInput = document.getElementById("modelInput");
+                const npiInput = document.getElementById("npiInput");
 
-            if (error === "1") {
-                document.getElementById("errorBox").style.display = "block";
-            }
+                const stepRegion = document.getElementById("step-region");
+                const stepModel = document.getElementById("step-model");
+                const stepNpi = document.getElementById("step-npi");
 
-            document.getElementById("passkey").focus();
-        });
-    </script>
+                const summary = document.getElementById("heroSummary");
+                const errorBox = document.getElementById("errorBox");
+
+                const state = {
+                    passkey: "",
+                    region: "",
+                    model: "",
+                    npi: ""
+                };
+
+                function showError(msg) {
+                    errorBox.textContent = msg;
+                    errorBox.style.display = "block";
+                }
+
+                function clearError() {
+                    errorBox.style.display = "none";
+                }
+
+                function addSummaryRow(label, value) {
+                    summary.style.display = "block";
+                    const row = document.createElement("div");
+                    row.className = "hero-summary-row";
+                    row.innerHTML = `<span class="hero-summary-key">${label}:</span>${value}`;
+                    summary.appendChild(row);
+                }
+
+                passkey.focus();
+
+                passkey.addEventListener("keydown", (e) => {
+                    if (e.key !== "Enter") return;
+                    e.preventDefault();
+                    clearError();
+
+                    const value = passkey.value.trim();
+                    if (!value) {
+                        showError("Enter passkey.");
+                        return;
+                    }
+
+                    state.passkey = value;
+                    passkey.disabled = true;
+                    addSummaryRow("Passkey", "Accepted");
+                    stepRegion.style.display = "";
+                    regionInput.focus();
+                });
+
+                regionInput.addEventListener("keydown", (e) => {
+                    if (e.key !== "Enter") return;
+                    e.preventDefault();
+                    clearError();
+
+                    const value = regionInput.value.trim();
+                    if (!value) {
+                        showError("Enter region.");
+                        return;
+                    }
+
+                    state.region = value;
+                    regionInput.disabled = true;
+                    addSummaryRow("Region", value);
+                    stepModel.style.display = "";
+                    modelInput.focus();
+                });
+
+                modelInput.addEventListener("keydown", (e) => {
+                    if (e.key !== "Enter") return;
+                    e.preventDefault();
+                    clearError();
+
+                    const value = modelInput.value.trim().toLowerCase();
+                    if (value !== "billing" && value !== "cpt_billing") {
+                        showError('Enter model as "billing" or "cpt_billing".');
+                        return;
+                    }
+
+                    state.model = value;
+                    modelInput.disabled = true;
+                    addSummaryRow("Model", value);
+                    stepNpi.style.display = "";
+                    npiInput.focus();
+                });
+
+                npiInput.addEventListener("keydown", (e) => {
+                    if (e.key !== "Enter") return;
+                    e.preventDefault();
+                    clearError();
+
+                    const value = npiInput.value.replace(/\D/g, "");
+                    if (value.length !== 10) {
+                        showError("Enter valid 10-digit NPI.");
+                        return;
+                    }
+
+                    state.npi = value;
+                    npiInput.disabled = true;
+                    addSummaryRow("Provider NPI", value);
+
+                    console.log("FINAL STATE BEFORE ROUTE", state);
+
+                    let target = "";
+                    if (state.model === "cpt_billing") {
+                        target = `sku4.html?region=${encodeURIComponent(state.region)}&family=${encodeURIComponent(state.model)}&npi=${encodeURIComponent(state.npi)}`;
+                    } else {
+                        target = `index.html?region=${encodeURIComponent(state.region)}&family=${encodeURIComponent(state.model)}&npi=${encodeURIComponent(state.npi)}`;
+                    }
+
+                    console.log("ROUTING TO", target);
+                    window.location.href = target;
+                });
+            });
+        </script>
 </body>
 
 </html>

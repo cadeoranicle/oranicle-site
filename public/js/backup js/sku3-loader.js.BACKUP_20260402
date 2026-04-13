@@ -1,12 +1,7 @@
-const REGION_REMOTE_BASE = {
-    NYNJCT: "https://pub-6dde7e3865604b0aa28903cdbc0f2627.r2.dev/canonical/regions/NYNJCT/v1",
-    southeast: null
-};
-
 window.SKU3Loader = (() => {
     const REGION_MANIFESTS = {
         southeast: "/southeast_region/southeast_sku3_geometry_overlay_manifest.json",
-        NYNJCT: `${REGION_REMOTE_BASE.NYNJCT}/manifest.json`
+        NYNJCT: "/canonical/regions/NYNJCT/v1/manifest.json"
     };
 
     const REGION_FOLDERS = {
@@ -16,19 +11,13 @@ window.SKU3Loader = (() => {
 
     const REGION_PROVIDER_INDEX = {
         NYNJCT: "provider_index.json",
-        /* southeast: "southeast_provider_index.json", */
+        southeast: "southeast_provider_index.json",
     };
 
     function regionFolder(region) {
         const folder = REGION_FOLDERS[region];
         if (!folder) throw new Error(`No folder mapping configured for region: ${region}`);
         return folder;
-    }
-
-    function regionRemoteBase(region) {
-        const base = REGION_REMOTE_BASE[region];
-        if (!base) throw new Error(`No remote base configured for region: ${region}`);
-        return base;
     }
 
     async function fetchJson(url) {
@@ -42,11 +31,6 @@ window.SKU3Loader = (() => {
         if (fileName.startsWith("http://") || fileName.startsWith("https://")) {
             return fileName;
         }
-
-        if (region === "NYNJCT") {
-            return `${regionRemoteBase(region)}/${fileName}`;
-        }
-
         return `/${regionFolder(region)}/${fileName}`;
     }
 
@@ -61,7 +45,7 @@ window.SKU3Loader = (() => {
         if (!indexFile) throw new Error(`No provider index configured for region: ${region}`);
 
         if (region === "NYNJCT") {
-            return fetchJson(`${regionRemoteBase(region)}/providers/${indexFile}`);
+            return fetchJson(`/canonical/regions/NYNJCT/v1/providers/${indexFile}`);
         }
 
         if (region === "southeast") {
@@ -71,9 +55,10 @@ window.SKU3Loader = (() => {
         throw new Error(`No provider index path configured for region: ${region}`);
     }
 
+
     async function loadProviderMetrics(region, npi) {
         if (region === "NYNJCT") {
-            return fetchJson(`${regionRemoteBase(region)}/providers/provider_business_metrics_${npi}.json`);
+            return fetchJson(`/canonical/regions/NYNJCT/v1/providers/provider_business_metrics_${npi}.json`);
         }
 
         if (region === "southeast") {
@@ -85,7 +70,7 @@ window.SKU3Loader = (() => {
 
     async function loadProviderCanonicalMetrics(region, npi) {
         if (region === "NYNJCT") {
-            return fetchJson(`${regionRemoteBase(region)}/providers/provider_metrics_${npi}.json`);
+            return fetchJson(`/canonical/regions/NYNJCT/v1/providers/provider_metrics_${npi}.json`);
         }
 
         if (region === "southeast") {
@@ -97,7 +82,7 @@ window.SKU3Loader = (() => {
 
     async function loadRegionLattice(region) {
         if (region === "NYNJCT") {
-            return fetchJson(`${regionRemoteBase(region)}/geometry/region_lattice.json`);
+            return fetchJson(`/canonical/regions/NYNJCT/v1/geometry/region_lattice.json`);
         }
 
         return null;
@@ -110,14 +95,9 @@ window.SKU3Loader = (() => {
         const isSupported = supported.includes(String(npi));
         if (!isSupported) return null;
 
-        let rawGeometry = null;
+        const folder = regionFolder(region);
 
-        if (region === "NYNJCT") {
-            rawGeometry = await fetchJson(`${regionRemoteBase(region)}/providers/provider_geometry_${npi}.json`);
-        } else {
-            const folder = regionFolder(region);
-            rawGeometry = await fetchJson(`/${folder}/providers/provider_geometry_${npi}.json`);
-        }
+        const rawGeometry = await fetchJson(`/${folder}/providers/provider_geometry_${npi}.json`);
 
         let rawBusinessMetrics = null;
         try {
@@ -166,10 +146,7 @@ window.SKU3Loader = (() => {
     }
 
     async function loadZoneMetrics(region) {
-        const path =
-            region === "NYNJCT"
-                ? `${regionRemoteBase(region)}/metrics/zone_metrics.json`
-                : `/canonical/regions/${region}/v1/metrics/zone_metrics.json`;
+        const path = `/canonical/regions/${region}/v1/metrics/zone_metrics.json`;
 
         try {
             const res = await fetch(path, { cache: "no-store" });
@@ -232,5 +209,7 @@ window.SKU3Loader = (() => {
         loadZoneMetrics
     };
 })();
+
+
 
 console.log("sku3-loader.js loaded");

@@ -135,6 +135,7 @@ async function initIndex() {
     const checkBtn = document.getElementById("checkBtn");
     const viewBtn = document.getElementById("viewBtn");
     const regionSelect = document.getElementById("regionSelect");
+    const geometryMode = document.getElementById("geometryMode");
     const npiStatus = document.getElementById("npiStatus");
 
     const ctaSku32 = document.getElementById("ctaSku32");
@@ -144,7 +145,7 @@ async function initIndex() {
     const ctaActionsCard = document.getElementById("ctaActionsCard");
     const ctaStatusCard = document.getElementById("ctaStatusCard");
 
-    if (!input || !checkBtn || !viewBtn || !regionSelect || !npiStatus) {
+    if (!input || !checkBtn || !viewBtn || !regionSelect || !geometryMode || !npiStatus) {
         console.warn("initIndex: missing DOM elements");
         return;
     }
@@ -201,18 +202,14 @@ async function initIndex() {
         npiStatus.textContent = "";
     }
 
-    function getSelectedFamily() {
-        const selected = document.querySelector('input[name="canonicalFamily"]:checked');
-        return selected ? selected.value : "billing";
-    }
-
     function applyRegionRules() {
         const region = regionSelect.value;
-        const family = getSelectedFamily();
 
-        if (region === "NYNJCT" && family === "cpt_billing") {
-            window.location.href = "/sku4.html";
-            return;
+        if (region === "NYNJCT") {
+            geometryMode.value = "pca3d";
+            geometryMode.disabled = true;
+        } else if (region === "southeast") {
+            geometryMode.disabled = false;
         }
     }
 
@@ -239,18 +236,19 @@ async function initIndex() {
     let southeastProviderSet = new Set();
 
     try {
-        const nynjctIndex = await window.SKU3Loader.loadProviderIndex("NYNJCT");
-        supported = new Set((nynjctIndex.supported_npis || []).map(String));
+        const res = await fetch("/canonical/regions/NYNJCT/v1/providers/provider_index.json", { cache: "no-store" });
+        const data = await res.json();
+        supported = new Set((data.supported_npis || []).map(String));
     } catch (err) {
         console.error("NYNJCT provider index unavailable", err);
     }
 
     try {
-        /* const southeastIndex = await window.SKU3Loader.loadProviderIndex("southeast"); */
-        /*  const southeastNpis = (southeastIndex.providers || []).map(p => String(p.provider_npi)); */
-        /*  southeastProviderSet = new Set(southeastNpis); */
+        const southeastIndex = await window.SKU3Loader.loadProviderIndex("southeast");
+        const southeastNpis = (southeastIndex.providers || []).map(p => String(p.provider_npi));
+        southeastProviderSet = new Set(southeastNpis);
     } catch (err) {
-        /* console.error("Southeast provider index unavailable", err); */
+        console.error("Southeast provider index unavailable", err);
     }
 
     applyRegionRules();
@@ -271,13 +269,10 @@ async function initIndex() {
     };
 
     checkBtn.onclick = () => {
+        console.log("CHECK CLICKED", input.value, regionSelect.value);
+
         const npi = cleanNpi(input.value);
         const region = regionSelect.value;
-
-        console.log("CHECK CLICKED", npi, region);
-        console.log("NYNJCT providerSet size", supported ? supported.size : "missing");
-        console.log("NPI in NYNJCT set?", supported ? supported.has(String(npi)) : "no set");
-        console.log("Raw NPI input type/value", typeof npi, npi);
 
         resetViewButton();
         resetValidation();
@@ -294,13 +289,11 @@ async function initIndex() {
 
         if (region === "NYNJCT") {
             if (supported.has(npi)) {
-                console.log("NPI marked valid", { npi, region });
                 input.classList.add("valid");
                 viewBtn.disabled = false;
                 viewBtn.setAttribute("data-npi", npi);
                 setActiveChevron("viewBtn");
             } else {
-                console.log("NPI marked invalid", { npi, region });
                 input.classList.add("invalid");
                 npiStatus.className = "npi-status warn";
                 npiStatus.textContent = "Provider not yet mapped in current NYNJCT canonical";
@@ -380,7 +373,7 @@ async function initIndex() {
 
         try {
             if (region === "NYNJCT") {
-                await window.SKU3Viewer.loadRegion(region, "pca3d", npi, true);
+                await window.SKU3Viewer.loadRegion(region, geometryMode.value, npi, true);
 
                 if (
                     window.ViewerLayerEngine &&
@@ -389,7 +382,7 @@ async function initIndex() {
                     window.ViewerLayerEngine.loadConfig(
                         window.PROVIDER_BILLING_VIEWER_LAYER_CONFIG
                     );
-
+                    
 
                     viewerLayerInitialized = true;
                     viewerLayerStepCount = 1;
@@ -407,7 +400,7 @@ async function initIndex() {
             }
 
             if (region === "southeast") {
-                await window.SKU3Viewer.loadRegion(region, "pca3d", npi, true);
+                await window.SKU3Viewer.loadRegion(region, geometryMode.value, npi, true);
 
                 if (
                     window.ViewerLayerEngine &&
@@ -416,7 +409,7 @@ async function initIndex() {
                     window.ViewerLayerEngine.loadConfig(
                         window.PROVIDER_BILLING_VIEWER_LAYER_CONFIG
                     );
-
+                    
 
                     viewerLayerInitialized = true;
                     viewerLayerStepCount = 1;
@@ -439,6 +432,9 @@ async function initIndex() {
     };
 }
 
+if (viewBtn) {
+    viewBtn.textContent = `View ${viewerLayerStepCount}/${viewerLayerMaxSteps}`;
+}
 
 if (document.readyState === "loading") {
     window.addEventListener("DOMContentLoaded", initIndex);

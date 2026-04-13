@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Oranicle Canonical Viewer - SKU4</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/css/template_1_cpt_opportunity_fullscreen.css">
+
+    <style>
+        .entry-value {
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            padding: 10px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+        }
+
+        .sku4-launch-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .cta-chevron {
+            width: 0;
+            height: 0;
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+            border-left: 20px solid #c62828;
+            filter: drop-shadow(0 0 6px rgba(198, 40, 40, 0.35));
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-shell">
+
+        <div class="top-controls-shell panel">
+            <div class="panel-inner">
+
+                <h1 class="page-title">Provider Canonical Map</h1>
+                <p class="page-subtitle">
+                    Review the selected context and launch the provider view.
+                </p>
+
+                <div class="section">
+                    <div class="control-bar sku4-entry-bar">
+
+                        <div class="control-item">
+                            <label>Region</label>
+                            <div id="entryRegion" class="entry-value">-</div>
+                        </div>
+
+                        <div class="control-item">
+                            <label>Canonical Family</label>
+                            <div id="entryFamily" class="entry-value">-</div>
+                        </div>
+
+                        <div class="control-item control-npi">
+                            <label>Provider NPI</label>
+                            <div id="entryNpi" class="entry-value">-</div>
+                            <div id="npiStatus" class="npi-status"></div>
+                        </div>
+
+                        <div class="control-actions sku4-launch-actions">
+                            <div id="ctaChevron" class="cta-chevron" aria-hidden="true"></div>
+                            <button id="viewBtn" class="metric-btn">View</button>
+                            <button id="homeBtn" class="metric-btn secondary-btn" type="button">Home</button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="panel left-panel">
+            <div class="panel-inner">
+
+                <div class="meta-row">
+                    <div><span>X Axis</span><b id="rhsAxisX">-</b></div>
+                    <div><span>Y Axis</span><b id="rhsAxisY">-</b></div>
+                    <div><span>Z Axis</span><b id="rhsAxisZ">-</b></div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><span id="viewerTitleRegion">NYNJCT</span> Viewer</h2>
+                    <div class="viewer-shell">
+                        <div id="sku4Viewer" style="width:100%;height:620px;position:relative;">
+                            <div style="padding:20px;color:#9fb0c3">
+                                Regional canonical viewer will appear here after loading Infograph.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="toggleLayersBtn" class="metric-btn secondary-btn" style="display:none;">
+                    Explore Layers
+                </button>
+
+                <div class="section" id="skuCtaPanelLeft" style="display:none;"></div>
+
+            </div>
+
+            <div class="legend-box">
+                <div class="legend-item" data-asset-id="legend-provider">
+                    <span class="dot provider"></span> Provider
+                </div>
+
+                <div class="legend-item" data-asset-id="legend-regional-centroid">
+                    <span class="dot regional-centroid"></span> Regional Centroid
+                </div>
+
+                <div class="legend-item" data-asset-id="legend-zone-centroid">
+                    <span class="dot zone-centroid"></span> Zone Centroid
+                </div>
+
+                <div class="legend-item" data-asset-id="legend-provider-zone-link">
+                    <span class="line provider-zone-link"></span> Provider to Zone Centroid
+                </div>
+
+                <div class="legend-item" data-asset-id="legend-current-zone">
+                    <span class="line current-zone-box"></span> Current Zone
+                </div>
+
+                <div class="legend-item" data-asset-id="legend-adjacent-zones">
+                    <span class="dot adjacent-zone"></span> Adjacent Zones
+                </div>
+
+                <div class="legend-item" data-asset-id="legend-adjacent-links">
+                    <span class="line adjacent-link"></span> Adjacent Zone Links
+                </div>
+
+                <div class="legend-item" data-asset-id="legend-manifold">
+                    <span class="dot canonical-manifold"></span> Canonical Manifold
+                </div>
+            </div>
+        </div>
+
+        <div class="panel right-panel">
+            <div class="panel-inner">
+
+                <div id="rhsBlockStack" class="rhs-block-stack"></div>
+
+                <div class="section">
+                    <div id="rhsSummaryCard" class="provider-meta" style="display:none;"></div>
+                    <div class="hr"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script src="js/sku4-loader.js"></script>
+    <script src="js/sku4-registry.js"></script>
+    <script src="js/sku4-interpretation.js"></script>
+    <script src="js/sku4-canonical-interpretation.js"></script>
+    <script src="js/sku4-viewer.js"></script>
+    <script src="js/sku4-infograph-engine.js"></script>
+    <script src="/js/template_1_opportunity_binder.js"></script>
+    <script src="/js/template_1_cpt_opportunity_fullscreen.js"></script>
+    <script src="js/sku4-rhs-binder.js?v=2"></script>
+    <script src="js/provider-cpt-viewer-layer-config.js?v=6"></script>
+    <script src="/js/viewer-layer-engine.js"></script>
+
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+
+            window.SKU4_ENTRY_CONTEXT = {
+                region: params.get('region') || '',
+                npi: params.get('npi') || '',
+                family: params.get('family') || ''
+            };
+        })();
+    </script>
+
+    <script src="js/sku4-index.js"></script>
+
+</body>
+
+</html>

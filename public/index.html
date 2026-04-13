@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Oranicle Canonical Viewer</title>
+    <title>Oranicle Provider Canonical Viewer</title>
     <link rel="stylesheet" href="css/style.css" />
 </head>
 
@@ -13,60 +13,117 @@
     <div class="app-shell">
 
         <div class="panel left-panel">
-            <div class="panel-inner">
+            <div style="padding-left:18px; box-sizing:border-box;">
+                <div class="panel-inner" style="margin-left:18px; width:calc(100% - 18px); box-sizing:border-box;">
+                </div>
 
-                <h1 class="page-title">Provider Canonical Map</h1>
+                <h1 class="page-title">Provider Canonical Viewer</h1>
                 <p class="page-subtitle">
-                    Select a region, enter a 10-digit NPI, and explore provider position inside the regional canonical
-                    manifold.
+                    Select a region, enter a 10-digit Provider NPI, validate the provider, and explore position across
+                    Billing and CPT Billing canonical models.
                 </p>
 
                 <div class="section">
 
-                    <div class="control-bar">
+                    <!-- Row 1: Canonical Family -->
+                    <div style="margin-bottom:14px;">
+                        <label style="display:block; margin-bottom:8px;">Canonical Family</label>
 
-                        <div class="control-item">
+                        <div id="familySelector" style="
+            display:flex;
+            gap:10px;
+            align-items:center;
+            flex-wrap:wrap;
+            padding:8px 12px;
+            border:1px solid rgba(255,255,255,0.12);
+            border-radius:10px;
+            background:rgba(255,255,255,0.03);
+            min-height:42px;
+            box-sizing:border-box;
+            width:fit-content;
+        ">
+                            <label style="
+                display:flex;
+                align-items:center;
+                gap:6px;
+                cursor:pointer;
+                padding:4px 8px;
+                height:28px;
+                box-sizing:border-box;
+                border:1px solid rgba(255,255,255,0.08);
+                border-radius:8px;
+                background:rgba(255,255,255,0.02);
+            ">
+                                <input type="radio" name="canonicalFamily" value="billing" checked
+                                    style="transform:scale(0.7); margin:0;">
+                                <span style="font-size:12px;">Billing</span>
+                            </label>
+
+                            <label style="
+                display:flex;
+                align-items:center;
+                gap:6px;
+                cursor:pointer;
+                padding:4px 8px;
+                height:28px;
+                box-sizing:border-box;
+                border:1px solid rgba(255,255,255,0.08);
+                border-radius:8px;
+                background:rgba(255,255,255,0.02);
+            ">
+                                <input type="radio" name="canonicalFamily" value="cpt_billing"
+                                    style="transform:scale(0.7); margin:0;">
+                                <span style="font-size:12px;">CPT Billing</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Region + NPI + Actions -->
+                    <div class="control-bar" style="
+                    display:flex;
+                    align-items:flex-end;
+                    gap:18px;
+                    flex-wrap:nowrap;
+                ">
+                        <div class="control-item" style="min-width:126px; flex:0 0 126px;">
                             <label>Region</label>
                             <select id="regionSelect">
                                 <option value="NYNJCT">NYNJCT</option>
-                                <option value="southeast">Southeast</option>
                             </select>
                         </div>
 
-                        <div class="control-item">
-                            <label>Infograph</label>
-                            <select id="geometryMode">
-                                <option value="pca3d">Billing</option>
-                                <option value="umap3d">Billing-CPT</option>
-                            </select>
-                        </div>
-
-                        <div class="control-item control-npi">
-                            <label>Provider NPI</label>
-                            <input id="npiInput" type="text" placeholder="Enter 10-digit NPI">
+                        <div class="control-item control-npi" style="min-width:125px; flex:0 0 125px;">
+                            <label>Provider NPI Number</label>
+                            <input id="npiInput" type="text" placeholder="Enter 10-digit Provider NPI">
                             <div id="npiStatus" class="npi-status"></div>
                         </div>
 
-                        <div class="control-actions">
-                            <button id="checkBtn" class="metric-btn">Check</button>
+                        <div class="control-actions"
+                            style="display:flex; align-items:flex-end; gap:10px; flex-wrap:nowrap;">
+                            <button id="checkBtn" class="metric-btn">Validate</button>
                             <button id="viewBtn" class="metric-btn" disabled>View</button>
                         </div>
-
                     </div>
 
-                    <div class="meta-row">
-                        <div><span>X Axis</span><b id="rhsAxisX">-</b></div>
-                        <div><span>Y Axis</span><b id="rhsAxisY">-</b></div>
-                        <div><span>Z Axis</span><b id="rhsAxisZ">-</b></div>
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; margin-top:14px;">
+                        <h2 class="section-title" style="margin:0;">
+                            <span id="viewerTitleRegion">NYNJCT</span>
+                            <span id="viewerTitleMode">Billing</span>
+                            Canonical Viewer
+                        </h2>
+
+                        <div class="meta-row" style="margin:0; gap:18px;">
+                            <div><span>X</span><b id="rhsAxisX">-</b></div>
+                            <div><span>Y</span><b id="rhsAxisY">-</b></div>
+                            <div><span>Z</span><b id="rhsAxisZ">-</b></div>
+                        </div>
                     </div>
 
-                    <div class="section">
-                        <h2 class="section-title"><span id="viewerTitleRegion">NYNJCT</span> Viewer</h2>
-                        <div class="viewer-shell">
-                            <div id="sku3Viewer" style="width:100%;height:620px;position:relative;">
-                                <div style="padding:20px;color:#9fb0c3">
-                                    Regional canonical viewer will appear here after loading Infograph.
-                                </div>
+                    <div class="viewer-shell">
+                        <div id="sku3Viewer" style="width:100%;height:620px;position:relative;">
+                            <div style="padding:20px;color:#9fb0c3">
+                                Validate a provider and view Billing canonical positioning.
                             </div>
                         </div>
                     </div>
@@ -112,22 +169,22 @@
                 </div>
             </div>
         </div>
-
+        </div>
         <div class="panel right-panel">
             <div class="panel-inner">
 
                 <div class="section">
 
                     <div class="summary-header-inline">
-                        <h2 class="section-title">View Summary</h2>
+                        <h2 class="section-title">Provider Summary</h2>
 
                         <div class="summary-inline-item">
-                            <span>NPI</span>
+                            <span>Provider NPI</span>
                             <b id="rhsProvider">-</b>
                         </div>
 
                         <div class="summary-inline-item">
-                            <span>Region</span>
+                            <span>Selected Region</span>
                             <b id="rhsRegion">-</b>
                         </div>
                     </div>
@@ -136,99 +193,135 @@
                         <div class="hr"></div>
 
                         <div class="section" id="skuCtaPanel">
+                            <div class="section-title" style="margin-bottom:10px;">Next Analysis Steps</div>
                             <div id="ctaActionsCard" class="provider-meta">
-                                <div class="meta-row">
-                                    <div>
-                                        <button id="ctaSku32" class="metric-btn">View Market Benchmark</button>
+                                <div id="ctaActionsCard" class="provider-meta">
+                                    <div class="meta-row">
+                                        <div>
+                                            <button id="ctaSku32" class="metric-btn">View Market Benchmark</button>
+                                        </div>
+                                        <div>
+                                            <button id="ctaSku33" class="metric-btn">View Zonal Averages</button>
+                                        </div>
+                                        <div>
+                                            <button id="ctaSku34" class="metric-btn">View Peer Benchmark</button>
+                                        </div>
+
                                     </div>
-                                    <div>
-                                        <button id="ctaSku33" class="metric-btn">View Zonal Averages</button>
+                                </div>
+
+                                <div class="section" id="ctaStatusCard">
+                                    <div id="ctaNextStep">
+                                        <div id="ctaChevron"></div>
                                     </div>
-                                    <div>
-                                        <button id="ctaSku34" class="metric-btn">View Peer Benchmark</button>
+                                </div>
+                            </div>
+
+                            <div class="section" data-asset-id="rhs-region-context">
+                                <h3 class="section-title">Regional Benchmark context</h3>
+                                <div class="provider-meta">
+                                    <div class="meta-row">
+                                        <div><span>$/Claim (Avg)</span><b id="rhsCentroidIntensity">-</b></div>
+                                        <div><span>Claims/Beneficiary (Avg)</span><b id="rhsCentroidUtilization">-</b>
+                                        </div>
+                                        <div><span>Revenue (Avg)</span><b id="rhsCentroidRevenue">-</b></div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="section" id="ctaStatusCard">
-                                <div id="ctaNextStep">
-                                    <div id="ctaChevron"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="section" data-asset-id="rhs-region-context">
-                            <h3 class="section-title">Regional Benchmark</h3>
-                            <div class="provider-meta">
-                                <div class="meta-row">
-                                    <div><span>$/Claim (Avg)</span><b id="rhsCentroidIntensity">-</b></div>
-                                    <div><span>Claims/Beneficiary (Avg)</span><b id="rhsCentroidUtilization">-</b></div>
-                                    <div><span>Revenue (Avg)</span><b id="rhsCentroidRevenue">-</b></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="section" data-asset-id="rhs-provider-region-benchmark">
-                            <h3 class="section-title">Provider vs Regional Benchmark</h3>
-                            <div class="provider-meta">
-                                <div class="meta-row">
-                                    <div><span>Δ $/Claim</span><b id="rhsDeltaIntensity">-</b></div>
-                                    <div><span>Δ Utilization</span><b id="rhsDeltaUtilization">-</b></div>
-                                    <div><span>Δ Revenue</span><b id="rhsDeltaRevenue">-</b></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="section" data-asset-id="rhs-provider-region-interpretation">
-                            <h3 class="section-title">Interpretation</h3>
-                            <p id="rhsInterpretation" class="copy">-</p>
-                        </div>
-
-                        <div class="section" data-asset-id="rhs-peer-context">
-                            <h3 class="section-title">Peer Cohort</h3>
-                            <div class="provider-meta">
-                                <div class="meta-row">
-                                    <div><span>$/Claim (Zone Avg)</span><b id="rhsZoneAvgIntensity">-</b></div>
-                                    <div><span>Claims/Beneficiary (Zone Avg)</span><b id="rhsZoneAvgUtilization">-</b>
+                            <div class="section" data-asset-id="rhs-provider-region-benchmark">
+                                <h3 class="section-title">Provider vs Regional Benchmark Context context</h3>
+                                <div class="provider-meta">
+                                    <div class="meta-row">
+                                        <div><span>Δ $/Claim</span><b id="rhsDeltaIntensity">-</b></div>
+                                        <div><span>Δ Utilization</span><b id="rhsDeltaUtilization">-</b></div>
+                                        <div><span>Δ Revenue</span><b id="rhsDeltaRevenue">-</b></div>
                                     </div>
-                                    <div><span>Revenue (Zone Avg)</span><b id="rhsZoneAvgRevenue">-</b></div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="section" data-asset-id="rhs-provider-peer-benchmark">
-                            <h3 class="section-title">Provider vs Peer Benchmark</h3>
-                            <div class="provider-meta">
-                                <div class="meta-row">
-                                    <div><span>Δ $/Claim</span><b id="rhsZoneDeltaIntensity">-</b></div>
-                                    <div><span>Δ Utilization</span><b id="rhsZoneDeltaUtilization">-</b></div>
-                                    <div><span>Δ Revenue</span><b id="rhsZoneDeltaRevenue">-</b></div>
-                                </div>
+                            <div class="section" data-asset-id="rhs-provider-region-interpretation">
+                                <h3 class="section-title">Regional Interpretation</h3>
+                                <p id="rhsInterpretation" class="copy">-</p>
+                            </div>
 
-                                <div class="section">
-                                    <h3 class="section-title">Peer Interpretation</h3>
-                                    <p id="rhsZoneInterpretation" class="copy">-</p>
+                            <div class="section" data-asset-id="rhs-peer-context">
+                                <h3 class="section-title">Peer Cohort Context</h3>
+                                <div class="provider-meta">
+                                    <div class="meta-row">
+                                        <div><span>$/Claim (Zone Avg)</span><b id="rhsZoneAvgIntensity">-</b></div>
+                                        <div><span>Claims/Beneficiary (Zone Avg)</span><b
+                                                id="rhsZoneAvgUtilization">-</b>
+                                        </div>
+                                        <div><span>Revenue (Zone Avg)</span><b id="rhsZoneAvgRevenue">-</b></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
+                            <div class="section" data-asset-id="rhs-provider-peer-benchmark">
+                                <h3 class="section-title">Provider vs Peer Cohort Benchmark</h3>
+                                <div class="provider-meta">
+                                    <div class="meta-row">
+                                        <div><span>Δ $/Claim</span><b id="rhsZoneDeltaIntensity">-</b></div>
+                                        <div><span>Δ Utilization</span><b id="rhsZoneDeltaUtilization">-</b></div>
+                                        <div><span>Δ Revenue</span><b id="rhsZoneDeltaRevenue">-</b></div>
+                                    </div>
+
+                                    <div class="section">
+                                        <h3 class="section-title">Peer Cohort Interpretation</h3>
+                                        <p id="rhsZoneInterpretation" class="copy">-</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
+
                 </div>
-
             </div>
+
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const viewerTitleMode = document.getElementById("viewerTitleMode");
+                const familyInputs = document.querySelectorAll('input[name="canonicalFamily"]');
 
-    </div>
+                function getSelectedFamily() {
+                    const selected = document.querySelector('input[name="canonicalFamily"]:checked');
+                    return selected ? selected.value : "billing";
+                }
 
-    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
-    <script src="js/sku3-loader.js"></script>
-    <script src="js/sku-registry.js"></script>
-    <script src="js/sku3-interpretation.js"></script>
-    <script src="js/sku3-canonical-interpretation.js"></script>
-    <script src="js/sku3-viewer.js"></script>
-    <script src="js/provider-billing-viewer-layer-config.js"></script>
-    <script src="/js/viewer-layer-engine.js"></script>
-    <script src="js/index.js"></script>
+                function updateViewerModeTitle() {
+                    const family = getSelectedFamily();
+                    viewerTitleMode.textContent =
+                        family === "cpt_billing" ? "CPT Billing" : "Billing";
+                }
+
+                familyInputs.forEach(input => {
+                    input.addEventListener("change", function () {
+                        const family = getSelectedFamily();
+
+                        if (family === "cpt_billing") {
+                            window.location.href = "/sku4.html";
+                            return;
+                        }
+
+                        updateViewerModeTitle();
+                    });
+                });
+
+                updateViewerModeTitle();
+            });
+        </script>
+        <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+        <script src="js/sku3-loader.js"></script>
+        <script src="js/sku-registry.js"></script>
+        <script src="js/sku3-interpretation.js"></script>
+        <script src="js/sku3-canonical-interpretation.js"></script>
+        <script src="js/sku3-viewer.js"></script>
+        <script src="js/provider-billing-viewer-layer-config.js"></script>
+        <script src="/js/viewer-layer-engine.js"></script>
+        <script src="js/index.js"></script>
 
 </body>
 

@@ -40,7 +40,10 @@ window.SKU3Viewer = (() => {
     }
 
     async function loadRegionMetrics(region) {
-        const path = `/canonical/regions/${region}/v1/metrics/region_metrics.json`;
+        const path =
+            region === "NYNJCT"
+                ? `https://pub-6dde7e3865604b0aa28903cdbc0f2627.r2.dev/canonical/regions/NYNJCT/v1/metrics/region_metrics.json`
+                : `/canonical/regions/${region}/v1/metrics/region_metrics.json`;
         try {
             const res = await fetch(path, { cache: "no-store" });
             if (!res.ok) throw new Error(`Failed to load region metrics: ${path}`);
@@ -388,7 +391,6 @@ window.SKU3Viewer = (() => {
 
         const first = providerData.positions[0];
         const centroid = window.__centroidProfile || {};
-
         set("rhsDeltaIntensity", computePercentDelta(first.intensity, centroid.intensity_avg));
         set("rhsDeltaUtilization", computePercentDelta(first.utilization, centroid.utilization_avg));
         set("rhsDeltaRevenue", computePercentDelta(first.revenue, centroid.revenue_avg));
