@@ -20,10 +20,16 @@ window.SKU4RhsBinder = (() => {
         if (!el) return;
         el.innerHTML = "";
     }
-
     function appendRhsBlock(blockId, title, html) {
         const stack = getRhsStack();
         if (!stack) return;
+
+        const isInterpretationLayer =
+            blockId.startsWith("SKU4I.");
+
+        if (isInterpretationLayer) {
+            stack.innerHTML = "";
+        }
 
         if (stack.querySelector(`[data-rhs-block-id="${blockId}"]`)) {
             console.log("SKIP DUPLICATE RHS BLOCK:", blockId);
@@ -34,12 +40,12 @@ window.SKU4RhsBinder = (() => {
         block.className = "rhs-render-block";
         block.setAttribute("data-rhs-block-id", blockId);
         block.innerHTML = `
-            <h3 class="section-title">${title}</h3>
-            ${html}
-        `;
+        <h3 class="section-title">${title}</h3>
+        ${html}
+    `;
+
         stack.appendChild(block);
     }
-
     function renderProviderVsRegionBenchmark(payload, skuId) {
         if (!payload) return;
         console.log("renderProviderVsRegionBenchmark payload", payload);
@@ -264,29 +270,155 @@ window.SKU4RhsBinder = (() => {
         "at_median": "Near Cohort Median"
     };
 
+
+    /* function getPercentileBadge(percentile) {
+        const p = Number(percentile ?? 0);
+
+        if (p >= 75) {
+            return { label: "Top Quartile", className: "badge-top" };
+        }
+        if (p >= 50) {
+            return { label: "Above Median", className: "badge-above" };
+        }
+        if (p >= 25) {
+            return { label: "Below Median", className: "badge-below" };
+        }
+        return { label: "Bottom Quartile", className: "badge-bottom" };
+    }
+
+    function renderPercentileBar(percentile) {
+        const p = Math.max(0, Math.min(100, Number(percentile ?? 0)));
+
+        return `
+        <div class="cohort-percentile-bar-shell">
+            <div class="cohort-percentile-bar-track">
+                <div class="cohort-percentile-median-marker"></div>
+                <div class="cohort-percentile-dot" style="left:${p}%;"></div>
+            </div>
+            <div class="cohort-percentile-scale">
+                <span>0</span>
+                <span>50</span>
+                <span>100</span>
+            </div>
+        </div>
+    `;
+    } */
+
+    // Shows whether the provider is top / above / below cohort and draws the percentile position bar
+
+    function getPercentileBadge(percentile) {
+        const p = Number(percentile || 0);
+
+        if (p >= 80) {
+            return {
+                label: "Top Tier",
+                className: "badge-top"
+            };
+        }
+
+        if (p >= 50) {
+            return {
+                label: "Above Median",
+                className: "badge-above"
+            };
+        }
+
+        if (p >= 20) {
+            return {
+                label: "Below Median",
+                className: "badge-below"
+            };
+        }
+
+        return {
+            label: "Bottom Tier",
+            className: "badge-bottom"
+        };
+    }
+
+    function renderPercentileBar(percentile) {
+        const p = Math.max(0, Math.min(100, Number(percentile || 0)));
+
+        return `
+        <div class="cohort-percentile-bar-shell">
+            <div class="cohort-percentile-bar-track">
+                <div class="cohort-percentile-median-marker"></div>
+                <div
+                    class="cohort-percentile-dot"
+                    style="left:${p}%;">
+                </div>
+            </div>
+
+            <div class="cohort-percentile-scale">
+                <span>0</span>
+                <span>25</span>
+                <span>50</span>
+                <span>75</span>
+                <span>100</span>
+            </div>
+        </div>
+    `;
+    }
+
+    // User-friendly labels for cohort percentile metrics
+    const COHORT_METRIC_LABEL_MAP = {
+        "PCA PC1 position": "Economic Intensity Position",
+        "PCA PC2 position": "Utilization Structure Position",
+        "PCA PC3 position": "Operational Scale Position",
+        "economic intensity": "Economic Intensity Level",
+        "PC1": "Economic Intensity",
+        "PC2": "Utilization Structure",
+        "PC3": "Operational Scale",
+        "region distance": "Distance from Regional Norm",
+        "specialization": "Service Specialization",
+        "CPT breadth": "Service Breadth",
+        "utilization structure": "Visit Utilization Pattern",
+        "timeline coverage": "Data History Depth",
+        "atypicality": "Practice Uniqueness",
+        "reimbursement scale": "Reimbursement Scale",
+        "economic intensity": "Economic Intensity"
+    };
+
     function renderCohortPercentiles(payload, skuId) {
         if (!payload) return;
 
-        const rows = (payload.metric_percentiles || []).map(r => `
-            <div style="margin-top:10px;padding:10px;border:1px solid #223043;border-radius:10px;">
-                <div><b>${formatValue(r.label)}</b></div>
-                <div>Provider: ${formatValue(r.provider_value)}</div>
-                <div>Cohort Median: ${formatValue(r.cohort_median)}</div>
-                <div>Percentile: ${formatValue(r.provider_percentile)}</div>
-                <div>Position: ${COHORT_FLAG_MAP[r.comparison_flag] || r.comparison_flag || "—"}</div>
+        const rows = (payload.metric_percentiles || []).map(r => {
+            const badge = getPercentileBadge(r.provider_percentile);
+
+            return `
+            <div class="cohort-percentile-card">
+                <div class="cohort-percentile-header">
+                    <div class="cohort-percentile-title-block">
+                    </div>
+                    <div class="cohort-metric-title">${COHORT_METRIC_LABEL_MAP[r.label] || formatValue(r.label)}</div>
+                    <div class="cohort-percentile-badge ${badge.className}">
+                        ${badge.label}
+                    </div>
+                </div>
+
+                <div class="cohort-percentile-stats">
+                    <div><span>Provider</span><b>${formatValue(r.provider_value)}</b></div>
+                    <div><span>Cohort Median</span><b>${formatValue(r.cohort_median)}</b></div>
+                    <div><span>Percentile</span><b>${formatValue(r.provider_percentile)}</b></div>
+                </div>
+
+                ${renderPercentileBar(r.provider_percentile)}
             </div>
-        `).join("");
+        `;
+        }).join("");
 
         appendRhsBlock(`${skuId}.percentiles`, "Cohort Median and Percentiles", `
-            <div><b>Cohort Size</b> ${formatValue(payload.cohort_size)}</div>
-            <div style="margin-top:10px;">${rows}</div>
-        `);
+        <div class="cohort-percentile-dashboard">
+            <div class="cohort-size-row"><b>Cohort Size</b> ${formatValue(payload.cohort_size)}</div>
+            <div class="cohort-percentile-grid">${rows}</div>
+        </div>
+    `);
     }
 
 
     function renderOverperformingCptAreas(data, skuId) {
         const rows = Array.isArray(data?.cpts) ? data.cpts : [];
-
+        console.log("renderOverperformingCptAreas CALLED", { skuId, rows: data?.cpts?.length, data });
         const html = `
         <div class="rhs-block">
             <div class="rhs-title">Overperforming CPT Areas</div>
@@ -341,8 +473,11 @@ window.SKU4RhsBinder = (() => {
                         </div>
                     `).join("")
                 : `
-                        <div class="rhs-empty-state">
-                            No overperforming CPT areas found for this provider.
+                        <div class="rhs-card" style="margin-top:12px; padding:14px; border:1px solid rgba(255,255,255,0.08); border-radius:8px;">
+                            <div style="font-weight:600; margin-bottom:6px;">No Overperforming CPT Areas</div>
+                            <div style="font-size:12px; opacity:0.75;">
+                                No overperforming CPT areas were found for this provider in the current peer sample.
+                            </div>
                         </div>
                     `
             }
@@ -350,7 +485,8 @@ window.SKU4RhsBinder = (() => {
     `;
 
         const blockId = `${skuId}.overperforming_cpt_areas`;
-        appendRhsBlock(blockId, "Overperforming CPT Areas", html);
+        console.log("renderOverperformingCptAreas append", { blockId, htmlLength: html.length });
+        appendRhsBlock(blockId, "Overperforming CPT Areas", html, skuId);
     }
 
     function renderUnderperformingCptAreas(data, skuId) {
@@ -903,7 +1039,7 @@ window.SKU4RhsBinder = (() => {
         if (def.binder_key === null) {
             console.log("No RHS binding for layer", skuId);
             return;
-        }   
+        }
 
         if (def.data_binding_key === "provider_vs_region_benchmark") {
             console.log("dispatch -> provider_vs_region_benchmark");

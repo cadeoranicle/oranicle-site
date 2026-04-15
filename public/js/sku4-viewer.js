@@ -98,7 +98,7 @@ window.SKU4Viewer = (() => {
                 line: { width: 6, color: "#cbd5e1" },
                 hoverinfo: "skip",
                 showlegend: false,
-                name: "U1 Axis"
+                name: "X Axis"
             },
             {
                 type: "scatter3d",
@@ -109,7 +109,7 @@ window.SKU4Viewer = (() => {
                 line: { width: 6, color: "#cbd5e1" },
                 hoverinfo: "skip",
                 showlegend: false,
-                name: "U2 Axis"
+                name: "Y Axis"
             },
             {
                 type: "scatter3d",
@@ -120,7 +120,7 @@ window.SKU4Viewer = (() => {
                 line: { width: 6, color: "#cbd5e1" },
                 hoverinfo: "skip",
                 showlegend: false,
-                name: "U3 Axis"
+                name: "Z Axis"
             }
         ];
     }
@@ -236,6 +236,186 @@ window.SKU4Viewer = (() => {
             name: "Provider"
         };
     }
+
+    function buildPeerNeighborTrace() {
+        if (!traceEnabled("peer_neighbor_points")) return null;
+
+        const payload = window.SKU4State?.rhsPayload || {};
+        const peerPack = payload?.nearest_neighbor_peer_pack || {};
+        const comparablePack = payload?.top_comparable_providers || {};
+
+        const neighborRows = Array.isArray(peerPack?.neighbors)
+            ? peerPack.neighbors
+            : [];
+
+        const comparableRows = Array.isArray(comparablePack?.providers)
+            ? comparablePack.providers
+            : [];
+
+        const rawPoints = [
+            ...neighborRows.map((row, idx) => ({
+                source: "neighbor",
+                rank: idx + 1,
+                npi: row.peer_npi,
+                similarity_score: row.similarity_score,
+                peer_umap_position: row.peer_umap_position
+            })),
+            ...comparableRows.map((row, idx) => ({
+                source: "comparable",
+                rank: idx + 1,
+                npi: row.provider_npi,
+                similarity_score: row.similarity_score,
+                peer_umap_position: row.peer_umap_position
+            }))
+        ];
+
+        const points = rawPoints
+            .filter(row => row.peer_umap_position)
+            .map(row => ({
+                source: row.source,
+                rank: row.rank,
+                npi: row.npi,
+                similarity_score: row.similarity_score,
+                x: Number(row.peer_umap_position.u1 ?? 0),
+                y: Number(row.peer_umap_position.u2 ?? 0),
+                z: Number(row.peer_umap_position.u3 ?? 0)
+            }));
+
+        if (!points.length) return null;
+
+        return {
+            type: "scatter3d",
+            mode: "markers+text",
+            x: points.map(p => p.x),
+            y: points.map(p => p.y),
+            z: points.map(p => p.z),
+            text: points.map(p => String(p.rank)),
+            textposition: "top center",
+            hoverinfo: "text",
+            hovertext: points.map(
+                p =>
+                    `${p.source === "neighbor" ? "Nearest Peer" : "Comparable Provider"} #${p.rank}<br>` +
+                    `NPI: ${p.npi}<br>` +
+                    `Similarity: ${((p.similarity_score || 0) * 100).toFixed(1)}%`
+            ),
+            showlegend: false,
+            marker: {
+                size: 7,
+                color: points.map(p =>
+                    p.source === "neighbor" ? "#22c55e" : "#f59e0b"
+                ),
+                opacity: 0.95,
+                line: {
+                    width: 2,
+                    color: "#ffffff"
+                }
+            },
+            name: "Peer Providers"
+        };
+    }
+
+    function buildPeerNeighborTrace() {
+        if (!traceEnabled("peer_neighbor_points")) return null;
+
+        const payload = window.SKU4State?.rhsPayload || {};
+        const peerPack = payload?.nearest_neighbor_peer_pack || {};
+        const neighborRows = Array.isArray(peerPack?.neighbors)
+            ? peerPack.neighbors
+            : [];
+
+        const points = neighborRows
+            .filter(row => row?.peer_umap_position)
+            .map((row, idx) => ({
+                rank: idx + 1,
+                npi: row.peer_npi,
+                similarity_score: row.similarity_score,
+                x: Number(row.peer_umap_position.u1 ?? 0),
+                y: Number(row.peer_umap_position.u2 ?? 0),
+                z: Number(row.peer_umap_position.u3 ?? 0)
+            }));
+
+        if (!points.length) return null;
+
+        return {
+            type: "scatter3d",
+            mode: "markers+text",
+            x: points.map(p => p.x),
+            y: points.map(p => p.y),
+            z: points.map(p => p.z),
+            text: points.map(p => String(p.rank)),
+            textposition: "top center",
+            hoverinfo: "text",
+            hovertext: points.map(
+                p =>
+                    `Nearest Peer #${p.rank}<br>` +
+                    `NPI: ${p.npi}<br>` +
+                    `Similarity: ${((p.similarity_score || 0) * 100).toFixed(1)}%`
+            ),
+            showlegend: false,
+            marker: {
+                size: 7,
+                color: "#22c55e",
+                opacity: 0.95,
+                line: {
+                    width: 2,
+                    color: "#ffffff"
+                }
+            },
+            name: "Nearest Peers"
+        };
+    }
+
+    function buildComparablePeerTrace() {
+        if (!traceEnabled("peer_comparable_points")) return null;
+
+        const payload = window.SKU4State?.rhsPayload || {};
+        const comparablePack = payload?.top_comparable_providers || {};
+        const comparableRows = Array.isArray(comparablePack?.providers)
+            ? comparablePack.providers
+            : [];
+
+        const points = comparableRows
+            .filter(row => row?.peer_umap_position)
+            .map((row, idx) => ({
+                rank: idx + 1,
+                npi: row.provider_npi,
+                similarity_score: row.similarity_score,
+                x: Number(row.peer_umap_position.u1 ?? 0),
+                y: Number(row.peer_umap_position.u2 ?? 0),
+                z: Number(row.peer_umap_position.u3 ?? 0)
+            }));
+
+        if (!points.length) return null;
+
+        return {
+            type: "scatter3d",
+            mode: "markers+text",
+            x: points.map(p => p.x),
+            y: points.map(p => p.y),
+            z: points.map(p => p.z),
+            text: points.map(p => `C${p.rank}`),
+            textposition: "top center",
+            hoverinfo: "text",
+            hovertext: points.map(
+                p =>
+                    `Comparable Provider #${p.rank}<br>` +
+                    `NPI: ${p.npi}<br>` +
+                    `Similarity: ${((p.similarity_score || 0) * 100).toFixed(1)}%`
+            ),
+            showlegend: false,
+            marker: {
+                size: 8,
+                color: "#f59e0b",
+                opacity: 0.95,
+                line: {
+                    width: 2,
+                    color: "#ffffff"
+                }
+            },
+            name: "Comparable Providers"
+        };
+    }
+
 
     function getCurrentZoneClusterId() {
         const latest =
@@ -410,6 +590,12 @@ window.SKU4Viewer = (() => {
         const providerTrace = buildProviderTrace(currentProvider);
         if (providerTrace) registry.provider_point = providerTrace;
 
+        const peerNeighborTrace = buildPeerNeighborTrace();
+        if (peerNeighborTrace) registry.peer_neighbor_points = peerNeighborTrace;
+
+        const comparablePeerTrace = buildComparablePeerTrace();
+        if (comparablePeerTrace) registry.peer_comparable_points = comparablePeerTrace;
+
         const zoneCentroidTrace = buildZoneCentroidTrace();
         if (zoneCentroidTrace) registry.zonal_centroid = zoneCentroidTrace;
 
@@ -428,6 +614,8 @@ window.SKU4Viewer = (() => {
             "region_centroid",
             "canonical_cloud",
             "provider_point",
+            "peer_neighbor_points",
+            "peer_comparable_points",
             "zonal_centroid",
             "zone_provider_connector",
             "provider_trajectory"
@@ -457,7 +645,7 @@ window.SKU4Viewer = (() => {
             scene: {
                 bgcolor: "#06101c",
                 xaxis: {
-                    title: "U1",
+                    title: "X",
                     color: "#9fb0c3",
                     gridcolor: "#223043",
                     zerolinecolor: "#223043",
@@ -469,7 +657,7 @@ window.SKU4Viewer = (() => {
                     linecolor: "#8aa1b8"
                 },
                 yaxis: {
-                    title: "U2",
+                    title: "Y",
                     color: "#9fb0c3",
                     gridcolor: "#223043",
                     zerolinecolor: "#223043",
@@ -481,7 +669,7 @@ window.SKU4Viewer = (() => {
                     linecolor: "#8aa1b8"
                 },
                 zaxis: {
-                    title: "U3",
+                    title: "Z",
                     color: "#9fb0c3",
                     gridcolor: "#223043",
                     zerolinecolor: "#223043",

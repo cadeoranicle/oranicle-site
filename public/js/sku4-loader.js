@@ -1,5 +1,3 @@
-const SKU4_PUBLISH_BASE = "https://pub-6dde7e3865604b0aa28903cdbc0f2627.r2.dev/canonical/regions/NYNJCT/v1/provider_cpt_publish";
-
 window.SKU4Loader = (() => {
     const DEFAULT_REGION = "NYNJCT";
 
@@ -47,10 +45,18 @@ window.SKU4Loader = (() => {
 
     async function loadClusterCentroidsUmap(region = getRegion()) {
         const cfg = getConfig(region);
-        if (!cfg.localBase) {
-            throw new Error(`No localBase configured for region: ${region}`);
+        if (!cfg.remoteBase) {
+            throw new Error(`No remoteBase configured for region: ${region}`);
         }
-        return await fetchJson(`${SKU4_PUBLISH_BASE}/nynjct_cluster_centroids_umap.json`);
+        return await fetchJson(`${cfg.remoteBase}/nynjct_cluster_centroids_umap.json`);
+    }
+
+    async function loadRegionCentroids(region = getRegion()) {
+        const cfg = getConfig(region);
+        if (!cfg.remoteBase) {
+            throw new Error(`No remoteBase configured for region: ${region}`);
+        }
+        return await fetchJson(`${cfg.remoteBase}/nynjct_region_centroids.json`);
     }
 
     async function loadRegionCloud(region = getRegion()) {
@@ -59,14 +65,6 @@ window.SKU4Loader = (() => {
             throw new Error(`No remoteBase configured for region: ${region}`);
         }
         return await fetchJson(`${cfg.remoteBase}/nynjct_region_cloud_sample_50k.json`);
-    }
-
-    async function loadRegionCentroids(region = getRegion()) {
-        const cfg = getConfig(region);
-        if (!cfg.localBase) {
-            throw new Error(`No localBase configured for region: ${region}`);
-        }
-        return await fetchJson(`${SKU4_PUBLISH_BASE}/nynjct_region_centroids.json`);
     }
 
     async function loadProviderIndex(region = getRegion()) {

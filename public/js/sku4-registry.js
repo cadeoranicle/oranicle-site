@@ -49,6 +49,8 @@ window.SKU4_REGISTRY = {
 
         title: "Provider Canonical Position",
         view_stage: "canonical",
+        data_binding_key: null,
+
 
         assets: [
             "legend-regional-centroid"
@@ -80,6 +82,8 @@ window.SKU4_REGISTRY = {
 
         title: "Provider Canonical Position",
         view_stage: "canonical",
+        data_binding_key: null,
+
 
         flow_ui: {
             next_message: 'Next: Click "View" to add provider position.',
@@ -107,6 +111,8 @@ window.SKU4_REGISTRY = {
 
         title: "Provider Canonical Position",
         view_stage: "canonical",
+        data_binding_key: null,
+
 
         flow_ui: {
             next_message: 'Next: Click "View" to add current zone centroid.',
@@ -135,6 +141,8 @@ window.SKU4_REGISTRY = {
 
         title: "Provider Canonical Position",
         view_stage: "canonical",
+        data_binding_key: null,
+
 
         flow_ui: {
             next_message: 'Next: Click "View" to connect provider to zone.',
@@ -164,6 +172,8 @@ window.SKU4_REGISTRY = {
 
         title: "Provider Canonical Position",
         view_stage: "canonical",
+        data_binding_key: null,
+
 
         flow_ui: {
             next_message: 'Next: Click "View" for full geometry emphasis.',
@@ -193,6 +203,8 @@ window.SKU4_REGISTRY = {
 
         title: "Provider Canonical Position",
         view_stage: "canonical",
+        data_binding_key: null,
+
 
         flow_ui: {
             next_message: "Geometry complete.",
@@ -212,7 +224,8 @@ window.SKU4_REGISTRY = {
         requires_auth: false,
         requires_payment: false,
 
-        data_binding_key: "provider_vs_region_benchmark",
+
+
 
         assets: [
             "legend-regional-centroid",
@@ -227,6 +240,7 @@ window.SKU4_REGISTRY = {
 
         title: "Provider vs Region Benchmark",
         view_stage: "actionable",
+        data_binding_key: null,
 
         flow_ui: {
             next_message: 'Regional benchmark unlocked.',
@@ -262,6 +276,7 @@ window.SKU4_REGISTRY = {
 
         title: "Provider vs Peer Cohort",
         view_stage: "actionable",
+        data_binding_key: "provider_vs_region_benchmark",
 
         flow_ui: {
             next_message: "Zone benchmark unlocked.",
@@ -273,6 +288,36 @@ window.SKU4_REGISTRY = {
         }
     },
 
+    "SKU4.9": {
+        parent_sku: "SKU4",
+        tier: "viewer",
+        category: "Peer / Benchmark Intelligence",
+        focus: "Peer cohort context",
+        requires_auth: false,
+        requires_payment: false,
+
+        data_binding_key: "provider_vs_zone_benchmark",
+
+        assets: [
+            "legend-regional-centroid",
+            "legend-provider",
+            "legend-zone-centroid",
+            "legend-provider-zone-link",
+            "rhs-peer-context"
+        ],
+
+        title: "Peer Cohort Context",
+        view_stage: "peer_benchmark",
+
+        flow_ui: {
+            next_message: "Peer cohort context unlocked.",
+            chevrons: 0,
+            highlight_target: null,
+            reveal_buttons: [],
+            show_actions_panel: false,
+            show_status_panel: true
+        }
+    },
 
     "SKU4P.1": {
         parent_sku: "SKU4P",
