@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SKU5 Test Harness</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="./css/sku5.css" />
+</head>
+
+<body>
+
+    <!-- ---------------------------------------------------------
+       Optional entry context
+       Replace with real values from index.html later
+       --------------------------------------------------------- -->
+    <script>
+        window.SKU5_ENTRY_CONTEXT = {
+            region: "NYNJCT",
+            model: "Hospital Canonical",
+            family: "Hospital Canonical",
+            npi: "1013010917",
+            provider: "1013010917"
+        };
+    </script>
+
+    <!-- ---------------------------------------------------------
+       Root
+       --------------------------------------------------------- -->
+    <div data-sku5-root data-sku5-loading="false">
+
+        <!-- Panel 1 -->
+        <div data-sku5-panel="panel1"></div>
+
+        <!-- Panel 2 -->
+        <div data-sku5-panel="panel2"></div>
+
+        <!-- Panel 3 + Panel 4 -->
+        <div class="sku5-main-grid">
+            <div data-sku5-panel="panel3"></div>
+            <div data-sku5-panel="panel4"></div>
+        </div>
+
+        <!-- Panel 5 -->
+        <div data-sku5-panel="panel5"></div>
+
+    </div>
+
+    <!-- ---------------------------------------------------------
+       JS load order matters
+       --------------------------------------------------------- -->
+    <script src="/js/plotly-2.35.2.min.js"></script>
+
+    <script src="/js/sku5-registry.js"></script>
+    <script src="/js/sku5-loader.js"></script>
+
+    <script src="js/SKU5_domain_specific_loaders/sku5-loader-financial-intelligence.js"></script>
+    
+
+    <script src="/js/SKU_based_scripts/SKU5.01.js"></script>
+    <script src="/js/SKU_based_scripts/sku5.50.js"></script>
+    <script src="/js/SKU_based_scripts/sku5.51.js"></script>
+    <script src="/js/SKU_based_scripts/sku5.52.js"></script>
+    <script src="/js/SKU_based_scripts/sku5.53.js"></script>
+    <script src="/js/SKU_based_scripts/SKU5.54.js"></script>
+    <script src="/js/SKU_based_scripts/SKU5.55.js"></script>
+    <script src="/js/SKU_based_scripts/SKU5.56.js"></script>
+    <script src="/js/SKU_based_scripts/SKU5.58.js"></script>
+    <script src="/js/SKU_based_scripts/SKU5.60.js"></script>
+    <script src="js/SKU_based_scripts/SKU5.62.js?v=2"></script>
+    <script src="/js/SKU_based_scripts/SKU5.64.js"></script>
+    <script src="/js/sku5-panel-engine.js"></script>
+    <script src="/js/sku5-index.js"></script>
+
+</html>

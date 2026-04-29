@@ -1,30 +1,19 @@
-// sku4-loader.js
-// SKU4 data resolver / fetch layer
+// sku5-loader.js
+// SKU5 data resolver / fetch layer
 // Responsibilities:
 // 1. Read registry entry contracts
 // 2. Determine required data binding keys
 // 3. Fetch / assemble payloads
 // 4. Return one normalized payload object
 
-(function initSKU4Loader(global) {
+(function initSKU5Loader(global) {
     "use strict";
 
     const DEBUG = true;
 
-    const SKU4_DATA_CONFIG = {
+    const SKU5_DATA_CONFIG = {
         remoteBase: "https://pub-6dde7e3865604b0aa28903cdbc0f2627.r2.dev"
     };
-
-    function getHospitalFinancialUrl(session) {
-        const base = SKU4_DATA_CONFIG.remoteBase;
-
-        const npi =
-            session?.npi ||
-            session?.provider_npi ||
-            getProviderNpi();
-
-        return `${base}/canonical/regions/NYNJCT/v1/CPT_ALL_SKU4/artefacts/hospital_financial_intelligence/SKU4_5_hospital_financial_intelligence_${npi}.json`;
-    }
 
     // ------------------------------------------------------------
     // Public API
@@ -71,45 +60,31 @@
 
 
     //--------------------------------------------------------------
-    // SKU4.60 CPT portfolio risk data loader (R2)
+    // SKU5.60 CPT portfolio risk data loader (R2)
+    //--------------------------------------------------------------
     async function loadCptPortfolioRisk(entry, session) {
-        const ctx = window.SKU4_ENTRY_CONTEXT || {};
-
-        const providerNpi = ctx.npi || ctx.provider || "";
-        const region = ctx.region || session?.region || "NYNJCT";
-
-        const base =
-            window.REGION_CONFIG?.[region]?.remoteBase ||
-            "https://pub-6dde7e3865604b0aa28903cdbc0f2627.r2.dev";
-
-        const url =
-            `${base}/canonical/regions/${region}/v1/CPT_ALL_SKU4/artefacts/hospital_financial_intelligence/SKU4_5_hospital_financial_intelligence_${providerNpi}.json`;
-
-        console.log("[SKU4.60 FI loader] url =", url);
+        const url = "https://pub-6dde7e3865604b0aa28903cdbc0f2627.r2.dev/canonical/regions/NYNJCT/v1/CPT_ICU_CCU_SKU5/artefacts/NYNJCT_allNPI_CPT_ICUCCU.json";
 
         const res = await fetch(url);
-
-        if (!res.ok) {
-            console.warn("[SKU4.60 loader] fetch failed", res.status);
-            return null;
-        }
-
         const json = await res.json();
 
-        return json?.hospital_financial_intelligence || null;
+        const hospitalNpi = getProviderNpi();
+
+        const provider = json?.providers?.find(
+            p => String(p.hospital_npi).trim() === String(hospitalNpi).trim()
+        );
+
+        return provider?.cpt_rows || [];
     }
+
     // ------------------------------------------------------------
     // Validation
     // ------------------------------------------------------------
 
     function assertInputs({ entry, session }) {
-        if (!entry || !entry.sku_id) {
-            throw new Error("SKU4Loader missing entry.");
-        }
-
-        if (!session) {
-            throw new Error("SKU4Loader missing session.");
-        }
+        if (!entry) throw new Error("SKU5Loader missing entry.");
+        if (!session) throw new Error("SKU5Loader missing session.");
+        if (!entry.sku_id) throw new Error("SKU5Loader entry missing sku_id.");
     }
 
     // ------------------------------------------------------------
@@ -124,37 +99,41 @@
         return readContextValue("provider") || readContextValue("npi") || "";
     }
 
-    /*   function getSku5ContractsBaseUrl() {
-          const region = getRegion();
-          return `${SKU4_DATA_CONFIG.remoteBase}/canonical/regions/${region}/v1/CPT_ICU_CCU_SKU4/contracts`;
-      }
-  
-      function getSku5ArtefactsBaseUrl() {
-          const region = getRegion();
-          return `${SKU4_DATA_CONFIG.remoteBase}/canonical/regions/${region}/v1/CPT_ICU_CCU_SKU4/artefacts`;
-      } */
+    function getSku5ContractsBaseUrl() {
+        const region = getRegion();
+        return `${SKU5_DATA_CONFIG.remoteBase}/canonical/regions/${region}/v1/CPT_ICU_CCU_SKU5/contracts`;
+    }
+
+    function getSku5ArtefactsBaseUrl() {
+        const region = getRegion();
+        return `${SKU5_DATA_CONFIG.remoteBase}/canonical/regions/${region}/v1/CPT_ICU_CCU_SKU5/artefacts`;
+    }
 
     function getRegionAxesContractUrl() {
-        return `${SKU4_DATA_CONFIG.remoteBase}/canonical/regions/NYNJCT/v1/CPT_ALL_SKU4/region_centroids.json`;
+        return `${getSku5ContractsBaseUrl()}/SKU5_4_1_hospital_region_cloud_axes_contract.json`;
     }
 
     function getRegionCloudSampleUrl() {
-        return `${SKU4_DATA_CONFIG.remoteBase}/canonical/regions/NYNJCT/v1/CPT_ALL_SKU4/region_cloud_sample.json`;
+        return `${getSku5ArtefactsBaseUrl()}/SKU5_4_1_hospital_region_cloud_sample.json`;
     }
 
     function getRegionCloudFullUrl() {
-        return `${SKU4_DATA_CONFIG.remoteBase}/canonical/regions/NYNJCT/v1/CPT_ALL_SKU4/region_cloud_full.json`;
+        return `${getSku5ArtefactsBaseUrl()}/SKU5_4_1_hospital_region_cloud_full.json`;
     }
 
     function getTrajectoryUrl() {
         const npi = getProviderNpi();
-        return `${SKU4_DATA_CONFIG.remoteBase}/canonical/regions/NYNJCT/v1/CPT_ALL_SKU4/trajectory/${npi}.json`;
+        return `${getSku5ArtefactsBaseUrl()}/hospital_trajectory/SKU5_4_6_hospital_trajectory_${npi}.json`;
     }
 
     function getHospitalFinancialBaseUrl() {
-        return `${SKU4_DATA_CONFIG.remoteBase}/canonical/regions/NYNJCT/v1/CPT_ALL_SKU4/provider_specific/canonical`;
+        return `${getSku5ArtefactsBaseUrl()}/hospital_financial_intelligence`;
     }
 
+    function getHospitalFinancialUrl() {
+        const npi = getProviderNpi();
+        return `${getHospitalFinancialBaseUrl()}/SKU5_5_hospital_financial_intelligence_${npi}.json`;
+    }
 
     // ------------------------------------------------------------
     // Fetch helpers
@@ -192,8 +171,8 @@
         return await fetchJson(url);
     }
 
-    async function loadHospitalFinancialJson(session) {
-        const url = getHospitalFinancialUrl(session);   // ✅ pass session
+    async function loadHospitalFinancialJson() {
+        const url = getHospitalFinancialUrl();
         log("loadHospitalFinancialJson()", { url });
         return await fetchJson(url);
     }
@@ -253,79 +232,25 @@
     }
 
     function buildAxesFromContract(contract = {}) {
-        const displayAxes =
-            contract?.axes?.display_axes ||
-            contract?.display_axes ||
-            ["C1", "C2", "C3"];
+        const displayAxes = Array.isArray(contract?.axes?.display_axes)
+            ? contract.axes.display_axes
+            : null;
 
-        const ranges =
-            contract?.axes?.axis_ranges ||
-            contract?.axis_ranges ||
-            {};
+        const axisDisplayMap = contract?.axes?.axis_display_map || {};
+        const axisSemantics = contract?.axes?.axis_semantics || {};
 
-        return displayAxes.map((axis, index) => {
-            // Handle BOTH cases:
-            // 1. axis = "C1"
-            // 2. axis = { axis_id: "C1", ... }
-
-            const axisId =
-                typeof axis === "string"
-                    ? axis
-                    : axis?.axis_id ||
-                    axis?.axis_code ||
-                    axis?.id ||
-                    axis?.key ||
-                    axis?.component ||
-                    `C${index + 1}`;
-
-            const axisLabel =
-                typeof axis === "string"
-                    ? axis
-                    : axis?.axis_label ||
-                    axis?.label ||
-                    axis?.display_label ||
-                    axisId;
-
-            const range = ranges?.[axisId] || {};
-            const min = Number(range.min ?? range[0] ?? -1);
-            const max = Number(range.max ?? range[1] ?? 1);
-
-            // Build canonical axis geometry
-            if (axisId === "C1") {
-                return {
-                    axis_id: "C1",
-                    axis_label: axisLabel,
-                    start: { x: min, y: 0, z: 0 },
-                    end: { x: max, y: 0, z: 0 }
-                };
-            }
-
-            if (axisId === "C2") {
-                return {
-                    axis_id: "C2",
-                    axis_label: axisLabel,
-                    start: { x: 0, y: min, z: 0 },
-                    end: { x: 0, y: max, z: 0 }
-                };
-            }
-
-            if (axisId === "C3") {
-                return {
-                    axis_id: "C3",
-                    axis_label: axisLabel,
-                    start: { x: 0, y: 0, z: min },
-                    end: { x: 0, y: 0, z: max }
-                };
-            }
-
-            // fallback (should not happen)
-            return {
+        if (displayAxes?.length) {
+            return displayAxes.map((axisId, idx) => ({
                 axis_id: axisId,
-                axis_label: axisLabel,
-                start: { x: 0, y: 0, z: 0 },
-                end: { x: 0, y: 0, z: 0 }
-            };
-        });
+                axis_label:
+                    axisDisplayMap[axisId] ||
+                    axisSemantics[axisId] ||
+                    buildAxesFallback()[idx]?.axis_label ||
+                    axisId
+            }));
+        }
+
+        return buildAxesFallback();
     }
 
     function buildCenterPointFromContract(contract = {}) {
@@ -365,31 +290,11 @@
 
         return {
             npi: String(row.hospital_npi || row.npi || row.provider_npi || ""),
-            hospital_npi: String(row.hospital_npi || row.npi || row.provider_npi || ""),
-            organization_name: row.organization_name || row.provider_name || "",
-            hospital_state: row.hospital_state || row.practice_state || "",
-            practice_city: row.practice_city || "",
-            practice_zip: row.practice_zip || "",
-            primary_taxonomy: row.primary_taxonomy || "",
-
-            C1: Number(row.C1 ?? row.x ?? 0),
-            C2: Number(row.C2 ?? row.y ?? 0),
-            C3: Number(row.C3 ?? row.z ?? 0),
             x: Number(row.C1 ?? row.x ?? 0),
             y: Number(row.C2 ?? row.y ?? 0),
-            z: Number(row.C3 ?? row.z ?? 0),
-
-            total_paid: Number(row.total_paid ?? 0),
-            total_claims: Number(row.total_claims ?? 0),
-            total_unique_beneficiaries: Number(row.total_unique_beneficiaries ?? 0),
-            paid_per_claim: Number(row.paid_per_claim ?? 0),
-            claims_per_beneficiary: Number(row.claims_per_beneficiary ?? 0),
-            unique_hcpcs_count: Number(row.unique_hcpcs_count ?? 0),
-            unique_servicing_npis: Number(row.unique_servicing_npis ?? 0),
-            active_months: Number(row.active_months ?? 0)
+            z: Number(row.C3 ?? row.z ?? 0)
         };
     }
-
 
     function buildPeerCohortPointFromPeer(peer) {
         if (!peer) return null;
@@ -402,14 +307,14 @@
         };
     }
 
-    function buildProviderPeerConnector(providerPoint, peerPoint) {
-        if (!providerPoint || !peerPoint) return null;
+    function buildProviderPeerConnector(hospitalPoint, peerPoint) {
+        if (!hospitalPoint || !peerPoint) return null;
 
         return {
             start_point: {
-                x: Number(providerPoint.x ?? 0),
-                y: Number(providerPoint.y ?? 0),
-                z: Number(providerPoint.z ?? 0)
+                x: Number(hospitalPoint.x ?? 0),
+                y: Number(hospitalPoint.y ?? 0),
+                z: Number(hospitalPoint.z ?? 0)
             },
             end_point: {
                 x: Number(peerPoint.x ?? 0),
@@ -424,98 +329,20 @@
 
         return rows.map(row => ({
             npi: String(row.hospital_npi || row.npi || ""),
-            hospital_npi: String(row.hospital_npi || row.npi || ""),
-            organization_name: row.organization_name || "",
-            hospital_state: row.hospital_state || row.practice_state || "",
-            practice_city: row.practice_city || "",
-            practice_zip: row.practice_zip || "",
-            primary_taxonomy: row.primary_taxonomy || "",
-
-            C1: Number(row.C1 ?? row.x ?? 0),
-            C2: Number(row.C2 ?? row.y ?? 0),
-            C3: Number(row.C3 ?? row.z ?? 0),
             x: Number(row.C1 ?? row.x ?? 0),
             y: Number(row.C2 ?? row.y ?? 0),
-            z: Number(row.C3 ?? row.z ?? 0),
-
-            total_paid: Number(row.total_paid ?? 0),
-            total_claims: Number(row.total_claims ?? 0),
-            total_unique_beneficiaries: Number(row.total_unique_beneficiaries ?? 0),
-            paid_per_claim: Number(row.paid_per_claim ?? 0),
-            claims_per_beneficiary: Number(row.claims_per_beneficiary ?? 0),
-            unique_hcpcs_count: Number(row.unique_hcpcs_count ?? 0),
-            unique_servicing_npis: Number(row.unique_servicing_npis ?? 0),
-            active_months: Number(row.active_months ?? 0)
+            z: Number(row.C3 ?? row.z ?? 0)
         }));
     }
-    /*     function buildHospitalPointFromRow(row) {
-            if (!row) return null;
-    
-            return {
-                npi: String(row.hospital_npi || row.npi || row.provider_npi || ""),
-                x: Number(row.C1 ?? row.x ?? 0),
-                y: Number(row.C2 ?? row.y ?? 0),
-                z: Number(row.C3 ?? row.z ?? 0)
-            };
-        }
-    
-        function buildPeerCohortPointFromPeer(peer) {
-            if (!peer) return null;
-    
-            return {
-                npi: String(peer.peer_npi || peer.npi || ""),
-                x: Number(peer.x ?? 0),
-                y: Number(peer.y ?? 0),
-                z: Number(peer.z ?? 0)
-            };
-        }
-    
-        function buildProviderPeerConnector(providerPoint, peerPoint) {
-            if (!providerPoint || !peerPoint) return null;
-    
-            return {
-                start_point: {
-                    x: Number(providerPoint.x ?? 0),
-                    y: Number(providerPoint.y ?? 0),
-                    z: Number(providerPoint.z ?? 0)
-                },
-                end_point: {
-                    x: Number(peerPoint.x ?? 0),
-                    y: Number(peerPoint.y ?? 0),
-                    z: Number(peerPoint.z ?? 0)
-                }
-            };
-        }
-    
-        function buildCanonicalCloudRows(json = {}) {
-            const rows = Array.isArray(json?.rows) ? json.rows : [];
-    
-            return rows.map(row => ({
-                npi: String(row.hospital_npi || row.npi || ""),
-                x: Number(row.C1 ?? row.x ?? 0),
-                y: Number(row.C2 ?? row.y ?? 0),
-                z: Number(row.C3 ?? row.z ?? 0)
-            }));
-        } */
-
-
 
     // ------------------------------------------------------------
-    // Binding key resolver . resolve binding key
-    // When registry asks for provider_vs_region_benchmark,
-    //loader sends the raw financial intelligence data to loader-intelligence,
-    //gets back a clean LHS graph payload,
-    //and gives it to panel 3.
-
-    //When registry asks for provider_vs_region_benchmark_rhs,
-    //loader gets back the RHS table payload,
-    //and gives it to panel 4.
+    // Binding key resolver
     // ------------------------------------------------------------
 
     async function resolveBindingKey({ key, entry, session }) {
         log("resolveBindingKey()", { key, skuId: entry.sku_id });
 
-        global.SKU4PayloadCache = global.SKU4PayloadCache || {};
+        global.SKU5PayloadCache = global.SKU5PayloadCache || {};
 
         if (key === "canonical_axes_center") {
             return await loadCanonicalAxesCenter(entry, session);
@@ -524,13 +351,13 @@
         if (key === "canonical_cloud") {
             const cacheKey = `canonical_cloud_${getRegion()}_${getProviderNpi()}`;
 
-            if (global.SKU4PayloadCache[cacheKey]) {
+            if (global.SKU5PayloadCache[cacheKey]) {
                 log("canonical cloud cache hit", { cacheKey });
-                return global.SKU4PayloadCache[cacheKey];
+                return global.SKU5PayloadCache[cacheKey];
             }
 
             const payload = await loadCanonicalCloud(entry, session);
-            global.SKU4PayloadCache[cacheKey] = payload;
+            global.SKU5PayloadCache[cacheKey] = payload;
             return payload;
         }
 
@@ -551,9 +378,9 @@
             return payload.peer_table_rows || [];
         }
 
-        /*  if (key === "provider_vs_region_benchmark") {
-             return await loadProviderVsRegionBenchmark(entry, session);
-         } */
+        if (key === "provider_vs_region_benchmark") {
+            return await loadProviderVsRegionBenchmark(entry, session);
+        }
 
         if (key === "provider_vs_peer_benchmark") {
             return await loadProviderVsPeerBenchmark(entry, session);
@@ -573,57 +400,6 @@
         }
 
 
-        // ------------------------------------------------------------
-        // SKU4.50 Provider vs Region Benchmark resolve key
-        // Routes registry binding keys to loader-intelligence builders.
-        // Business logic stays in sku4-loader-financial-intelligence.js.--------------------------4.50 resolvers --START
-        // ------------------------------------------------------------
-
-        if (key === "provider_vs_region_benchmark") {
-            const json = await loadHospitalFinancialJson(session);
-            const financialIntelligence = json?.hospital_financial_intelligence || {};
-
-            return window.SKU4FinancialLoader
-                ?.buildProviderVsRegionBenchmarkPayload(financialIntelligence);
-        }
-
-        if (key === "provider_vs_region_benchmark_rhs") {
-            const json = await loadHospitalFinancialJson(session);
-            const financialIntelligence = json?.hospital_financial_intelligence || {};
-
-            return window.SKU4FinancialLoader
-                ?.buildProviderVsRegionBenchmarkTablePayload(financialIntelligence);
-        }
-
-        // ------------------------------------------------------------
-        // SKU4.50 Provider vs Region Benchmark resolve key
-        // Routes registry binding keys to loader-intelligence builders.
-        // Business logic stays in sku4-loader-financial-intelligence.js.---------------------------4.50 resolvers END
-        // ------------------------------------------------------------
-
-
-        //4.51 resolve keys LHS & RHS --------------------------------------------------------------4.51 LHS & RHS resolve key start
-
-        if (key === "provider_vs_peer_benchmark") {
-            const json = await loadHospitalFinancialJson(session);
-            const financialIntelligence =
-                json?.hospital_financial_intelligence || {};
-
-            return window.SKU4FinancialLoader
-                ?.buildProviderVsPeerBenchmarkPayload(financialIntelligence);
-        }
-
-        if (key === "provider_vs_peer_benchmark_rhs") {
-            const json = await loadHospitalFinancialJson(session);
-            const financialIntelligence =
-                json?.hospital_financial_intelligence || {};
-
-            return window.SKU4FinancialLoader
-                ?.buildProviderVsPeerBenchmarkTablePayload(financialIntelligence);
-        }
-
-        //4.51 resolve keys RHS ----------------------------------------------------------------------4.51 LHS & RHS resolve key end 
-
 
 
 
@@ -633,149 +409,152 @@
         }
 
         //--------------------------------------------------------------
-        // SKU4.58 monetizable CPT LHS payload resolver start
+        // SKU5.58 monetizable CPT LHS payload resolver start
         //--------------------------------------------------------------
         if (key === "monetizable_cpt_areas") {
             const rawRows = await loadMonetizableCptAreas(entry, session);
 
-            return window.SKU4FinancialLoader?.buildMonetizableCptPayload
-                ? window.SKU4FinancialLoader.buildMonetizableCptPayload(rawRows)
+            return window.SKU5FinancialLoader?.buildMonetizableCptPayload
+                ? window.SKU5FinancialLoader.buildMonetizableCptPayload(rawRows)
                 : null;
         }
         //--------------------------------------------------------------
-
+        // SKU5.58 monetizable CPT LHS payload resolver end
+        //--------------------------------------------------------------
 
         //--------------------------------------------------------------
-        // SKU4.58 monetizable CPT RHS payload resolver start
+        // SKU5.58 monetizable CPT RHS payload resolver start
         //--------------------------------------------------------------
         if (key === "monetizable_cpt_areas_rhs") {
             const rawRows = await loadMonetizableCptAreas(entry, session);
 
-            return window.SKU4FinancialLoader?.buildMonetizableCptTablePayload
-                ? window.SKU4FinancialLoader.buildMonetizableCptTablePayload(rawRows)
+            return window.SKU5FinancialLoader?.buildMonetizableCptTablePayload
+                ? window.SKU5FinancialLoader.buildMonetizableCptTablePayload(rawRows)
                 : { table: { columns: [], rows: [] } };
         }
         //--------------------------------------------------------------
+        // SKU5.58 monetizable CPT RHS payload resolver end
+        //--------------------------------------------------------------
 
 
         //--------------------------------------------------------------
-        // SKU4.60 CPT portfolio risk LHS payload resolver start
+        // SKU5.60 CPT portfolio risk LHS payload resolver start
         //--------------------------------------------------------------
         if (key === "cpt_portfolio_risk") {
-            const rawRows = await loadCptPortfolioRisk(entry, session);
+            const rawRows = await window.SKU5Loader.loadCptPortfolioRisk(entry, session);
 
-            return window.SKU4FinancialLoader?.buildCptRiskPayload
-                ? window.SKU4FinancialLoader.buildCptRiskPayload(rawRows)
+            return window.SKU5FinancialLoader?.buildCptRiskPayload
+                ? window.SKU5FinancialLoader.buildCptRiskPayload(rawRows)
                 : null;
         }
         //--------------------------------------------------------------
-        // SKU4.60 CPT portfolio risk LHS payload resolver end
+        // SKU5.60 CPT portfolio risk LHS payload resolver end
         //--------------------------------------------------------------
 
 
         //--------------------------------------------------------------
-        // SKU4.60 CPT portfolio risk RHS payload resolver start
+        // SKU5.60 CPT portfolio risk RHS payload resolver start
         //--------------------------------------------------------------
         if (key === "cpt_portfolio_risk_rhs") {
             const rawRows = await loadCptPortfolioRisk(entry, session);
 
-            return window.SKU4FinancialLoader?.buildCptRiskTablePayload
-                ? window.SKU4FinancialLoader.buildCptRiskTablePayload(rawRows)
-                : { table: { columns: [], rows: [] }, summary: {}, notes: [] };
+            return window.SKU5FinancialLoader?.buildCptRiskTablePayload
+                ? window.SKU5FinancialLoader.buildCptRiskTablePayload(rawRows)
+                : { table: { columns: [], rows: [] } };
         }
         //--------------------------------------------------------------
-        // SKU4.60 CPT portfolio risk RHS payload resolver end
+        // SKU5.60 CPT portfolio risk RHS payload resolver end
         //--------------------------------------------------------------
 
 
         //--------------------------------------------------------------
-        // SKU4.62 ICU utilization efficiency LHS payload resolver start
+        // SKU5.62 ICU utilization efficiency LHS payload resolver start
         //--------------------------------------------------------------
         if (key === "icu_utilization_efficiency") {
             const json = await loadHospitalFinancialJson();
             const rawBenchmark =
                 json?.hospital_financial_intelligence?.hospital_vs_region_benchmark || {};
 
-            return window.SKU4FinancialLoader?.buildIcuUtilizationEfficiencyPayload
-                ? window.SKU4FinancialLoader.buildIcuUtilizationEfficiencyPayload(rawBenchmark)
+            return window.SKU5FinancialLoader?.buildIcuUtilizationEfficiencyPayload
+                ? window.SKU5FinancialLoader.buildIcuUtilizationEfficiencyPayload(rawBenchmark)
                 : null;
         }
         //--------------------------------------------------------------
-        // SKU4.62 ICU utilization efficiency LHS payload resolver end
+        // SKU5.62 ICU utilization efficiency LHS payload resolver end
         //--------------------------------------------------------------
 
         //--------------------------------------------------------------
-        // SKU4.62 ICU utilization efficiency RHS payload resolver start
+        // SKU5.62 ICU utilization efficiency RHS payload resolver start
         //--------------------------------------------------------------
         if (key === "icu_utilization_efficiency_rhs") {
             const json = await loadHospitalFinancialJson();
             const rawBenchmark =
                 json?.hospital_financial_intelligence?.hospital_vs_region_benchmark || {};
 
-            return window.SKU4FinancialLoader?.buildIcuUtilizationEfficiencyTablePayload
-                ? window.SKU4FinancialLoader.buildIcuUtilizationEfficiencyTablePayload(rawBenchmark)
+            return window.SKU5FinancialLoader?.buildIcuUtilizationEfficiencyTablePayload
+                ? window.SKU5FinancialLoader.buildIcuUtilizationEfficiencyTablePayload(rawBenchmark)
                 : { table: { columns: [], rows: [] } };
         }
         //--------------------------------------------------------------
-        // SKU4.62 ICU utilization efficiency RHS payload resolver end
+        // SKU5.62 ICU utilization efficiency RHS payload resolver end
         //--------------------------------------------------------------
 
         //--------------------------------------------------------------
-        // SKU4.64 Coding Integrity Risk LHS payload resolver start
+        // SKU5.64 Coding Integrity Risk LHS payload resolver start
         //--------------------------------------------------------------
         if (key === "coding_integrity_risk") {
             const rawRows = await loadCptLeakageAreas(entry, session);
 
-            return window.SKU4FinancialLoader?.buildCodingIntegrityRiskPayload
-                ? window.SKU4FinancialLoader.buildCodingIntegrityRiskPayload(rawRows)
+            return window.SKU5FinancialLoader?.buildCodingIntegrityRiskPayload
+                ? window.SKU5FinancialLoader.buildCodingIntegrityRiskPayload(rawRows)
                 : null;
         }
         //--------------------------------------------------------------
-        // SKU4.64 Coding Integrity Risk LHS payload resolver end
+        // SKU5.64 Coding Integrity Risk LHS payload resolver end
         //--------------------------------------------------------------
 
 
         //--------------------------------------------------------------
-        // SKU4.64 Coding Integrity Risk RHS payload resolver start
+        // SKU5.64 Coding Integrity Risk RHS payload resolver start
         //--------------------------------------------------------------
         if (key === "coding_integrity_risk_rhs") {
             const rawRows = await loadCptLeakageAreas(entry, session);
 
-            return window.SKU4FinancialLoader?.buildCodingIntegrityRiskTablePayload
-                ? window.SKU4FinancialLoader.buildCodingIntegrityRiskTablePayload(rawRows)
+            return window.SKU5FinancialLoader?.buildCodingIntegrityRiskTablePayload
+                ? window.SKU5FinancialLoader.buildCodingIntegrityRiskTablePayload(rawRows)
                 : { table: { columns: [], rows: [] } };
         }
         //--------------------------------------------------------------
-        // SKU4.64 Coding Integrity Risk RHS payload resolver end
+        // SKU5.64 Coding Integrity Risk RHS payload resolver end
         //--------------------------------------------------------------
 
         //--------------------------------------------------------------
-        // SKU4.64 Coding Integrity Risk LHS payload resolver start
+        // SKU5.64 Coding Integrity Risk LHS payload resolver start
         //--------------------------------------------------------------
         if (key === "coding_integrity_risk") {
             const rawRows = await loadUnderperformingCptAreas(entry, session);
 
-            return window.SKU4FinancialLoader?.buildCodingIntegrityRiskPayload
-                ? window.SKU4FinancialLoader.buildCodingIntegrityRiskPayload(rawRows)
+            return window.SKU5FinancialLoader?.buildCodingIntegrityRiskPayload
+                ? window.SKU5FinancialLoader.buildCodingIntegrityRiskPayload(rawRows)
                 : null;
         }
         //--------------------------------------------------------------
-        // SKU4.64 Coding Integrity Risk LHS payload resolver end
+        // SKU5.64 Coding Integrity Risk LHS payload resolver end
         //--------------------------------------------------------------
 
 
         //--------------------------------------------------------------
-        // SKU4.64 Coding Integrity Risk RHS payload resolver start
+        // SKU5.64 Coding Integrity Risk RHS payload resolver start
         //--------------------------------------------------------------
         if (key === "coding_integrity_risk_rhs") {
             const rawRows = await loadUnderperformingCptAreas(entry, session);
 
-            return window.SKU4FinancialLoader?.buildCodingIntegrityRiskTablePayload
-                ? window.SKU4FinancialLoader.buildCodingIntegrityRiskTablePayload(rawRows)
+            return window.SKU5FinancialLoader?.buildCodingIntegrityRiskTablePayload
+                ? window.SKU5FinancialLoader.buildCodingIntegrityRiskTablePayload(rawRows)
                 : { table: { columns: [], rows: [] } };
         }
         //--------------------------------------------------------------
-        // SKU4.64 Coding Integrity Risk RHS payload resolver end
+        // SKU5.64 Coding Integrity Risk RHS payload resolver end
         //--------------------------------------------------------------
 
         if (key === "cpt_portfolio_risk_notes") {
@@ -874,9 +653,9 @@
 
         if (key === "trajectory_notes") {
             return [
-                "Shows provider movement across canonical CPT space over time.",
-                "Useful for identifying drift, convergence, or structural change against peers.",
-                "Can later feed predictive and prescriptive opportunity layers."
+                "Shows longitudinal movement over time.",
+                "Useful for drift and convergence tracking.",
+                "Can later feed predictive layers."
             ];
         }
 
@@ -887,7 +666,7 @@
             ];
         }
         //--------------------------------------------------------------
-        // SKU4.62 icu_utilization_efficiency resolver start
+        // SKU5.62 icu_utilization_efficiency resolver start
         //--------------------------------------------------------------
 
         if (key === "icu_utilization_efficiency_notes") {
@@ -898,62 +677,71 @@
         }
 
         //--------------------------------------------------------------
-        // SKU4.62 icu_utilization_efficiency resolver end
+        // SKU5.62 icu_utilization_efficiency resolver end
         //--------------------------------------------------------------
 
 
 
 
         //--------------------------------------------------------------
-        // SKU4.54 cohort percentile notes resolver
+        // SKU5.54 cohort percentile notes resolver start
         //--------------------------------------------------------------
-        if (key === "cohort_percentile_metrics_notes") {
+
+        if (key === "cohort_percentiles_notes") {
             return [
                 "Median and percentile context sharpens distribution-based positioning."
             ];
         }
 
         //--------------------------------------------------------------
-        // SKU4.54 LHS payload resolver
+        // SKU5.54 cohort percentile LHS payload resolver start
         //--------------------------------------------------------------
+
         if (key === "cohort_percentile_metrics") {
             return await loadCohortPercentiles(entry, session);
         }
 
         //--------------------------------------------------------------
-        // SKU4.54 RHS payload resolver
+        // SKU5.54 cohort percentile RHS payload resolver start
         //--------------------------------------------------------------
+
         if (key === "cohort_percentile_metrics_rhs") {
-            const json = await loadHospitalFinancialJson(session);
+            const json = await loadHospitalFinancialJson();
             const financialIntelligence = json?.hospital_financial_intelligence || {};
 
-            return window.SKU4FinancialLoader?.buildCohortPercentileTablePayload
-                ? window.SKU4FinancialLoader.buildCohortPercentileTablePayload(financialIntelligence)
+            return window.SKU5FinancialLoader?.buildCohortPercentileTablePayload
+                ? window.SKU5FinancialLoader.buildCohortPercentileTablePayload(financialIntelligence)
                 : { table: { columns: [], rows: [] } };
         }
 
-        ///--------------------------------------------------------------
-        // SKU4.55 LHS CPT overperformance payload resolver start------------------------------------------------------------------SKU4.55 LHS CPT overperformance resolver start
         //--------------------------------------------------------------
+        // SKU5.55 LHS cpt overperformance payload resolver start
+        //--------------------------------------------------------------
+
 
         if (key === "overperforming_cpt_areas") {
             const rawRows = await loadOverperformingCptAreas(entry, session);
 
-            return window.SKU4FinancialLoader?.buildOverperformingCptPayload
-                ? window.SKU4FinancialLoader.buildOverperformingCptPayload(rawRows)
+            return window.SKU5FinancialLoader?.buildOverperformingCptPayload
+                ? window.SKU5FinancialLoader.buildOverperformingCptPayload(rawRows)
                 : null;
         }
 
+
+
         //--------------------------------------------------------------
-        // SKU4.55 RHS CPT overperformance payload resolver start------------------------------------------------------------------SKU4.55 RHS CPT overperformance resolver start
+        // SKU5.55 RHS cpt overperformance payload resolver start
         //--------------------------------------------------------------
+
+
+
 
         if (key === "overperforming_cpt_areas_rhs") {
             const rawRows = await loadOverperformingCptAreas(entry, session);
 
-            return window.SKU4FinancialLoader?.buildOverperformingCptTablePayload
-                ? window.SKU4FinancialLoader.buildOverperformingCptTablePayload(rawRows)
-                : { table: { columns: [], rows: [] }, summary: {}, notes: [] };
+            return window.SKU5FinancialLoader?.buildOverperformingCptTablePayload
+                ? window.SKU5FinancialLoader.buildOverperformingCptTablePayload(rawRows)
+                : { table: { columns: [], rows: [] } };
         }
 
         if (key === "cohort_percentile_metrics_notes") {
@@ -971,34 +759,37 @@
         }
 
         //--------------------------------------------------------------
-        // SKU4.56 underperforming CPT LHS payload resolver
+        // SKU5.56 underperforming CPT LHS payload resolver start
         //--------------------------------------------------------------
         if (key === "underperforming_cpt_areas") {
             const rawRows = await loadUnderperformingCptAreas(entry, session);
 
-            return window.SKU4FinancialLoader?.buildUnderperformingCptPayload
-                ? window.SKU4FinancialLoader.buildUnderperformingCptPayload(rawRows)
+            return window.SKU5FinancialLoader?.buildUnderperformingCptPayload
+                ? window.SKU5FinancialLoader.buildUnderperformingCptPayload(rawRows)
                 : null;
         }
+        //--------------------------------------------------------------
+        // SKU5.56 underperforming CPT LHS payload resolver end
+        //--------------------------------------------------------------
+
 
         //--------------------------------------------------------------
-        // SKU4.56 underperforming CPT RHS payload resolver
+        // SKU5.56 underperforming CPT RHS payload resolver start
         //--------------------------------------------------------------
         if (key === "underperforming_cpt_areas_rhs") {
             const rawRows = await loadUnderperformingCptAreas(entry, session);
 
-            return window.SKU4FinancialLoader?.buildUnderperformingCptTablePayload
-                ? window.SKU4FinancialLoader.buildUnderperformingCptTablePayload(rawRows)
-                : {
-                    table: { columns: [], rows: [] },
-                    summary: {},
-                    notes: []
-                };
+            return window.SKU5FinancialLoader?.buildUnderperformingCptTablePayload
+                ? window.SKU5FinancialLoader.buildUnderperformingCptTablePayload(rawRows)
+                : { table: { columns: [], rows: [] } };
         }
+        //--------------------------------------------------------------
+        // SKU5.56 underperforming CPT RHS payload resolver end
+        //--------------------------------------------------------------
 
 
         //--------------------------------------------------------------
-        // SKU4.56 underperforming CPT notes resolver start
+        // SKU5.56 underperforming CPT notes resolver start
         //--------------------------------------------------------------
         if (key === "underperforming_cpt_notes") {
             return [
@@ -1007,7 +798,7 @@
             ];
         }
         //--------------------------------------------------------------
-        // SKU4.56 underperforming CPT notes resolver end
+        // SKU5.56 underperforming CPT notes resolver end
         //--------------------------------------------------------------
 
         if (key === "fixable_cpts_notes") {
@@ -1071,7 +862,9 @@
             return await loadCohortPercentiles(entry, session);
         }
 
-
+        if (key === "data5" || key === "graphs5") {
+            return await loadOverperformingCptAreas(entry, session);
+        }
 
         if (key === "data6" || key === "graphs6") {
             return await loadUnderperformingCptAreas(entry, session);
@@ -1128,7 +921,7 @@
             ? comparablePeers[0]
             : null;
 
-        const providerPoint = buildHospitalPointFromRow(hospitalRow);
+        const hospitalPoint = buildHospitalPointFromRow(hospitalRow);
         const peerCohortPoint = buildPeerCohortPointFromPeer(topPeer);
         const canonicalCloudRows = buildCanonicalCloudRows(regionCloud);
 
@@ -1136,9 +929,9 @@
             type: "canonical_axes_center",
             axes: buildAxesFromContract(axesContract),
             center_point: buildCenterPointFromContract(axesContract),
-            hospital_point: providerPoint,
+            hospital_point: hospitalPoint,
             peer_cohort_point: peerCohortPoint,
-            provider_peer_connector: buildProviderPeerConnector(providerPoint, peerCohortPoint),
+            provider_peer_connector: buildProviderPeerConnector(hospitalPoint, peerCohortPoint),
             axis_semantics: buildAxisSemanticsFromContract(axesContract),
             axis_ranges: buildAxisRangesFromContract(axesContract),
             camera_defaults: buildCameraDefaultsFromContract(axesContract),
@@ -1173,93 +966,76 @@
         const axesContract = await loadRegionAxesContractJson();
         const json = await loadTrajectoryJson();
 
-        const providerNpi =
-            json.provider_npi ||
-            json.npi ||
-            getProviderNpi();
-
-        const trajectoryPoints =
-            Array.isArray(json.timeline)
-                ? json.timeline
-                : Array.isArray(json.trajectory_points)
-                    ? json.trajectory_points
-                    : [];
-
-        const rawPayload = {
+        return {
             type: "canonical_trajectory",
             region: json.region || getRegion(),
-
             benchmark_basis: json.benchmark_basis || "",
-            grain: json.grain || "monthly",
-
-            provider_npi: providerNpi,
-            provider_name: json.provider_name || json.hospital_name || "",
-            provider_classifier_label:
-                json.provider_classifier_label ||
-                json.hospital_classifier_label ||
-                "",
-            provider_primary_taxonomy_group:
-                json.provider_primary_taxonomy_group ||
-                json.hospital_primary_taxonomy_group ||
-                "",
-
+            grain: json.grain || "",
+            hospital_npi: json.hospital_npi || "",
+            hospital_classifier_label: json.hospital_classifier_label || "",
+            hospital_primary_taxonomy_group: json.hospital_primary_taxonomy_group || "",
             peer_cluster_id: json.peer_cluster_id || null,
-
-            start_month:
-                json.timeline_start_month ||
-                json.start_month ||
-                trajectoryPoints?.[0]?.month ||
-                "",
-
-            end_month:
-                json.timeline_end_month ||
-                json.end_month ||
-                trajectoryPoints?.[trajectoryPoints.length - 1]?.month ||
-                "",
-
-            timeline_point_count:
-                json.timeline_point_count ||
-                trajectoryPoints.length ||
-                0,
-
-            trajectory_points: trajectoryPoints,
-
+            start_month: json.timeline_start_month || "",
+            end_month: json.timeline_end_month || "",
+            timeline_point_count: json.timeline_point_count || 0,
+            trajectory_points: Array.isArray(json.timeline) ? json.timeline : [],
             axes: buildAxesFromContract(axesContract),
             center_point: buildCenterPointFromContract(axesContract),
             axis_semantics: buildAxisSemanticsFromContract(axesContract),
             axis_ranges: buildAxisRangesFromContract(axesContract),
             camera_defaults: buildCameraDefaultsFromContract(axesContract),
             provenance: buildProvenanceFromContract(axesContract),
-
-            summary: trajectoryPoints.length
-                ? `Trajectory found for provider ${providerNpi}.`
-                : `No trajectory found for provider ${providerNpi}.`
+            summary: json.timeline_point_count
+                ? `Trajectory found for hospital ${json.hospital_npi}.`
+                : `No trajectory found for hospital ${json.hospital_npi}.`
         };
-
-        if (window.SKU4FinancialLoader?.buildCanonicalTrajectoryPayload) {
-            return window.SKU4FinancialLoader.buildCanonicalTrajectoryPayload(rawPayload);
-        }
-
-        return rawPayload;
     }
 
     async function loadTrajectoryMetrics(entry, session) {
-        const canonicalTrajectory = await loadCanonicalTrajectory(entry, session);
+        const json = await loadTrajectoryJson();
+        const timeline = Array.isArray(json.timeline) ? json.timeline : [];
+        const first = timeline[0] || {};
+        const latest = timeline[timeline.length - 1] || {};
 
-        if (window.SKU4FinancialLoader?.buildTrajectoryMetricsPayload) {
-            return window.SKU4FinancialLoader.buildTrajectoryMetricsPayload(
-                canonicalTrajectory
-            );
-        }
+        const timelineStartMonth =
+            json.timeline_start_month ||
+            first.month ||
+            "N/A";
 
-        return {
-            sku_id: "SKU4.52",
-            type: "trajectory_metrics",
-            binding: "trajectory_metrics",
-            status: "Builder missing",
-            summary: "SKU4 trajectory metrics builder is not loaded.",
-            rows: []
-        };
+        const timelineEndMonth =
+            json.timeline_end_month ||
+            latest.month ||
+            "N/A";
+
+        const latestPeerTrend =
+            latest.peer_gap_trend ||
+            "N/A";
+
+        const latestRegionTrend =
+            latest.region_gap_trend ||
+            "N/A";
+
+        return [
+            { metric: "Hospital NPI", value: json.hospital_npi || "" },
+            { metric: "Hospital Classification", value: json.hospital_classifier_label || "" },
+            { metric: "Peer Cluster ID", value: json.peer_cluster_id ?? "" },
+            { metric: "Start Month", value: timelineStartMonth },
+            { metric: "End Month", value: timelineEndMonth },
+            { metric: "Timeline Points", value: json.timeline_point_count || 0 },
+            { metric: "Current Care Economic Intensity", value: latest.C1 ?? "" },
+            { metric: "Current Utilization Structure", value: latest.C2 ?? "" },
+            { metric: "Current Provider Scale / Structural Activity", value: latest.C3 ?? "" },
+            { metric: "Current Status vs Peer", value: latest.status_vs_peer || "" },
+            { metric: "Current Status vs Region", value: latest.status_vs_region || "" },
+            { metric: "Latest Peer Trend", value: latestPeerTrend },
+            { metric: "Latest Region Trend", value: latestRegionTrend },
+            { metric: "Total Claims", value: latest.total_claims ?? "" },
+            { metric: "Total Paid", value: latest.total_paid ?? "" },
+            { metric: "Unique CPT Count", value: latest.unique_hcpcs_count ?? "" },
+            { metric: "Paid per Claim", value: latest.paid_per_claim ?? "" },
+            { metric: "Paid per Beneficiary", value: latest.paid_per_beneficiary ?? "" },
+            { metric: "Claims per Beneficiary", value: latest.claims_per_beneficiary ?? "" }
+        ];
     }
 
     async function loadComparablePeersView(entry, session) {
@@ -1300,7 +1076,7 @@
             camera_defaults: buildCameraDefaultsFromContract(axesContract),
             provenance: buildProvenanceFromContract(axesContract),
             canonical_cloud_rows: buildCanonicalCloudRows(regionCloud),
-            provider_point: buildHospitalPointFromRow(hospitalRow),
+            hospital_point: buildHospitalPointFromRow(hospitalRow),
             peer_points: peerPoints,
             peer_table_rows: peerPoints.map(p => ({
                 rank: p.rank,
@@ -1356,8 +1132,8 @@
                 }
             ],
             summary: peerPoints.length
-                ? `Found ${peerPoints.length} comparable providers for this provider.`
-                : `No comparable providers found for this provider.`
+                ? `Found ${peerPoints.length} comparable peers for hospital ${getProviderNpi()}.`
+                : `No comparable peers found for hospital ${getProviderNpi()}.`
         };
     }
 
@@ -1459,14 +1235,14 @@
     }
 
     async function loadCohortPercentiles(entry, session) {
-        const json = await loadHospitalFinancialJson(session);
+        const json = await loadHospitalFinancialJson();
         const financialIntelligence = json?.hospital_financial_intelligence || {};
 
-        if (!window.SKU4FinancialLoader) {
-            throw new Error("SKU4FinancialIntelligenceLoader is not loaded.");
+        if (!window.SKU5FinancialIntelligenceLoader) {
+            throw new Error("SKU5FinancialIntelligenceLoader is not loaded.");
         }
 
-        return window.SKU4FinancialLoader.buildCohortPercentilePayload(
+        return window.SKU5FinancialIntelligenceLoader.buildCohortPercentilePayload(
             financialIntelligence
         );
     }
@@ -1476,32 +1252,30 @@
     // ------------------------------------------------------------
 
     // ------------------------------------------------------------
-    // SKU4.54 — Cohort Median and Percentile Metrics
+    // SKU5.54 — Cohort Median and Percentile Metrics
     // ------------------------------------------------------------
-    // SKU4.54 — Cohort Median and Percentile Metrics
-    //--------------------------------------------------------------
     async function loadCohortPercentiles(entry, session) {
-        const json = await loadHospitalFinancialJson(session);
+        const json = await loadHospitalFinancialJson();
         const financialIntelligence = json?.hospital_financial_intelligence || {};
 
-        if (!window.SKU4FinancialLoader?.buildCohortPercentilePayload) {
-            console.warn("[SKU4.54] Cohort percentile builder missing");
-            return { metrics: [] }; // safe fallback
+        if (!window.SKU5FinancialIntelligenceLoader) {
+            throw new Error("SKU5FinancialIntelligenceLoader is not loaded.");
         }
 
-        return window.SKU4FinancialLoader.buildCohortPercentilePayload(
+        return window.SKU5FinancialIntelligenceLoader.buildCohortPercentilePayload(
             financialIntelligence
         );
     }
 
 
+
     async function loadOverperformingCptAreas(entry, session) {
         const json = await loadHospitalFinancialJson();
-        console.log("[SKU4.55 raw loader] json top keys =", Object.keys(json || {}));
+        console.log("[SKU5.55 raw loader] json top keys =", Object.keys(json || {}));
 
         console.log(
 
-            "[SKU4.55 raw loader] hfi keys =",
+            "[SKU5.55 raw loader] hfi keys =",
 
             Object.keys(json?.hospital_financial_intelligence || {})
 
@@ -1509,7 +1283,7 @@
 
         console.log(
 
-            "[SKU4.55 raw loader] overperforming branch =",
+            "[SKU5.55 raw loader] overperforming branch =",
 
             json?.hospital_financial_intelligence?.overperforming_cpt_areas
 
@@ -1589,7 +1363,7 @@
     // ------------------------------------------------------------
 
     function readContextValue(key) {
-        const ctx = global.SKU4_ENTRY_CONTEXT || global.SKU4_ENTRY_CONTEXT || {};
+        const ctx = global.SKU4_ENTRY_CONTEXT || global.SKU5_ENTRY_CONTEXT || {};
 
         if (key === "region") return ctx.region || "";
         if (key === "model") return ctx.family || ctx.model || "";
@@ -1607,17 +1381,17 @@
     function log(message, data) {
         if (!DEBUG) return;
         if (typeof data === "undefined") {
-            console.log(`[SKU4][loader] ${message}`);
+            console.log(`[SKU5][loader] ${message}`);
         } else {
-            console.log(`[SKU4][loader] ${message}`, data);
+            console.log(`[SKU5][loader] ${message}`, data);
         }
     }
 
     function warn(message, data) {
         if (typeof data === "undefined") {
-            console.warn(`[SKU4][loader] ${message}`);
+            console.warn(`[SKU5][loader] ${message}`);
         } else {
-            console.warn(`[SKU4][loader] ${message}`, data);
+            console.warn(`[SKU5][loader] ${message}`, data);
         }
     }
 
@@ -1625,10 +1399,10 @@
     // Export
     // ------------------------------------------------------------
 
-    global.SKU4Loader = {
+    global.SKU5Loader = {
         loadSkuPayload
     };
-    window.SKU4Loader = window.SKU4Loader || {};
-    window.SKU4Loader.loadCptPortfolioRisk = loadCptPortfolioRisk;
+    window.SKU5Loader = window.SKU5Loader || {};
+    window.SKU5Loader.loadCptPortfolioRisk = loadCptPortfolioRisk;
 
 })(window);

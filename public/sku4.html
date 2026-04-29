@@ -4,382 +4,129 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Oranicle Canonical Viewer - SKU4</title>
+    <title>SKU4 — CPT Canonical</title>
+
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="/css/template_1_cpt_opportunity_fullscreen.css">
+    <link rel="stylesheet" href="/css/sku4.css">
 
     <style>
-        .entry-value {
-            min-height: 42px;
-            display: flex;
-            align-items: center;
-            padding: 10px 14px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.03);
-            color: #ffffff;
-            font-weight: 600;
-            letter-spacing: 0.2px;
+        body {
+            background: #06101c;
+            color: #d8e1ea;
+            font-family: system-ui;
         }
 
-        .sku4-launch-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .cta-chevron {
-            width: 0;
-            height: 0;
-            border-top: 14px solid transparent;
-            border-bottom: 14px solid transparent;
-            border-left: 20px solid #c62828;
-            filter: drop-shadow(0 0 6px rgba(198, 40, 40, 0.35));
-        }
-
-        body.sku4-viewer-collapsed .left-panel {
-            display: none;
-        }
-
-        body.sku4-viewer-collapsed .right-panel {
-            width: 100%;
-            flex: 0 0 100%;
-            max-width: 100%;
-        }
-
-        .rhs-placeholder-panel {
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
+        .sku4-shell {
             padding: 16px;
-            margin-bottom: 18px;
         }
 
-        .rhs-placeholder-title {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #ffffff;
-        }
-
-        .rhs-placeholder-copy {
-            font-size: 13px;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.65);
-        }
-
-        .sku4-main-layout {
+        .sku4-main-grid {
             display: flex;
-            align-items: flex-start;
-            gap: 20px;
+            gap: 16px;
         }
 
-        .sku4-main-layout .left-panel {
-            width: 48%;
-            flex: 0 0 48%;
+        [data-sku4-panel="panel3"] {
+            width: 55%;
         }
 
-        .sku4-main-layout .right-panel {
-            width: 48%;
-            flex: 0 0 48%;
-        }
-
-        body:not(.sku4-viewer-collapsed) .right-panel .panel-inner {
-            max-height: 78vh;
+        [data-sku4-panel="panel4"] {
+            width: 45%;
+            max-height: 80vh;
             overflow-y: auto;
-            overflow-x: hidden;
         }
 
-        body:not(.sku4-viewer-collapsed) .rhs-portlet {
-            height: 78vh;
-            overflow-y: auto;
-            overflow-x: hidden;
+        .sku4-panel {
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
-            padding: 14px;
+            padding: 12px;
             background: rgba(255, 255, 255, 0.02);
         }
 
-
-        /* Cohort Median + Percentile Dashboard Cards */
-
-
-        .cohort-percentile-dashboard {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .cohort-size-row {
-            padding: 10px 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.03);
-            color: #d7e3f4;
-            font-size: 13px;
-        }
-
-        .cohort-percentile-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .cohort-percentile-card {
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .cohort-percentile-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .cohort-metric-title {
-            font-size: 13px;
+        .sku4-title {
+            font-size: 18px;
             font-weight: 700;
-            color: #f4f7fb;
         }
 
-        .cohort-percentile-badge {
-            font-size: 11px;
-            font-weight: 700;
-            border-radius: 999px;
-            padding: 4px 10px;
-            white-space: nowrap;
-        }
-
-        .badge-top {
-            background: rgba(34, 197, 94, 0.18);
-            color: #4ade80;
-        }
-
-        .badge-above {
-            background: rgba(59, 130, 246, 0.18);
-            color: #60a5fa;
-        }
-
-        .badge-below {
-            background: rgba(245, 158, 11, 0.18);
-            color: #fbbf24;
-        }
-
-        .badge-bottom {
-            background: rgba(239, 68, 68, 0.18);
-            color: #f87171;
-        }
-
-        .cohort-percentile-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .cohort-percentile-stats div {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .cohort-percentile-stats span {
-            font-size: 11px;
-            color: #8aa1b8;
-        }
-
-        .cohort-percentile-stats b {
+        .sku4-subtitle {
             font-size: 13px;
-            color: #f4f7fb;
+            opacity: 0.7;
         }
 
-        .cohort-percentile-bar-shell {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .cohort-percentile-bar-track {
-            position: relative;
-            height: 10px;
+        .sku4-pill {
+            display: inline-block;
+            padding: 6px 10px;
             border-radius: 999px;
-            background: linear-gradient(to right,
-                    #7f1d1d 0%,
-                    #b45309 25%,
-                    #1e3a8a 50%,
-                    #166534 75%,
-                    #22c55e 100%);
-        }
-
-        .cohort-percentile-median-marker {
-            position: absolute;
-            left: 50%;
-            top: -3px;
-            width: 2px;
-            height: 16px;
-            background: rgba(255, 255, 255, 0.85);
-        }
-
-        .cohort-percentile-dot {
-            position: absolute;
-            top: 50%;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: #ffffff;
-            border: 2px solid #0f172a;
-            transform: translate(-50%, -50%);
-        }
-
-        .cohort-percentile-scale {
-            display: flex;
-            justify-content: space-between;
-            font-size: 10px;
-            color: #8aa1b8;
-        }
-
-        /* comment beside title in cohort median - above or below etc */
-
-        .cohort-percentile-title-block {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
 
 <body>
 
-    <div class="app-shell">
+    <div class="sku4-shell">
 
-        <div class="top-controls-shell panel">
-            <div class="panel-inner">
+        <div data-sku4-root>
 
-                <h1 class="page-title">Provider Canonical Map</h1>
-                <p class="page-subtitle">
-                    Review the selected context and launch the provider view.
-                </p>
+            <!-- PANEL 1 -->
+            <section data-sku4-panel="panel1"></section>
 
-                <div class="section">
-                    <div class="control-bar sku4-entry-bar">
+            <!-- PANEL 2 -->
+            <section data-sku4-panel="panel2"></section>
 
-                        <div class="control-item">
-                            <label>Region</label>
-                            <div id="entryRegion" class="entry-value">-</div>
-                        </div>
-
-                        <div class="control-item">
-                            <label>Canonical Family</label>
-                            <div id="entryFamily" class="entry-value">-</div>
-                        </div>
-
-                        <div class="control-item control-npi">
-                            <label>Provider NPI</label>
-                            <div id="entryNpi" class="entry-value">-</div>
-                            <div id="npiStatus" class="npi-status"></div>
-                        </div>
-
-                        <div class="control-actions sku4-launch-actions">
-                            <div id="ctaChevron" class="cta-chevron" aria-hidden="true"></div>
-                            <button id="viewBtn" class="metric-btn">View</button>
-                            <button id="homeBtn" class="metric-btn secondary-btn" type="button">Home</button>
-                        </div>
-
-                    </div>
-                </div>
-
+            <!-- MAIN -->
+            <div class="sku4-main-grid">
+                <section data-sku4-panel="panel3"></section>
+                <section data-sku4-panel="panel4"></section>
             </div>
+
+            <!-- PANEL 5 -->
+            <section data-sku4-panel="panel5"></section>
+
         </div>
-        <div class="sku4-main-layout">
-            <div class="panel left-panel">
-                <div class="panel-inner">
 
-                    <div class="meta-row">
-                        <div><span>X Axis</span><b id="rhsAxisX">-</b></div>
-                        <div><span>Y Axis</span><b id="rhsAxisY">-</b></div>
-                        <div><span>Z Axis</span><b id="rhsAxisZ">-</b></div>
-                    </div>
-
-                    <div class="section">
-                        <h2 class="section-title"><span id="viewerTitleRegion">NYNJCT</span> Viewer</h2>
-                        <div class="viewer-shell">
-                            <div id="sku4Viewer" style="width:100%;height:620px;position:relative;">
-                                <div style="padding:20px;color:#9fb0c3">
-                                    Regional canonical viewer will appear here after loading Infograph.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button id="toggleLayersBtn" class="metric-btn secondary-btn" style="display:none;">
-                        Explore Layers
-                    </button>
-
-                    <div class="section" id="skuCtaPanelLeft" style="display:none;"></div>
-
-                </div>
-
-
-            </div>
-
-            <div class="panel right-panel">
-                <div class="panel-inner">
-
-                    <div id="rhsPortlet" class="rhs-portlet">
-                        <div id="rhsPlaceholderPanel" class="rhs-placeholder-panel" style="display:none;">
-                            <div class="rhs-placeholder-title">Benchmark & Peer Insights</div>
-                            <div class="rhs-placeholder-copy">
-                                Region, cohort, peer benchmark, percentile and comparative interpretation will appear
-                                here
-                                as
-                                the canonical layers progress.
-                            </div>
-                        </div>
-
-                        <div id="rhsBlockStack" class="rhs-block-stack"></div>
-                    </div>
-
-                    <div class="section">
-                        <div id="rhsSummaryCard" class="provider-meta" style="display:none;"></div>
-                        <div class="hr"></div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
     </div>
-
-    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
-    <script src="js/sku4-loader.js"></script>
-    <script src="js/sku4-registry.js"></script>
-    <script src="js/sku4-interpretation.js"></script>
-    <script src="js/sku4-canonical-interpretation.js"></script>
-    <script src="js/sku4-viewer.js"></script>
-    <script src="js/sku4-infograph-engine.js"></script>
-    <script src="/js/template_1_opportunity_binder.js"></script>
-    <script src="/js/template_1_cpt_opportunity_fullscreen.js"></script>
-    <script src="js/sku4-rhs-binder.js?v=2"></script>
-    <script src="js/provider-cpt-viewer-layer-config.js?v=6"></script>
-    <script src="/js/viewer-layer-engine.js"></script>
-
+    <!-- Context FIRST -->
     <script>
         (function () {
             const params = new URLSearchParams(window.location.search);
 
             window.SKU4_ENTRY_CONTEXT = {
-                region: params.get('region') || '',
+                region: params.get('region') || 'NYNJCT',
                 npi: params.get('npi') || '',
-                family: params.get('family') || ''
+                family: params.get('family') || 'Billing-CPT'
             };
         })();
     </script>
 
-    <script src="js/sku4-index.js"></script>
+    <!-- Core libs -->
+    <script src="/js/plotly-2.35.2.min.js"></script>
+
+    <!-- Registry -->
+    <script src="/js/sku4-registry.js"></script>
+
+    <!-- Loader (raw data) -->
+    <script src="/js/sku4-loader.js"></script>
+
+    <!-- 🔥 VERY IMPORTANT: SKU renderer BEFORE panel engine -->
+    <script src="/js/SKU4_Frontend_based_scripts/SKU4.01.js"></script>
+
+    <!-- Intelligence layer -->
+    <script src="/js/SKU4_domain_specific_loaders/sku4-loader-financial-intelligence.js"></script>
+
+    <script src="/js/SKU4_Frontend_based_scripts/sku4.50.js"></script>
+    <script src="/js/SKU4_Frontend_based_scripts/sku4.51.js"></script>
+    <script src="/js/SKU4_Frontend_based_scripts/sku4.52.js"></script>
+    <script src="/js/SKU4_Frontend_based_scripts/sku4.53.js"></script>
+    <script src="/js/SKU4_Frontend_based_scripts/sku4.54.js"></script>
+    <script src="/js/SKU4_Frontend_based_scripts/sku4.55.js"></script>
+    <script src="/js/SKU4_Frontend_based_scripts/sku4.56.js"></script>
+    <script src="/js/SKU4_Frontend_based_scripts/sku4.58.js"></script>
+    <script src="/js/SKU4_Frontend_based_scripts/sku4.60.js"></script>
+    <!-- Panel engine (dispatcher) -->
+    <script src="/js/sku4-panel-engine.js"></script>
+
+    <!-- Index LAST -->
+    <script src="/js/sku4-index.js"></script>
 
 </body>
 

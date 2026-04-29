@@ -1,0 +1,4058 @@
+/* ============================================================
+   SKU4 Base
+   ============================================================ */
+
+:root {
+    --sku4-bg: #07111c;
+    --sku4-surface: #0d1724;
+    --sku4-surface-alt: #132131;
+    --sku4-surface-soft: #18293b;
+
+    --sku4-border: #22364d;
+    --sku4-border-soft: #2b435f;
+
+    --sku4-text: #d7e0ea;
+    --sku4-text-soft: #8ea1b5;
+    --sku4-title: #f1f5f9;
+
+    --sku4-accent: #d12d2d;
+    --sku4-accent-dark: #a52121;
+
+    --sku4-success: #4ca86a;
+    --sku4-warning: #c78a2c;
+    --sku4-error: #d65a5a;
+
+    --sku4-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+    --sku4-radius: 14px;
+    --sku4-gap: 16px;
+    --sku4-pad: 16px;
+}
+
+html,
+body {
+    background: #edf3f9;
+    margin: 0;
+    padding: 0;
+}
+
+[data-sku4-root] {
+    font-family: var(--sku4-font);
+    color: var(--sku4-text);
+    background: var(--sku4-bg);
+    min-height: 100vh;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sku4-gap);
+    box-sizing: border-box;
+}
+
+[data-sku4-root] {
+    font-family: var(--sku4-font);
+    color: var(--sku4-text);
+    background:
+        linear-gradient(180deg,
+            #07121e 0%,
+            #081522 45%,
+            #06111d 100%);
+    min-height: 100vh;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sku4-gap);
+    box-sizing: border-box;
+}
+
+/* ============================================================
+   Panel Layout
+   ============================================================ */
+
+[data-sku4-panel] {
+    min-width: 0;
+}
+
+[data-sku4-panel="panel1"],
+[data-sku4-panel="panel2"],
+[data-sku4-panel="panel5"] {
+    width: 100%;
+}
+
+[data-sku4-panel="panel3"],
+[data-sku4-panel="panel4"] {
+    width: 100%;
+}
+
+.sku4-main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sku4-gap);
+}
+
+/* ============================================================
+   Generic Panel Shell
+   ============================================================ */
+
+.sku4-panel {
+    background:
+        linear-gradient(90deg,
+            rgba(17, 28, 42, 0.98) 0%,
+            rgba(22, 34, 50, 0.96) 35%,
+            rgba(18, 31, 46, 0.95) 65%,
+            rgba(12, 22, 34, 0.98) 100%);
+    border: 1px solid rgba(43, 67, 95, 0.9);
+    border-radius: var(--sku4-radius);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    box-sizing: border-box;
+}
+
+.sku4-panel-content,
+.sku4-panel-header {
+    padding: 14px 18px;
+}
+
+.sku4-panel-journey,
+.sku4-panel-empty,
+.sku4-panel-error,
+.sku4-panel-unsupported {
+    padding: var(--sku4-pad);
+}
+
+.sku4-content-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+
+.sku4-panel-content,
+.sku4-panel-header,
+.sku4-panel-journey,
+.sku4-panel-empty,
+.sku4-panel-error,
+.sku4-panel-unsupported {
+    background: transparent;
+}
+
+.sku4-content-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sku4-content-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--sku4-title);
+}
+
+.sku4-content-subtitle {
+    font-size: 13px;
+    color: var(--sku4-text-soft);
+}
+
+.sku4-content-body {
+    min-height: 80px;
+}
+
+/* ============================================================
+   Header Shell
+   ============================================================ */
+
+.sku4-header-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sku4-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    width: 100%;
+}
+
+.sku4-header-main {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.sku4-header-topline {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sku4-accent);
+    margin-bottom: 4px;
+}
+
+.sku4-header-title {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.15;
+    color: var(--sku4-title);
+}
+
+.sku4-header-subtitle {
+    font-size: 13px;
+    color: var(--sku4-text-soft);
+    margin-top: 6px;
+}
+
+.sku4-header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.sku4-header-meta-inline {
+    justify-content: flex-end;
+    align-items: center;
+    flex: 0 0 auto;
+    max-width: 52%;
+}
+
+.sku4-meta-chip {
+    background: var(--sku4-surface-alt);
+    border: 1px solid var(--sku4-border);
+    border-radius: 999px;
+    padding: 6px 10px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.sku4-meta-label {
+    font-size: 11px;
+    color: var(--sku4-text-soft);
+    font-weight: 600;
+}
+
+.sku4-meta-value {
+    font-size: 12px;
+    color: var(--sku4-title);
+    font-weight: 700;
+}
+
+/* ------------------------------------------------------------
+   SKU4 Panel 2 Journey Rail — align with SKU5
+------------------------------------------------------------ */
+
+[data-sku4-panel="panel2"] {
+    padding: 10px 12px;
+}
+
+.sku4-panel-journey {
+    width: 100%;
+}
+
+.sku4-journey-shell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.sku4-journey-left {
+    flex: 1;
+    min-width: 0;
+}
+
+.sku4-journey-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.sku4-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 13px;
+    border-radius: 999px;
+    border: 1px solid rgba(180, 200, 220, 0.28);
+    background: rgba(255, 255, 255, 0.035);
+    color: #d8e2ee;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.sku4-pill-active {
+    background: rgba(255, 70, 80, 0.24);
+    border-color: rgba(255, 90, 100, 0.85);
+    color: #ffffff;
+    box-shadow: 0 0 0 1px rgba(255, 90, 100, 0.22);
+}
+
+.sku4-pill-visited {
+    color: #d8e2ee;
+}
+
+.sku4-pill-future,
+.sku4-pill-locked {
+    opacity: 0.45;
+}
+
+.sku4-journey-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.sku4-journey-right .sku4-btn {
+    min-height: 34px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+
+.sku4-btn {
+    appearance: none;
+    border: 1px solid var(--sku4-border);
+    background: var(--sku4-surface);
+    color: var(--sku4-title);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.15s ease;
+}
+
+.sku4-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.sku4-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.sku4-btn-primary {
+    background: var(--sku4-accent);
+    border-color: var(--sku4-accent);
+    color: #ffffff;
+}
+
+.sku4-btn-primary:hover:not(:disabled) {
+    background: var(--sku4-accent-dark);
+    border-color: var(--sku4-accent-dark);
+}
+
+.sku4-btn-secondary {
+    background: var(--sku4-surface);
+}
+
+/* ============================================================
+   Tables
+   ============================================================ */
+
+.sku4-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: transparent;
+}
+
+.sku4-table th,
+.sku4-table td {
+    border: 1px solid rgba(40, 62, 88, 0.65);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.sku4-table th {
+    background:
+        linear-gradient(180deg,
+            rgba(35, 55, 78, 0.88) 0%,
+            rgba(25, 41, 60, 0.92) 100%);
+    color: #dce8f4;
+    font-weight: 700;
+}
+
+.sku4-table td {
+    background:
+        linear-gradient(180deg,
+            rgba(13, 22, 34, 0.92) 0%,
+            rgba(9, 16, 26, 0.96) 100%);
+    color: #d7e0ea;
+}
+
+/* ============================================================
+   Narrative / Notes / Hybrid / KPI
+   ============================================================ */
+
+.sku4-narrative-block,
+.sku4-note-block,
+.sku4-fallback-json,
+.sku4-hybrid-wrap,
+.sku4-kpi-card {
+    background: var(--sku4-surface-alt);
+    border: 1px solid var(--sku4-border);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.sku4-narrative-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--sku4-text);
+}
+
+.sku4-notes-list {
+    margin: 0;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sku4-hybrid-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.sku4-hybrid-narrative {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.sku4-hybrid-data {
+    overflow: auto;
+}
+
+.sku4-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.sku4-kpi-label {
+    font-size: 12px;
+    color: var(--sku4-text-soft);
+    margin-bottom: 6px;
+}
+
+.sku4-kpi-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--sku4-title);
+}
+
+.sku4-kpi-subtext {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--sku4-text-soft);
+}
+
+/* ============================================================
+   JSON / Debug / Fallback
+   ============================================================ */
+
+.sku4-fallback-title,
+.sku4-panel-error-title,
+.sku4-panel-empty-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--sku4-title);
+    margin-bottom: 6px;
+}
+
+.sku4-panel-error-message,
+.sku4-panel-empty-message {
+    font-size: 13px;
+    color: var(--sku4-text-soft);
+}
+
+.sku4-json-preview {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #1e293b;
+}
+
+/* ============================================================
+   Status States
+   ============================================================ */
+
+.sku4-panel-empty {
+    background: #fcfcfd;
+}
+
+.sku4-panel-error {
+    background: #fff6f6;
+    border-color: #f1c7c7;
+}
+
+.sku4-panel-error-title {
+    color: var(--sku4-error);
+}
+
+.sku4-panel-unsupported {
+    background: #fffaf2;
+    border-color: #f2ddb3;
+}
+
+/* ============================================================
+   Loading / Fatal
+   ============================================================ */
+
+[data-sku4-root][data-sku4-loading="true"] {
+    opacity: 0.94;
+}
+
+.sku4-fatal-state {
+    background: #fff6f6;
+    border: 1px solid #f1c7c7;
+    border-radius: var(--sku4-radius);
+    padding: 16px;
+    color: var(--sku4-error);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 980px) {
+    .sku4-main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sku4-kpi-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    [data-sku4-root] {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .sku4-header-title {
+        font-size: 22px;
+    }
+
+    .sku4-journey-shell {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sku4-journey-right {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .sku4-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sku4-meta-chip {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* ============================================================
+   Canonical Axes Block
+   ============================================================ */
+
+.sku4-canonical-axes-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.sku4-canonical-intro {
+    background: var(--sku4-surface-alt);
+    border: 1px solid var(--sku4-border);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.sku4-canonical-center-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sku4-title);
+    margin-bottom: 6px;
+}
+
+.sku4-canonical-center-value {
+    font-size: 14px;
+    color: var(--sku4-text);
+}
+
+.sku4-axis-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.sku4-axis-card {
+    background: var(--sku4-surface-alt);
+    border: 1px solid var(--sku4-border);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.sku4-axis-id {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--sku4-accent);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.sku4-axis-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--sku4-title);
+    line-height: 1.5;
+}
+
+
+.sku4-canonical-cloud-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku4-cloud-hero {
+    position: relative;
+    height: 220px;
+    border: 1px solid var(--sku4-border);
+    border-radius: 14px;
+    background: var(--sku4-surface-alt);
+    overflow: hidden;
+}
+
+.sku4-cloud-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: #b8bec8;
+}
+
+.sku4-cloud-dot-center {
+    width: 18px;
+    height: 18px;
+    background: var(--sku4-accent);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.sku4-cloud-dot-1 {
+    left: 30%;
+    top: 35%;
+}
+
+.sku4-cloud-dot-2 {
+    left: 60%;
+    top: 30%;
+}
+
+.sku4-cloud-dot-3 {
+    left: 42%;
+    top: 70%;
+}
+
+.sku4-cloud-dot-4 {
+    left: 72%;
+    top: 58%;
+}
+
+.sku4-cloud-dot-5 {
+    left: 22%;
+    top: 60%;
+}
+
+.sku4-cloud-summary {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    background: var(--sku4-surface-alt);
+    border: 1px solid var(--sku4-border);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+/* Hospital dot css */
+
+.sku4-hospital-dot-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku4-hospital-hero {
+    position: relative;
+    height: 220px;
+    border: 1px solid var(--sku4-border);
+    border-radius: 14px;
+    background: var(--sku4-surface-alt);
+    overflow: hidden;
+}
+
+.sku4-hospital-cloud-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: #b8bec8;
+}
+
+.sku4-hospital-cloud-dot-1 {
+    left: 24%;
+    top: 62%;
+}
+
+.sku4-hospital-cloud-dot-2 {
+    left: 32%;
+    top: 38%;
+}
+
+.sku4-hospital-cloud-dot-3 {
+    left: 43%;
+    top: 70%;
+}
+
+.sku4-hospital-cloud-dot-4 {
+    left: 61%;
+    top: 34%;
+}
+
+.sku4-hospital-cloud-dot-5 {
+    left: 73%;
+    top: 60%;
+}
+
+.sku4-hospital-main-dot {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: var(--sku4-accent);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.sku4-hospital-label {
+    position: absolute;
+    left: 50%;
+    top: calc(50% + 18px);
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--sku4-accent);
+}
+
+.sku4-hospital-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    background: var(--sku4-surface-alt);
+    border: 1px solid var(--sku4-border);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.sku4-cloud-hero,
+.sku4-hospital-hero,
+.sku4-benchmark-wrap,
+.sku4-graph-shell,
+.sku4-canonical-viewer-shell,
+.sku4-plot-shell {
+    background:
+        radial-gradient(circle at top left,
+            rgba(18, 44, 74, 0.30) 0%,
+            rgba(8, 20, 34, 0.95) 55%,
+            rgba(5, 12, 22, 1) 100%);
+    border: 1px solid rgba(38, 62, 88, 0.95);
+    border-radius: 14px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        inset 0 -20px 40px rgba(0, 0, 0, 0.18);
+}
+
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::before {
+    content: "🦋";
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    font-size: 12px;
+    line-height: 1;
+    opacity: 0.92;
+    pointer-events: none;
+    z-index: 2000;
+}
+
+.sku4-tooltip-target {
+    position: relative;
+    overflow: visible !important;
+}
+
+.sku4-tooltip-marker {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 160px;
+    height: 28px;
+    z-index: 9999;
+    cursor: help;
+    pointer-events: auto;
+    background: transparent;
+}
+
+.sku4-tooltip-marker::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 30px;
+    right: 0;
+    width: 240px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: rgba(8, 18, 32, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #dfe8f5;
+    font-size: 12px;
+    line-height: 1.45;
+    text-align: left;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.08s ease, transform 0.08s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    z-index: 501;
+}
+
+.sku4-tooltip-marker:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sku4-tooltip-anchor {
+    position: relative;
+}
+
+.sku4-tooltip-anchor::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 8px);
+    min-width: 180px;
+    max-width: 260px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: rgba(8, 18, 32, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #dfe8f5;
+    font-size: 11px;
+    line-height: 1.4;
+    white-space: normal;
+    text-align: left;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.08s ease, transform 0.08s ease;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.sku4-tooltip-anchor:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sku4-panel,
+.sku4-panel-content,
+.sku4-content-shell,
+.sku4-content-body,
+.sku4-main-grid {
+    overflow: visible !important;
+}
+
+
+.sku4-tooltip-marker::after {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+.sku4-tooltip-target[data-tooltip]::before {
+    display: none;
+}
+
+.sku4-graph-bee-marker::after {
+    display: none !important;
+}
+
+.sku4-graph-bee-marker::before {
+    display: none !important;
+}
+
+.sku4-tooltip-target[data-tooltip]::before {
+    display: none !important;
+}
+
+.sku4-tooltip-target[data-tooltip]::after {
+    display: none !important;
+}
+
+
+.sku4-legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 12px;
+    align-items: center;
+}
+
+.sku4-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #d9e2f1;
+}
+
+.sku4-legend-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.sku4-legend-label {
+    line-height: 1.2;
+}
+
+.sku453-rhs-section {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku453-section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sku453-section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f5f7fb;
+}
+
+.sku453-section-subtitle {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.sku453-peer-table-wrap {
+    overflow-x: auto;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.sku453-peer-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    color: #e9eef7;
+}
+
+.sku453-peer-table thead {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.sku453-peer-table th,
+.sku453-peer-table td {
+    padding: 10px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.sku453-peer-table th {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 700;
+}
+
+.sku453-peer-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+
+
+.sku453-cohort-section {
+    margin-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 18px;
+}
+
+.sku453-percentile-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.sku453-percentile-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.sku453-percentile-toprow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.sku453-percentile-metric {
+    font-size: 14px;
+    font-weight: 700;
+    color: #f5f7fb;
+}
+
+.sku453-percentile-badge {
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.sku453-badge-top {
+    background: rgba(0, 200, 120, 0.18);
+    color: #7dffbf;
+}
+
+.sku453-badge-above {
+    background: rgba(60, 140, 255, 0.18);
+    color: #8fc0ff;
+}
+
+.sku453-badge-median {
+    background: rgba(255, 255, 255, 0.12);
+    color: #dce6f5;
+}
+
+.sku453-badge-below {
+    background: rgba(255, 180, 0, 0.18);
+    color: #ffd27d;
+}
+
+.sku453-badge-low {
+    background: rgba(255, 80, 80, 0.18);
+    color: #ff9f9f;
+}
+
+.sku453-percentile-values {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.sku453-value-label {
+    color: rgba(255, 255, 255, 0.55);
+    margin-right: 4px;
+}
+
+.sku453-value-text {
+    color: #f5f7fb;
+    font-weight: 600;
+}
+
+/* ------------------------------------------------------------
+   SKU4.54 RHS premium cards
+------------------------------------------------------------ */
+
+.sku454-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku454-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku454-rhs-hero-left {
+    flex: 1;
+}
+
+.sku454-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku454-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku454-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku454-rhs-hero-right {
+    min-width: 180px;
+}
+
+.sku454-rhs-stat-card {
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+    padding: 14px 16px;
+}
+
+.sku454-rhs-stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku454-rhs-stat-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku454-rhs-priority-card {
+    border: 1px solid rgba(246, 211, 101, 0.28);
+    border-radius: 18px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(52, 56, 36, 0.48) 0%, rgba(20, 28, 26, 0.92) 100%);
+}
+
+.sku454-rhs-priority-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.sku454-rhs-priority-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.sku454-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #f6d365;
+    margin-bottom: 4px;
+}
+
+.sku454-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku454-rhs-priority-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #dbe5ef;
+    margin-bottom: 14px;
+}
+
+.sku454-rhs-priority-pill-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku454-rhs-pill,
+.sku454-rhs-delta-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.sku454-rhs-pill.positive,
+.sku454-rhs-delta-chip.positive {
+    color: #80f0c8;
+    background: rgba(26, 120, 92, 0.28);
+    border-color: rgba(80, 220, 170, 0.24);
+}
+
+.sku454-rhs-pill.negative,
+.sku454-rhs-delta-chip.negative {
+    color: #ff9c9c;
+    background: rgba(130, 44, 44, 0.28);
+    border-color: rgba(255, 120, 120, 0.22);
+}
+
+.sku454-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku454-rhs-metric-card {
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 18px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+}
+
+.sku454-rhs-metric-card.bee-highlight {
+    border-color: rgba(246, 211, 101, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.sku454-rhs-metric-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.sku454-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku454-rhs-bee-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #f6d365;
+    background: rgba(246, 211, 101, 0.12);
+    border: 1px solid rgba(246, 211, 101, 0.24);
+}
+
+.sku454-rhs-metric-interpretation {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #9fb4cc;
+    margin-bottom: 14px;
+}
+
+.sku454-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.sku454-rhs-value-box {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 12px 14px;
+}
+
+.sku454-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku454-rhs-value-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku454-rhs-value-number.muted {
+    color: #e0e9f3;
+}
+
+.sku454-rhs-delta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku454-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku454-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a8bdd5;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+    .sku454-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku454-rhs-hero-right {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .sku454-rhs-metric-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* SKU4.54 RHS premium cards */
+
+
+
+/* ------------------------------------------------------------
+   SKU4.55 RHS premium cards start
+------------------------------------------------------------ */
+
+.sku455-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku455-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku455-rhs-hero-left {
+    flex: 1;
+}
+
+.sku455-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku455-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku455-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku455-rhs-hero-right {
+    min-width: 180px;
+}
+
+.sku455-rhs-stat-card {
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+    padding: 14px 16px;
+}
+
+.sku455-rhs-stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku455-rhs-stat-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku455-rhs-priority-card {
+    border: 1px solid rgba(246, 211, 101, 0.28);
+    border-radius: 18px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(52, 56, 36, 0.48) 0%, rgba(20, 28, 26, 0.92) 100%);
+}
+
+.sku455-rhs-priority-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.sku455-rhs-priority-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.sku455-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #f6d365;
+    margin-bottom: 4px;
+}
+
+.sku455-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku455-rhs-priority-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #dbe5ef;
+    margin-bottom: 14px;
+}
+
+.sku455-rhs-priority-pill-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku455-rhs-pill,
+.sku455-rhs-delta-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.sku455-rhs-pill.positive,
+.sku455-rhs-delta-chip.positive {
+    color: #80f0c8;
+    background: rgba(26, 120, 92, 0.28);
+    border-color: rgba(80, 220, 170, 0.24);
+}
+
+.sku455-rhs-pill.negative,
+.sku455-rhs-delta-chip.negative {
+    color: #ff9c9c;
+    background: rgba(130, 44, 44, 0.28);
+    border-color: rgba(255, 120, 120, 0.22);
+}
+
+.sku455-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku455-rhs-metric-card {
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 18px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+}
+
+.sku455-rhs-metric-card.bee-highlight {
+    border-color: rgba(246, 211, 101, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.sku455-rhs-metric-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.sku455-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku455-rhs-bee-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #f6d365;
+    background: rgba(246, 211, 101, 0.12);
+    border: 1px solid rgba(246, 211, 101, 0.24);
+}
+
+.sku455-rhs-metric-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e7eef8;
+    margin-bottom: 6px;
+}
+
+.sku455-rhs-metric-interpretation {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #9fb4cc;
+    margin-bottom: 14px;
+}
+
+.sku455-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.sku455-rhs-value-box {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 12px 14px;
+}
+
+.sku455-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku455-rhs-value-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku455-rhs-value-number.muted {
+    color: #e0e9f3;
+}
+
+.sku455-rhs-delta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku455-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku455-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a8bdd5;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+    .sku455-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku455-rhs-hero-right {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .sku455-rhs-metric-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ------------------------------------------------------------
+   SKU4.55 RHS premium cards end
+------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------
+   SKU4.56 RHS premium cards start
+------------------------------------------------------------ */
+
+.sku456-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku456-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku456-rhs-hero-left {
+    flex: 1;
+}
+
+.sku456-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku456-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku456-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku456-rhs-hero-right {
+    min-width: 180px;
+}
+
+.sku456-rhs-stat-card {
+    border: 1px solid rgba(255, 132, 132, 0.16);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(42, 18, 24, 0.92) 0%, rgba(18, 8, 12, 0.96) 100%);
+    padding: 14px 16px;
+}
+
+.sku456-rhs-stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #c8a7ad;
+    margin-bottom: 6px;
+}
+
+.sku456-rhs-stat-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku456-rhs-priority-card {
+    border: 1px solid rgba(255, 120, 120, 0.28);
+    border-radius: 18px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(64, 24, 28, 0.52) 0%, rgba(24, 10, 14, 0.94) 100%);
+}
+
+.sku456-rhs-priority-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.sku456-rhs-priority-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.sku456-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ff9f9f;
+    margin-bottom: 4px;
+}
+
+.sku456-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku456-rhs-priority-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #f0d9dd;
+    margin-bottom: 14px;
+}
+
+.sku456-rhs-priority-pill-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku456-rhs-pill,
+.sku456-rhs-delta-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.sku456-rhs-pill.positive,
+.sku456-rhs-delta-chip.positive {
+    color: #80f0c8;
+    background: rgba(26, 120, 92, 0.28);
+    border-color: rgba(80, 220, 170, 0.24);
+}
+
+.sku456-rhs-pill.negative,
+.sku456-rhs-delta-chip.negative {
+    color: #ff9c9c;
+    background: rgba(130, 44, 44, 0.28);
+    border-color: rgba(255, 120, 120, 0.22);
+}
+
+.sku456-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku456-rhs-metric-card {
+    border: 1px solid rgba(255, 132, 132, 0.14);
+    border-radius: 18px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(28, 18, 25, 0.94) 0%, rgba(12, 8, 14, 0.98) 100%);
+}
+
+.sku456-rhs-metric-card.priority-highlight {
+    border-color: rgba(255, 120, 120, 0.26);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.sku456-rhs-metric-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.sku456-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku456-rhs-priority-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffb1b1;
+    background: rgba(255, 120, 120, 0.12);
+    border: 1px solid rgba(255, 120, 120, 0.24);
+}
+
+.sku456-rhs-metric-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f2e9ec;
+    margin-bottom: 6px;
+}
+
+.sku456-rhs-metric-interpretation {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #c9b5bb;
+    margin-bottom: 14px;
+}
+
+.sku456-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.sku456-rhs-value-box {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 12px 14px;
+}
+
+.sku456-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #bca0a7;
+    margin-bottom: 6px;
+}
+
+.sku456-rhs-value-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku456-rhs-value-number.muted {
+    color: #eadfe3;
+}
+
+.sku456-rhs-value-number.negative {
+    color: #ffb0b0;
+}
+
+.sku456-rhs-delta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku456-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku456-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #c9b5bb;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+    .sku456-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku456-rhs-hero-right {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .sku456-rhs-metric-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ------------------------------------------------------------
+   SKU4.56 RHS premium cards end
+------------------------------------------------------------ */
+
+
+/* ________this is jiust above the graph for sku4.56__________ */
+
+.sku456-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: 6px 0 14px 0;
+}
+
+.sku456-kpi-card {
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px 12px;
+    min-height: 84px;
+}
+
+.sku456-kpi-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+    line-height: 1.2;
+}
+
+.sku456-kpi-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.05;
+}
+
+.sku456-kpi-sub {
+    margin-top: 4px;
+    font-size: 11px;
+    color: #b8c7d8;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ________this is jiust above the graph for sku4.56__________ */
+
+.sku456-narrative-block {
+    margin-top: 18px;
+    padding-top: 8px;
+}
+
+.sku456-section-title {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+}
+
+.sku456-chart-shell {
+    margin-top: 10px;
+    padding: 10px 10px 2px 10px;
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(10, 20, 34, 0.96) 0%, rgba(5, 12, 22, 0.98) 100%);
+}
+
+.sku456-chart-host {
+    width: 100%;
+    height: 360px;
+}
+
+
+/* ------------------------------------------------------------
+   SKU4.58 RHS premium cards start
+------------------------------------------------------------ */
+
+.sku458-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku458-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku458-rhs-hero-left {
+    flex: 1;
+}
+
+.sku458-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku458-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku458-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku458-rhs-hero-right {
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sku458-rhs-stat-card {
+    border: 1px solid rgba(80, 220, 170, 0.18);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(16, 38, 34, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+    padding: 14px 16px;
+}
+
+.sku458-rhs-stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku458-rhs-stat-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku458-rhs-priority-card {
+    border: 1px solid rgba(80, 220, 170, 0.22);
+    border-radius: 18px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(18, 52, 42, 0.55) 0%, rgba(10, 24, 23, 0.94) 100%);
+}
+
+.sku458-rhs-priority-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.sku458-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #80f0c8;
+    margin-bottom: 4px;
+}
+
+.sku458-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku458-rhs-priority-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #dbe5ef;
+    margin-bottom: 14px;
+}
+
+.sku458-rhs-priority-pill-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku458-rhs-pill,
+.sku458-rhs-delta-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.sku458-rhs-pill.positive,
+.sku458-rhs-delta-chip.positive {
+    color: #80f0c8;
+    background: rgba(26, 120, 92, 0.28);
+    border-color: rgba(80, 220, 170, 0.24);
+}
+
+.sku458-rhs-pill.muted,
+.sku458-rhs-delta-chip.muted {
+    color: #d6e2ef;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.sku458-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku458-rhs-metric-card {
+    border: 1px solid rgba(80, 220, 170, 0.14);
+    border-radius: 18px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+}
+
+.sku458-rhs-metric-card.priority-highlight {
+    border-color: rgba(80, 220, 170, 0.26);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.sku458-rhs-metric-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.sku458-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku458-rhs-metric-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e7eef8;
+    margin-bottom: 6px;
+}
+
+.sku458-rhs-metric-interpretation {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #9fb4cc;
+    margin-bottom: 14px;
+}
+
+.sku458-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.sku458-rhs-value-box {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 12px 14px;
+}
+
+.sku458-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku458-rhs-value-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku458-rhs-value-number.positive {
+    color: #80f0c8;
+}
+
+.sku458-rhs-value-number.muted {
+    color: #e0e9f3;
+}
+
+.sku458-rhs-delta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku458-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku458-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a8bdd5;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+    .sku458-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku458-rhs-hero-right {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .sku458-rhs-metric-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ------------------------------------------------------------
+   SKU4.58 RHS premium cards end
+------------------------------------------------------------ */
+
+/* ------------------------------------------------------------
+   SKU4.58 LHS KPI block premium cards start 
+------------------------------------------------------------ */
+
+.sku458-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 14px 0 18px 0;
+}
+
+.sku458-kpi-card {
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(126, 166, 255, 0.18);
+    background: linear-gradient(180deg, rgba(12, 24, 40, 0.95), rgba(6, 14, 24, 0.98));
+}
+
+.sku458-kpi-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(180, 200, 230, 0.65);
+    margin-bottom: 6px;
+}
+
+.sku458-kpi-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #e6f0ff;
+}
+
+.sku458-kpi-sub {
+    font-size: 12px;
+    color: rgba(180, 200, 230, 0.7);
+    margin-top: 2px;
+}
+
+
+/* ------------------------------------------------------------
+   SKU4.58 LHS KPI block premium cards start 
+------------------------------------------------------------ */
+
+/* ------------------------------------------------------------
+   SKU4.60 RHS premium cards start
+------------------------------------------------------------ */
+
+.sku460-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku460-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku460-rhs-hero-left {
+    flex: 1;
+}
+
+.sku460-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku460-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku460-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku460-rhs-hero-right {
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sku460-rhs-stat-card {
+    border: 1px solid rgba(255, 138, 101, 0.18);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(52, 26, 20, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+    padding: 14px 16px;
+}
+
+.sku460-rhs-stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku460-rhs-stat-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku460-rhs-priority-card {
+    border: 1px solid rgba(255, 138, 101, 0.22);
+    border-radius: 18px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(58, 27, 22, 0.55) 0%, rgba(10, 24, 23, 0.94) 100%);
+}
+
+.sku460-rhs-priority-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.sku460-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffab91;
+    margin-bottom: 4px;
+}
+
+.sku460-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku460-rhs-priority-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #dbe5ef;
+    margin-bottom: 14px;
+}
+
+.sku460-rhs-priority-pill-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku460-rhs-pill,
+.sku460-rhs-delta-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.sku460-rhs-pill.negative,
+.sku460-rhs-delta-chip.negative {
+    color: #ffab91;
+    background: rgba(132, 54, 39, 0.28);
+    border-color: rgba(255, 138, 101, 0.24);
+}
+
+.sku460-rhs-pill.muted,
+.sku460-rhs-delta-chip.muted {
+    color: #d6e2ef;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.sku460-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku460-rhs-metric-card {
+    border: 1px solid rgba(255, 138, 101, 0.14);
+    border-radius: 18px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+}
+
+.sku460-rhs-metric-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.sku460-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku460-rhs-metric-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e7eef8;
+    margin-bottom: 6px;
+}
+
+.sku460-rhs-metric-interpretation {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #9fb4cc;
+    margin-bottom: 14px;
+}
+
+.sku460-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.sku460-rhs-value-box {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 12px 14px;
+}
+
+.sku460-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku460-rhs-value-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku460-rhs-value-number.negative {
+    color: #ffab91;
+}
+
+.sku460-rhs-value-number.muted {
+    color: #e0e9f3;
+}
+
+.sku460-rhs-delta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku460-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku460-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a8bdd5;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+    .sku460-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku460-rhs-hero-right {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .sku460-rhs-metric-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ------------------------------------------------------------
+   SKU4.60 RHS premium cards end
+------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------
+   SKU4.60 LHS KPI block premium cards start
+------------------------------------------------------------ */
+.sku460-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 14px 0 18px 0;
+}
+
+.sku460-kpi-card {
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 107, 107, 0.18);
+    background: linear-gradient(180deg, rgba(20, 18, 26, 0.95), rgba(10, 8, 14, 0.98));
+}
+
+.sku460-kpi-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 180, 180, 0.65);
+    margin-bottom: 6px;
+}
+
+.sku460-kpi-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffeaea;
+}
+
+.sku460-kpi-sub {
+    font-size: 12px;
+    color: rgba(255, 200, 200, 0.7);
+    margin-top: 2px;
+}
+
+/* ------------------------------------------------------------
+   SKU4.60 LHS KPI block premium cards end
+------------------------------------------------------------ */
+
+/* ============================================================
+   SKU4.62 — ICU Utilization Efficiency (LHS)
+   ============================================================ */
+
+.sku462-shell {
+    padding: 6px 6px 10px 6px;
+}
+
+/* ---------- HEADER ---------- */
+
+.sku462-header {
+    margin-bottom: 6px;
+}
+
+.sku462-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.sku462-subtitle {
+    font-size: 13px;
+    color: rgba(200, 215, 235, 0.7);
+}
+
+/* ---------- KPI GRID ---------- */
+
+.sku462-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.sku462-kpi-card {
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: linear-gradient(180deg,
+            rgba(18, 32, 54, 0.95) 0%,
+            rgba(8, 18, 32, 0.98) 100%);
+    border: 1px solid rgba(126, 166, 255, 0.16);
+}
+
+.sku462-kpi-label {
+    font-size: 11px;
+    color: rgba(200, 215, 235, 0.65);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.sku462-kpi-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.sku462-kpi-sub {
+    font-size: 12px;
+    color: rgba(200, 215, 235, 0.7);
+    margin-top: 2px;
+}
+
+/* ---------- CHART SECTION ---------- */
+
+.sku462-chart-section {
+    margin-top: 16px;
+}
+
+.sku462-chart-header {
+    margin-bottom: 6px;
+}
+
+.sku462-chart-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.sku462-chart-subtitle {
+    font-size: 12px;
+    color: rgba(200, 215, 235, 0.65);
+}
+
+.sku462-chart-shell {
+    margin-top: 10px;
+    padding: 10px 10px 2px 10px;
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 16px;
+    background: linear-gradient(180deg,
+            rgba(10, 20, 34, 0.96) 0%,
+            rgba(5, 12, 22, 0.98) 100%);
+}
+
+.sku462-chart-host {
+    width: 100%;
+    height: 360px;
+}
+
+/* ---------- NARRATIVE ---------- */
+
+.sku462-narrative-block {
+    margin-top: 18px;
+    padding-top: 8px;
+}
+
+.sku462-section-title {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+}
+
+.sku462-narrative-block p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(210, 225, 245, 0.75);
+    margin-bottom: 8px;
+}
+
+/* ============================================================
+   SKU4.62 — ICU Utilization Efficiency (RHS)
+   ============================================================ */
+
+.sku462-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku462-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku462-rhs-hero-left {
+    flex: 1;
+}
+
+.sku462-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku462-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku462-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku462-rhs-hero-right {
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sku462-rhs-stat-card,
+.sku462-rhs-priority-card,
+.sku462-rhs-metric-card {
+    border: 1px solid rgba(126, 166, 255, 0.16);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+}
+
+.sku462-rhs-stat-card {
+    padding: 14px 16px;
+}
+
+.sku462-rhs-stat-label,
+.sku462-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku462-rhs-stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku462-rhs-priority-card {
+    padding: 18px;
+}
+
+.sku462-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #7ea6ff;
+    margin-bottom: 4px;
+}
+
+.sku462-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku462-rhs-priority-description,
+.sku462-rhs-metric-interpretation {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #dbe5ef;
+    margin: 10px 0 14px 0;
+}
+
+.sku462-rhs-priority-pill-row,
+.sku462-rhs-delta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku462-rhs-pill,
+.sku462-rhs-delta-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.sku462-rhs-pill.positive,
+.sku462-rhs-delta-chip.positive {
+    color: #80f0c8;
+    background: rgba(26, 120, 92, 0.28);
+    border-color: rgba(80, 220, 170, 0.24);
+}
+
+.sku462-rhs-pill.muted,
+.sku462-rhs-delta-chip.muted {
+    color: #d6e2ef;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.sku462-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku462-rhs-metric-card {
+    padding: 16px 18px;
+}
+
+.sku462-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku462-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.sku462-rhs-value-box {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 12px 14px;
+}
+
+.sku462-rhs-value-number {
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku462-rhs-value-number.positive {
+    color: #80f0c8;
+}
+
+.sku462-rhs-value-number.muted {
+    color: #e0e9f3;
+}
+
+.sku462-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku462-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a8bdd5;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+    .sku462-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku462-rhs-hero-right {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .sku462-rhs-metric-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ============================================================
+   SKU4.64 — Coding Integrity Risk (LHS)
+   ============================================================ */
+
+.sku464-shell {
+    padding: 6px 6px 10px 6px;
+}
+
+/* ---------- HEADER ---------- */
+
+.sku464-header {
+    margin-bottom: 6px;
+}
+
+.sku464-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.sku464-subtitle {
+    font-size: 13px;
+    color: rgba(200, 215, 235, 0.7);
+}
+
+/* ---------- KPI GRID ---------- */
+
+.sku464-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.sku464-kpi-card {
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: linear-gradient(180deg,
+            rgba(18, 32, 54, 0.95) 0%,
+            rgba(8, 18, 32, 0.98) 100%);
+    border: 1px solid rgba(126, 166, 255, 0.16);
+}
+
+.sku464-kpi-label {
+    font-size: 11px;
+    color: rgba(200, 215, 235, 0.65);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.sku464-kpi-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.sku464-kpi-sub {
+    font-size: 12px;
+    color: rgba(200, 215, 235, 0.7);
+    margin-top: 2px;
+}
+
+/* ---------- CHART SECTION ---------- */
+
+.sku464-chart-section {
+    margin-top: 16px;
+}
+
+.sku464-chart-header {
+    margin-bottom: 6px;
+}
+
+.sku464-chart-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.sku464-chart-subtitle {
+    font-size: 12px;
+    color: rgba(200, 215, 235, 0.65);
+}
+
+.sku464-chart-shell {
+    margin-top: 10px;
+    padding: 10px 10px 2px 10px;
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 16px;
+    background: linear-gradient(180deg,
+            rgba(10, 20, 34, 0.96) 0%,
+            rgba(5, 12, 22, 0.98) 100%);
+}
+
+.sku464-chart-host {
+    width: 100%;
+    height: 360px;
+}
+
+/* ---------- NARRATIVE ---------- */
+
+.sku464-narrative-block {
+    margin-top: 18px;
+    padding-top: 8px;
+}
+
+.sku464-section-title {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+}
+
+.sku464-narrative-block p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(210, 225, 245, 0.75);
+    margin-bottom: 8px;
+}
+
+
+/* ============================================================
+   SKU4.64 — Coding Integrity Risk (RHS)
+   ============================================================ */
+
+.sku464-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* ---------- HERO ---------- */
+
+.sku464-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku464-rhs-hero-left {
+    flex: 1;
+}
+
+.sku464-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku464-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku464-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku464-rhs-hero-right {
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ---------- CARDS ---------- */
+
+.sku464-rhs-stat-card,
+.sku464-rhs-priority-card,
+.sku464-rhs-metric-card {
+    border: 1px solid rgba(126, 166, 255, 0.16);
+    border-radius: 18px;
+    background: linear-gradient(180deg,
+            rgba(18, 31, 51, 0.92) 0%,
+            rgba(8, 19, 31, 0.96) 100%);
+}
+
+.sku464-rhs-stat-card {
+    padding: 14px 16px;
+}
+
+.sku464-rhs-stat-label,
+.sku464-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku464-rhs-stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+/* ---------- PRIORITY ---------- */
+
+.sku464-rhs-priority-card {
+    padding: 18px;
+}
+
+.sku464-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ff8a80;
+    /* risk tone */
+    margin-bottom: 4px;
+}
+
+.sku464-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku464-rhs-priority-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #dbe5ef;
+    margin: 10px 0 14px 0;
+}
+
+/* ---------- GRID ---------- */
+
+.sku464-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku464-rhs-metric-card {
+    padding: 16px 18px;
+}
+
+.sku464-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku464-rhs-metric-name {
+    font-size: 13px;
+    color: #a8bdd5;
+    margin-bottom: 8px;
+}
+
+.sku464-rhs-metric-values {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    color: #dbe5ef;
+}
+
+/* ---------- NOTES ---------- */
+
+.sku464-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku464-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a8bdd5;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 900px) {
+    .sku464-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku464-rhs-hero-right {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+/* ---------- RISK BAND COLORS ---------- */
+
+.sku464-risk-high {
+    border-left: 4px solid #ff6b6b;
+    box-shadow: 0 0 0 1px rgba(255, 107, 107, 0.15);
+}
+
+.sku464-risk-moderate {
+    border-left: 4px solid #ffd54f;
+    box-shadow: 0 0 0 1px rgba(255, 213, 79, 0.15);
+}
+
+.sku464-risk-low {
+    border-left: 4px solid #34c759;
+    box-shadow: 0 0 0 1px rgba(52, 199, 89, 0.15);
+}
+
+/* ---------- SKU4.64+ REVENUE LOSS TABLE ---------- */
+
+.sku464-rhs-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.sku464-rhs-hero {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    align-items: stretch;
+}
+
+.sku464-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid rgba(126, 166, 255, 0.18);
+    border-radius: 14px;
+    background: rgba(8, 19, 31, 0.65);
+}
+
+.sku464-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.sku464-table th,
+.sku464-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(126, 166, 255, 0.12);
+    white-space: nowrap;
+}
+
+.sku464-table th {
+    color: #9fb3c8;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.sku464-table td {
+    color: #e6edf7;
+}
+
+.sku464-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.sku464-table tbody tr:hover {
+    background: rgba(126, 166, 255, 0.06);
+}
+
+.sku464-footnote {
+    font-size: 11px;
+    line-height: 1.45;
+    color: #9fb3c8;
+    padding: 8px 2px 0;
+}
+
+
+/* Journey panel css */
+
+.sku4-journey-strip {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.sku4-pill {
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #9fb0c3;
+    background: rgba(255, 255, 255, 0.02);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sku4-pill-visited {
+    color: #d4dde6;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.sku4-pill-active {
+    background: rgba(255, 60, 60, 0.12);
+    border-color: rgba(255, 60, 60, 0.5);
+    color: #ff6b6b;
+    font-weight: 600;
+}
+
+.sku4-pill-locked {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ============================================================
+   SKU4 — Independent LHS/RHS Scroll Layout
+   ============================================================ */
+
+[data-sku4-root] {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.sku4-main-grid,
+.sku4-panel-grid,
+.sku4-content-grid {
+    height: calc(100vh - 170px);
+    overflow: hidden;
+}
+
+[data-sku4-panel="panel3"],
+[data-sku4-panel="panel4"] {
+    min-height: 0;
+    max-height: calc(100vh - 190px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+/* Keep RHS scrolling inside the intelligence body */
+[data-sku4-panel="panel4"] .sku4-content-body {
+    max-height: calc(100vh - 230px);
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+/* Optional: keep LHS graph/viewer stable */
+[data-sku4-panel="panel3"] .sku4-content-body {
+    max-height: calc(100vh - 230px);
+    overflow-y: auto;
+}
+
+/* Make scrollbars subtle */
+[data-sku4-panel="panel3"]::-webkit-scrollbar,
+[data-sku4-panel="panel4"]::-webkit-scrollbar,
+[data-sku4-panel="panel3"] .sku4-content-body::-webkit-scrollbar,
+[data-sku4-panel="panel4"] .sku4-content-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+[data-sku4-panel="panel3"]::-webkit-scrollbar-thumb,
+[data-sku4-panel="panel4"]::-webkit-scrollbar-thumb,
+[data-sku4-panel="panel3"] .sku4-content-body::-webkit-scrollbar-thumb,
+[data-sku4-panel="panel4"] .sku4-content-body::-webkit-scrollbar-thumb {
+    background: rgba(126, 166, 255, 0.25);
+    border-radius: 8px;
+}
+
+
+/* adding a scroll in RHS */
+[data-sku4-panel="panel4"] .sku4-content-body {
+    max-height: 520px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* adding a scroll in RHS */
+
+
+/* RHS table formatting */
+
+/* SKU4.50 RHS table polish */
+[data-sku4-panel="panel4"] .sku4-content-body {
+    max-height: 520px !important;
+    overflow-y: auto !important;
+    padding-right: 10px !important;
+}
+
+[data-sku4-panel="panel4"] .sku450-rhs-wrap {
+    width: 100% !important;
+    overflow-x: hidden !important;
+}
+
+[data-sku4-panel="panel4"] table.sku450-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+    font-size: 12px !important;
+}
+
+[data-sku4-panel="panel4"] table.sku450-table th,
+[data-sku4-panel="panel4"] table.sku450-table td {
+    padding: 7px 8px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    vertical-align: top !important;
+    line-height: 1.25 !important;
+}
+
+[data-sku4-panel="panel4"] table.sku450-table th {
+    position: sticky !important;
+    top: 0 !important;
+    background: #0b1626 !important;
+    z-index: 2 !important;
+}
+
+[data-sku4-panel="panel4"] table.sku450-table th:first-child,
+[data-sku4-panel="panel4"] table.sku450-table td:first-child {
+    width: 42% !important;
+    text-align: left !important;
+}
+
+[data-sku4-panel="panel4"] table.sku450-table th:not(:first-child),
+[data-sku4-panel="panel4"] table.sku450-table td:not(:first-child) {
+    text-align: right !important;
+}
+
+/* sku 4.52 THS render start -------------------------------------------------------------4.52 RHS style start */
+
+.sku452-rhs-card {
+    padding: 18px;
+    border-radius: 16px;
+    background: rgba(8, 22, 36, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.sku452-rhs-kicker {
+    font-size: 12px;
+    color: #9aa6b2;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+}
+
+.sku452-rhs-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #eef6ff;
+    margin-bottom: 8px;
+}
+
+.sku452-rhs-summary {
+    font-size: 13px;
+    line-height: 1.45;
+    color: #b8c7d9;
+    margin-bottom: 16px;
+}
+
+.sku452-metric-grid {
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) minmax(90px, 0.7fr) minmax(180px, 1.6fr);
+    gap: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.sku452-grid-head {
+    padding: 10px 12px;
+    font-size: 12px;
+    font-weight: 800;
+    color: #dce9f7;
+    background: rgba(30, 45, 64, 0.85);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.sku452-metric-row {
+    display: contents;
+}
+
+.sku452-metric-label,
+.sku452-metric-value,
+.sku452-metric-meaning {
+    padding: 11px 12px;
+    font-size: 13px;
+    line-height: 1.35;
+    color: #d7e3f0;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.10);
+    background: rgba(7, 18, 31, 0.42);
+}
+
+.sku452-metric-label {
+    font-weight: 700;
+    color: #eef6ff;
+}
+
+.sku452-metric-value {
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.sku452-metric-meaning {
+    color: #b8c7d9;
+}
+
+/* sku 4.52 style RHS end ---------------------------------------------------------------------- 4.52 RHS style end */
+
+
+/* --------------------------------------------------------------------------------------------sku4.53 rhs cards start  */
+
+.sku453-rhs-card {
+    padding: 18px;
+    border-radius: 16px;
+    background: rgba(8, 22, 36, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.sku453-kicker {
+    font-size: 12px;
+    color: #9aa6b2;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+}
+
+.sku453-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #eef6ff;
+    margin-bottom: 8px;
+}
+
+.sku453-summary {
+    font-size: 13px;
+    line-height: 1.45;
+    color: #b8c7d9;
+    margin-bottom: 14px;
+}
+
+.sku453-table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.sku453-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.sku453-table th {
+    padding: 10px 12px;
+    text-align: left;
+    color: #dce9f7;
+    background: rgba(30, 45, 64, 0.85);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+    white-space: nowrap;
+}
+
+.sku453-table td {
+    padding: 10px 12px;
+    color: #d7e3f0;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.10);
+    white-space: nowrap;
+}
+
+.sku453-table td:nth-child(2) {
+    max-width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* -----------------------------------------------------------------------------------------------------sku4.53 RHS card end  */
+
+/* ------                                                                           sku 4.53 RHS bottom percential blocks start  */
+
+.sku453-cohort-section {
+    margin-top: 18px;
+}
+
+.sku453-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #eaf2ff;
+    margin-bottom: 4px;
+}
+
+.sku453-section-subtitle {
+    font-size: 12px;
+    color: #9fb0c3;
+    margin-bottom: 12px;
+}
+
+.sku453-percentile-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.sku453-percentile-card {
+    background: rgba(18, 32, 52, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.sku453-percentile-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.sku453-badge {
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sku453-percentile-body {
+    font-size: 12px;
+    color: #c7d6e6;
+    line-height: 1.4;
+}
+
+.sku453-cohort-section {
+    margin-top: 20px;
+    padding-bottom: 28px;
+}
+
+.sku453-percentile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.sku453-percentile-card {
+    background: rgba(18, 32, 52, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 12px;
+    padding: 12px;
+    min-height: 92px;
+}
+
+.sku453-percentile-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.sku453-percentile-body {
+    font-size: 12px;
+    color: #c7d6e6;
+    line-height: 1.45;
+}
+
+.sku453-rhs-card {
+    min-height: 700px;
+}
+
+[data-sku4-panel="panel4"] {
+    min-height: 760px;
+}
+
+/* SKU4.53 taller RHS panel */
+[data-sku4-panel="panel4"] {
+    min-height: 760px !important;
+    height: auto !important;
+}
+
+[data-sku4-panel="panel4"] .sku4-panel-content,
+[data-sku4-panel="panel4"] .sku4-content-shell,
+[data-sku4-panel="panel4"] .sku4-content-body {
+    min-height: 700px !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+.sku453-rhs-card {
+    min-height: 680px !important;
+}
+
+
+/* --------------------------------------------------------------------------------------RHS SKU 4.54 start */
+
+.sku554-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku554-rhs-hero,
+.sku554-rhs-priority-card,
+.sku554-rhs-metric-card,
+.sku554-rhs-note,
+.sku554-lhs-note {
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 14px;
+    background: rgba(8, 22, 36, 0.72);
+    padding: 14px;
+}
+
+.sku554-rhs-kicker {
+    font-size: 12px;
+    color: #9aa6b2;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+}
+
+.sku554-rhs-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #eef6ff;
+    margin-bottom: 8px;
+}
+
+.sku554-rhs-subtitle,
+.sku554-rhs-priority-description,
+.sku554-rhs-metric-interpretation,
+.sku554-rhs-note,
+.sku554-lhs-note {
+    font-size: 13px;
+    line-height: 1.45;
+    color: #b8c7d9;
+}
+
+.sku554-rhs-stat-card {
+    margin-top: 12px;
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: rgba(30, 45, 64, 0.85);
+}
+
+.sku554-rhs-stat-label {
+    font-size: 11px;
+    color: #9aa6b2;
+    text-transform: uppercase;
+}
+
+.sku554-rhs-stat-value {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku554-rhs-priority-title,
+.sku554-rhs-metric-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #eef6ff;
+}
+
+.sku554-rhs-priority-metric {
+    font-size: 20px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-top: 4px;
+}
+
+.sku554-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: 12px 0;
+}
+
+.sku554-rhs-value-box {
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 10px;
+}
+
+.sku554-rhs-value-label {
+    font-size: 11px;
+    color: #9aa6b2;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.sku554-rhs-value-number {
+    font-size: 16px;
+    font-weight: 800;
+    color: #ffffff;
+    word-break: break-word;
+}
+
+.sku554-rhs-delta-row,
+.sku554-rhs-priority-pill-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.sku554-rhs-pill,
+.sku554-rhs-delta-chip,
+.sku554-rhs-bee-chip {
+    display: inline-flex;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.sku554-rhs-pill.positive,
+.sku554-rhs-delta-chip.positive {
+    color: #80f0c8;
+    background: rgba(26, 120, 92, 0.28);
+}
+
+.sku554-rhs-pill.negative,
+.sku554-rhs-delta-chip.negative {
+    color: #ff9c9c;
+    background: rgba(130, 44, 44, 0.28);
+}
+
+.sku554-rhs-bee-chip {
+    color: #f6d365;
+    background: rgba(246, 211, 101, 0.12);
+}
+
+.sku554-lhs-note {
+    margin-top: 14px;
+}
+
+
+
+/* ------------------------------------------------------------
+   SKU4.58 RHS premium cards start
+------------------------------------------------------------ */
+
+.sku458-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku458-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku458-rhs-hero-left {
+    flex: 1;
+}
+
+.sku458-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku458-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku458-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku458-rhs-hero-right {
+    min-width: 180px;
+}
+
+.sku458-rhs-stat-card {
+    border: 1px solid rgba(80, 220, 170, 0.16);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(16, 42, 31, 0.92) 0%, rgba(8, 20, 15, 0.96) 100%);
+    padding: 14px 16px;
+}
+
+.sku458-rhs-stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9fd9c4;
+    margin-bottom: 6px;
+}
+
+.sku458-rhs-stat-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku458-rhs-priority-card {
+    border: 1px solid rgba(80, 220, 170, 0.28);
+    border-radius: 18px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(20, 64, 42, 0.52) 0%, rgba(8, 24, 16, 0.94) 100%);
+}
+
+.sku458-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #80f0c8;
+    margin-bottom: 6px;
+}
+
+.sku458-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 14px;
+}
+
+.sku458-rhs-priority-pill-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku458-rhs-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.sku458-rhs-pill.positive {
+    color: #80f0c8;
+    background: rgba(26, 120, 92, 0.28);
+    border-color: rgba(80, 220, 170, 0.24);
+}
+
+.sku458-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku458-rhs-metric-card {
+    border: 1px solid rgba(80, 220, 170, 0.14);
+    border-radius: 18px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(16, 26, 23, 0.94) 0%, rgba(8, 14, 12, 0.98) 100%);
+}
+
+.sku458-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 6px;
+}
+
+.sku458-rhs-metric-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e9fff6;
+    margin-bottom: 6px;
+}
+
+.sku458-rhs-metric-interpretation {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #b5d8cb;
+    margin-bottom: 14px;
+}
+
+.sku458-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.sku458-rhs-value-box {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 12px 14px;
+}
+
+.sku458-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9fc7b8;
+    margin-bottom: 6px;
+}
+
+.sku458-rhs-value-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku458-rhs-value-number.positive {
+    color: #80f0c8;
+}
+
+.sku458-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku458-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #b5d8cb;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+    .sku458-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku458-rhs-hero-right {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .sku458-rhs-metric-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ------------------------------------------------------------
+   SKU4.58 RHS premium cards end
+------------------------------------------------------------ */

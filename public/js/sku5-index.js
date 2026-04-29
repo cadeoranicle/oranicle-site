@@ -1,5 +1,5 @@
-// sku4-index.js
-// SKU4 super orchestrator
+// sku5-index.js
+// SKU5 super orchestrator
 // Responsibilities:
 // 1. Resolve current SKU
 // 2. Read registry entry
@@ -8,7 +8,7 @@
 // 5. Call panel engine
 // 6. Handle previous / next / direct navigation
 
-(function initSKU4Index(global) {
+(function initSKU5Index(global) {
     "use strict";
 
     const DEBUG = true;
@@ -16,7 +16,7 @@
     function applyUrlContextOverrides() {
         const params = new URLSearchParams(global.location.search);
 
-        const existing = global.SKU4_ENTRY_CONTEXT || {};
+        const existing = global.SKU5_ENTRY_CONTEXT || {};
 
         const npi =
             params.get("npi") ||
@@ -25,7 +25,7 @@
             existing.provider ||
             "";
 
-        global.SKU4_ENTRY_CONTEXT = {
+        global.SKU5_ENTRY_CONTEXT = {
             ...existing,
             region: params.get("region") || existing.region || "NYNJCT",
             family: params.get("family") || existing.family || "",
@@ -34,7 +34,7 @@
             provider: npi
         };
 
-        console.log("[SKU4][index] URL context override", global.SKU4_ENTRY_CONTEXT);
+        console.log("[SKU5][index] URL context override", global.SKU5_ENTRY_CONTEXT);
     }
 
 
@@ -42,29 +42,29 @@
     // Public bootstrap
     // ------------------------------------------------------------
 
-    async function initSKU4() {
+    async function initSKU5() {
 
         try {
             applyUrlContextOverrides();
-            log("initSKU4() start");
+            log("initSKU5() start");
 
             assertDependencies();
 
             const currentSkuId = resolveInitialSkuId();
             const entry = getRegistryEntryOrThrow(currentSkuId);
 
-            global.SKU4Session = buildSession(entry);
+            global.SKU5Session = buildSession(entry);
 
             log("registry entry resolved", entry);
-            log("session created", global.SKU4Session);
+            log("session created", global.SKU5Session);
 
             await renderCurrentSku();
 
             bindGlobalNavigationHandlers();
 
-            log("initSKU4() complete");
+            log("initSKU5() complete");
         } catch (error) {
-            console.error("[SKU4][fatal]", error);
+            console.error("[SKU5][fatal]", error);
             renderFatalState(error);
         }
     }
@@ -74,28 +74,28 @@
     // ------------------------------------------------------------
 
     function assertDependencies() {
-        if (!global.SKU4Registry) {
-            throw new Error("SKU4Registry is not loaded.");
+        if (!global.SKU5Registry) {
+            throw new Error("SKU5Registry is not loaded.");
         }
 
-        if (!global.SKU4Registry.getSkuEntry) {
-            throw new Error("SKU4Registry.getSkuEntry is missing.");
+        if (!global.SKU5Registry.getSkuEntry) {
+            throw new Error("SKU5Registry.getSkuEntry is missing.");
         }
 
-        if (!global.SKU4Registry.getNextSkuId) {
-            throw new Error("SKU4Registry.getNextSkuId is missing.");
+        if (!global.SKU5Registry.getNextSkuId) {
+            throw new Error("SKU5Registry.getNextSkuId is missing.");
         }
 
-        if (!global.SKU4Registry.getPreviousSkuId) {
-            throw new Error("SKU4Registry.getPreviousSkuId is missing.");
+        if (!global.SKU5Registry.getPreviousSkuId) {
+            throw new Error("SKU5Registry.getPreviousSkuId is missing.");
         }
 
-        if (!global.SKU4Loader || typeof global.SKU4Loader.loadSkuPayload !== "function") {
-            throw new Error("SKU4Loader.loadSkuPayload is not available.");
+        if (!global.SKU5Loader || typeof global.SKU5Loader.loadSkuPayload !== "function") {
+            throw new Error("SKU5Loader.loadSkuPayload is not available.");
         }
 
-        if (!global.SKU4PanelEngine || typeof global.SKU4PanelEngine.renderPanels !== "function") {
-            throw new Error("SKU4PanelEngine.renderPanels is not available.");
+        if (!global.SKU5PanelEngine || typeof global.SKU5PanelEngine.renderPanels !== "function") {
+            throw new Error("SKU5PanelEngine.renderPanels is not available.");
         }
     }
 
@@ -114,7 +114,7 @@
             return skuFromSession;
         }
 
-        return global.SKU4Registry.getDefaultSkuId();
+        return global.SKU5Registry.getDefaultSkuId();
     }
 
     function getSkuIdFromUrl() {
@@ -124,7 +124,7 @@
 
     function getSkuIdFromSessionStorage() {
         try {
-            return global.sessionStorage.getItem("sku4_current_sku_id");
+            return global.sessionStorage.getItem("sku5_current_sku_id");
         } catch (error) {
             warn("sessionStorage unavailable", error);
             return null;
@@ -132,11 +132,11 @@
     }
 
     function hasRegistryEntry(skuId) {
-        return !!global.SKU4Registry.getSkuEntry(skuId);
+        return !!global.SKU5Registry.getSkuEntry(skuId);
     }
 
     function getRegistryEntryOrThrow(skuId) {
-        const entry = global.SKU4Registry.getSkuEntry(skuId);
+        const entry = global.SKU5Registry.getSkuEntry(skuId);
         if (!entry) {
             throw new Error(`No registry entry found for ${skuId}`);
         }
@@ -161,12 +161,12 @@
             previousSkuId:
                 entry.previous_sku_id !== undefined
                     ? entry.previous_sku_id
-                    : global.SKU4Registry.getPreviousSkuId(entry.sku_id),
+                    : global.SKU5Registry.getPreviousSkuId(entry.sku_id),
 
             nextSkuId:
                 entry.next_sku_id !== undefined
                     ? entry.next_sku_id
-                    : global.SKU4Registry.getNextSkuId(entry.sku_id),
+                    : global.SKU5Registry.getNextSkuId(entry.sku_id),
 
             accumulatedTraces: [],
             accumulatedLegends: [],
@@ -181,7 +181,7 @@
     }
 
     function updateSessionForEntry(entry) {
-        const session = global.SKU4Session || buildSession(entry);
+        const session = global.SKU5Session || buildSession(entry);
 
         session.currentSkuId = entry.sku_id;
         session.currentSequence = entry.sequence;
@@ -192,12 +192,12 @@
         session.previousSkuId =
             entry.previous_sku_id !== undefined
                 ? entry.previous_sku_id
-                : global.SKU4Registry.getPreviousSkuId(entry.sku_id);
+                : global.SKU5Registry.getPreviousSkuId(entry.sku_id);
 
         session.nextSkuId =
             entry.next_sku_id !== undefined
                 ? entry.next_sku_id
-                : global.SKU4Registry.getNextSkuId(entry.sku_id);
+                : global.SKU5Registry.getNextSkuId(entry.sku_id);
 
         session.currentStatusLabel = entry.status_label || entry.pill_label || "";
         session.nextStatusLabel = entry.next_status_label || "";
@@ -229,12 +229,13 @@
             };
         }
 
-
+       // window.SKU4Payload = payload;
+        //console.log("[SKU4] exposed payload", payload);
         // ------------------------------------------------------------
         // BUILD JOURNEY MODEL (🔥 THIS WAS MISSING)
         // ------------------------------------------------------------
 
-        const allEntries = global.SKU4Registry.getAllSkuEntries();
+        const allEntries = global.SKU5Registry.getAllSkuEntries();
         session.journey = allEntries.map(e => {
             let state = "future";
 
@@ -253,7 +254,7 @@
             };
         });
 
-        global.SKU4Session = session;
+        global.SKU5Session = session;
         if (typeof persistCurrentSkuId === "function") {
             persistCurrentSkuId(entry.sku_id);
         }
@@ -262,15 +263,15 @@
     }
 
     function buildJourneyModel() {
-        const session = global.SKU4Session;
+        const session = global.SKU5Session;
 
         // 🔥 IMPORTANT: use registry API, not raw object
-        const allSkus = global.SKU4Registry?.getAllSkuEntries
-            ? global.SKU4Registry.getAllSkuEntries()
+        const allSkus = global.SKU5Registry?.getAllSkuEntries
+            ? global.SKU5Registry.getAllSkuEntries()
             : [];
 
         if (!Array.isArray(allSkus) || !allSkus.length) {
-            console.warn("[SKU4][journey] registry empty");
+            console.warn("[SKU5][journey] registry empty");
             return [];
         }
 
@@ -294,16 +295,16 @@
     // ------------------------------------------------------------
 
     async function renderCurrentSku() {
-        const session = global.SKU4Session;
+        const session = global.SKU5Session;
         if (!session || !session.currentSkuId) {
-            throw new Error("SKU4Session is missing currentSkuId.");
+            throw new Error("SKU5Session is missing currentSkuId.");
         }
 
         const entry = getRegistryEntryOrThrow(session.currentSkuId);
         updateSessionForEntry(entry);
 
         log("renderCurrentSku() -> entry", entry);
-        log("renderCurrentSku() -> session", global.SKU4Session);
+        log("renderCurrentSku() -> session", global.SKU5Session);
         log("renderCurrentSku() -> panel contracts", {
             panel_1_contract: entry.panel_1_contract,
             panel_2_contract: entry.panel_2_contract,
@@ -314,16 +315,16 @@
 
         renderLoadingState(entry);
 
-        const payload = await global.SKU4Loader.loadSkuPayload({
+        const payload = await global.SKU5Loader.loadSkuPayload({
             entry,
-            session: global.SKU4Session
+            session: global.SKU5Session
         });
 
         log("loader payload", payload);
 
-        await global.SKU4PanelEngine.renderPanels({
+        await global.SKU5PanelEngine.renderPanels({
             entry,
-            session: global.SKU4Session,
+            session: global.SKU5Session,
             payload,
             panelContracts: {
                 panel1: entry.panel_1_contract,
@@ -369,7 +370,7 @@
     }
 
     async function goToNextSku() {
-        const session = global.SKU4Session;
+        const session = global.SKU5Session;
         if (!session || !session.nextSkuId) {
             warn("No next SKU available");
             return;
@@ -379,7 +380,7 @@
     }
 
     async function goToPreviousSku() {
-        const session = global.SKU4Session;
+        const session = global.SKU5Session;
         if (!session || !session.previousSkuId) {
             warn("No previous SKU available");
             return;
@@ -394,64 +395,64 @@
 
     function bindGlobalNavigationHandlers() {
         document.addEventListener("click", async (event) => {
-            const nextBtn = event.target.closest("[data-sku4-action='next']");
+            const nextBtn = event.target.closest("[data-sku5-action='next']");
             if (nextBtn) {
                 event.preventDefault();
                 await goToNextSku();
                 return;
             }
 
-            const prevBtn = event.target.closest("[data-sku4-action='previous']");
+            const prevBtn = event.target.closest("[data-sku5-action='previous']");
             if (prevBtn) {
                 event.preventDefault();
                 await goToPreviousSku();
                 return;
             }
 
-            const skuBtn = event.target.closest("[data-sku4-sku-id]");
+            const skuBtn = event.target.closest("[data-sku5-sku-id]");
             if (skuBtn) {
                 event.preventDefault();
-                const skuId = skuBtn.getAttribute("data-sku4-sku-id");
+                const skuId = skuBtn.getAttribute("data-sku5-sku-id");
                 await goToSku(skuId);
             }
         });
     }
 
     function updateJourneyControls(entry) {
-        const prevBtn = document.querySelector("[data-sku4-role='prev-button']");
-        const nextBtn = document.querySelector("[data-sku4-role='next-button']");
-        const breadcrumbNode = document.querySelector("[data-sku4-role='breadcrumb']");
-        const ctaNode = document.querySelector("[data-sku4-role='cta-label']");
+        const prevBtn = document.querySelector("[data-sku5-role='prev-button']");
+        const nextBtn = document.querySelector("[data-sku5-role='next-button']");
+        const breadcrumbNode = document.querySelector("[data-sku5-role='breadcrumb']");
+        const ctaNode = document.querySelector("[data-sku5-role='cta-label']");
 
-        const previousEntry = global.SKU4Session?.previousSkuId
-            ? global.SKU4Registry.getSkuEntry(global.SKU4Session.previousSkuId)
+        const previousEntry = global.SKU5Session?.previousSkuId
+            ? global.SKU5Registry.getSkuEntry(global.SKU5Session.previousSkuId)
             : null;
 
-        const nextEntry = global.SKU4Session?.nextSkuId
-            ? global.SKU4Registry.getSkuEntry(global.SKU4Session.nextSkuId)
+        const nextEntry = global.SKU5Session?.nextSkuId
+            ? global.SKU5Registry.getSkuEntry(global.SKU5Session.nextSkuId)
             : null;
 
         if (prevBtn) {
-            prevBtn.disabled = !global.SKU4Session?.previousSkuId;
+            prevBtn.disabled = !global.SKU5Session?.previousSkuId;
             prevBtn.textContent = previousEntry?.pill_label
                 ? `Back`
                 : "Previous";
         }
 
         if (nextBtn) {
-            nextBtn.disabled = !global.SKU4Session?.nextSkuId;
+            nextBtn.disabled = !global.SKU5Session?.nextSkuId;
         }
 
         if (breadcrumbNode) {
             breadcrumbNode.textContent =
-                global.SKU4Session?.currentStatusLabel ||
+                global.SKU5Session?.currentStatusLabel ||
                 entry?.breadcrumb_label ||
                 "";
         }
 
         if (ctaNode) {
             ctaNode.textContent =
-                global.SKU4Session?.nextCtaLabel ||
+                global.SKU5Session?.nextCtaLabel ||
                 (nextEntry?.pill_label ? `View ${nextEntry.pill_label}` : "Complete");
         }
     }
@@ -461,25 +462,25 @@
     // ------------------------------------------------------------
 
     function renderLoadingState(entry) {
-        const root = document.querySelector("[data-sku4-root]");
+        const root = document.querySelector("[data-sku5-root]");
         if (!root) return;
 
-        root.setAttribute("data-sku4-loading", "true");
+        root.setAttribute("data-sku5-loading", "true");
         root.setAttribute("data-current-sku", entry.sku_id || "");
     }
 
     function clearLoadingState() {
-        const root = document.querySelector("[data-sku4-root]");
+        const root = document.querySelector("[data-sku5-root]");
         if (!root) return;
 
-        root.setAttribute("data-sku4-loading", "false");
+        root.setAttribute("data-sku5-loading", "false");
     }
 
     function renderFatalState(error) {
-        const root = document.querySelector("[data-sku4-root]") || document.body;
+        const root = document.querySelector("[data-sku5-root]") || document.body;
         root.innerHTML = `
-      <div class="sku4-fatal-state">
-        <h2>SKU4 failed to initialize</h2>
+      <div class="sku5-fatal-state">
+        <h2>SKU5 failed to initialize</h2>
         <pre>${escapeHtml(error?.message || "Unknown error")}</pre>
       </div>
     `;
@@ -501,17 +502,17 @@
     function log(message, data) {
         if (!DEBUG) return;
         if (typeof data === "undefined") {
-            console.log(`[SKU4][index] ${message}`);
+            console.log(`[SKU5][index] ${message}`);
         } else {
-            console.log(`[SKU4][index] ${message}`, data);
+            console.log(`[SKU5][index] ${message}`, data);
         }
     }
 
     function warn(message, data) {
         if (typeof data === "undefined") {
-            console.warn(`[SKU4][index] ${message}`);
+            console.warn(`[SKU5][index] ${message}`);
         } else {
-            console.warn(`[SKU4][index] ${message}`, data);
+            console.warn(`[SKU5][index] ${message}`, data);
         }
     }
 
@@ -519,8 +520,8 @@
     // Public API
     // ------------------------------------------------------------
 
-    global.SKU4Index = {
-        initSKU4,
+    global.SKU5Index = {
+        initSKU5,
         renderCurrentSku,
         goToSku,
         goToNextSku,
@@ -532,9 +533,9 @@
     // ------------------------------------------------------------
 
     if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initSKU4);
+        document.addEventListener("DOMContentLoaded", initSKU5);
     } else {
-        initSKU4();
+        initSKU5();
     }
 
 })(window);

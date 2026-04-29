@@ -1,0 +1,3346 @@
+/* ============================================================
+   SKU5 Base
+   ============================================================ */
+
+:root {
+    --sku5-bg: #07111c;
+    --sku5-surface: #0d1724;
+    --sku5-surface-alt: #132131;
+    --sku5-surface-soft: #18293b;
+
+    --sku5-border: #22364d;
+    --sku5-border-soft: #2b435f;
+
+    --sku5-text: #d7e0ea;
+    --sku5-text-soft: #8ea1b5;
+    --sku5-title: #f1f5f9;
+
+    --sku5-accent: #d12d2d;
+    --sku5-accent-dark: #a52121;
+
+    --sku5-success: #4ca86a;
+    --sku5-warning: #c78a2c;
+    --sku5-error: #d65a5a;
+
+    --sku5-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+    --sku5-radius: 14px;
+    --sku5-gap: 16px;
+    --sku5-pad: 16px;
+}
+
+html,
+body {
+    background: #edf3f9;
+    margin: 0;
+    padding: 0;
+}
+
+[data-sku5-root] {
+    font-family: var(--sku5-font);
+    color: var(--sku5-text);
+    background: var(--sku5-bg);
+    min-height: 100vh;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sku5-gap);
+    box-sizing: border-box;
+}
+
+[data-sku5-root] {
+    font-family: var(--sku5-font);
+    color: var(--sku5-text);
+    background:
+        linear-gradient(180deg,
+            #07121e 0%,
+            #081522 45%,
+            #06111d 100%);
+    min-height: 100vh;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sku5-gap);
+    box-sizing: border-box;
+}
+
+/* ============================================================
+   Panel Layout
+   ============================================================ */
+
+[data-sku5-panel] {
+    min-width: 0;
+}
+
+[data-sku5-panel="panel1"],
+[data-sku5-panel="panel2"],
+[data-sku5-panel="panel5"] {
+    width: 100%;
+}
+
+[data-sku5-panel="panel3"],
+[data-sku5-panel="panel4"] {
+    width: 100%;
+}
+
+.sku5-main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sku5-gap);
+}
+
+/* ============================================================
+   Generic Panel Shell
+   ============================================================ */
+
+.sku5-panel {
+    background:
+        linear-gradient(90deg,
+            rgba(17, 28, 42, 0.98) 0%,
+            rgba(22, 34, 50, 0.96) 35%,
+            rgba(18, 31, 46, 0.95) 65%,
+            rgba(12, 22, 34, 0.98) 100%);
+    border: 1px solid rgba(43, 67, 95, 0.9);
+    border-radius: var(--sku5-radius);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    box-sizing: border-box;
+}
+
+.sku5-panel-content,
+.sku5-panel-header {
+    padding: 14px 18px;
+}
+
+.sku5-panel-journey,
+.sku5-panel-empty,
+.sku5-panel-error,
+.sku5-panel-unsupported {
+    padding: var(--sku5-pad);
+}
+
+.sku5-content-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+
+.sku5-panel-content,
+.sku5-panel-header,
+.sku5-panel-journey,
+.sku5-panel-empty,
+.sku5-panel-error,
+.sku5-panel-unsupported {
+    background: transparent;
+}
+
+.sku5-content-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sku5-content-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--sku5-title);
+}
+
+.sku5-content-subtitle {
+    font-size: 13px;
+    color: var(--sku5-text-soft);
+}
+
+.sku5-content-body {
+    min-height: 80px;
+}
+
+/* ============================================================
+   Header Shell
+   ============================================================ */
+
+.sku5-header-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sku5-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    width: 100%;
+}
+
+.sku5-header-main {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.sku5-header-topline {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sku5-accent);
+    margin-bottom: 4px;
+}
+
+.sku5-header-title {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.15;
+    color: var(--sku5-title);
+}
+
+.sku5-header-subtitle {
+    font-size: 13px;
+    color: var(--sku5-text-soft);
+    margin-top: 6px;
+}
+
+.sku5-header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.sku5-header-meta-inline {
+    justify-content: flex-end;
+    align-items: center;
+    flex: 0 0 auto;
+    max-width: 52%;
+}
+
+.sku5-meta-chip {
+    background: var(--sku5-surface-alt);
+    border: 1px solid var(--sku5-border);
+    border-radius: 999px;
+    padding: 6px 10px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.sku5-meta-label {
+    font-size: 11px;
+    color: var(--sku5-text-soft);
+    font-weight: 600;
+}
+
+.sku5-meta-value {
+    font-size: 12px;
+    color: var(--sku5-title);
+    font-weight: 700;
+}
+
+/* ============================================================
+   Journey Shell
+   ============================================================ */
+
+.sku5-journey-shell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.sku5-journey-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sku5-breadcrumb {
+    font-size: 13px;
+    color: var(--sku5-text-soft);
+    font-weight: 600;
+}
+
+.sku5-pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.sku5-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid var(--sku5-border);
+    background: var(--sku5-surface-alt);
+    color: var(--sku5-title);
+}
+
+.sku5-pill-active {
+    border-color: var(--sku5-accent);
+    color: var(--sku5-accent);
+    background: #fff5f5;
+}
+
+.sku5-journey-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+
+.sku5-btn {
+    appearance: none;
+    border: 1px solid var(--sku5-border);
+    background: var(--sku5-surface);
+    color: var(--sku5-title);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.15s ease;
+}
+
+.sku5-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.sku5-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.sku5-btn-primary {
+    background: var(--sku5-accent);
+    border-color: var(--sku5-accent);
+    color: #ffffff;
+}
+
+.sku5-btn-primary:hover:not(:disabled) {
+    background: var(--sku5-accent-dark);
+    border-color: var(--sku5-accent-dark);
+}
+
+.sku5-btn-secondary {
+    background: var(--sku5-surface);
+}
+
+/* ============================================================
+   Tables
+   ============================================================ */
+
+.sku5-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: transparent;
+}
+
+.sku5-table th,
+.sku5-table td {
+    border: 1px solid rgba(40, 62, 88, 0.65);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.sku5-table th {
+    background:
+        linear-gradient(180deg,
+            rgba(35, 55, 78, 0.88) 0%,
+            rgba(25, 41, 60, 0.92) 100%);
+    color: #dce8f4;
+    font-weight: 700;
+}
+
+.sku5-table td {
+    background:
+        linear-gradient(180deg,
+            rgba(13, 22, 34, 0.92) 0%,
+            rgba(9, 16, 26, 0.96) 100%);
+    color: #d7e0ea;
+}
+
+/* ============================================================
+   Narrative / Notes / Hybrid / KPI
+   ============================================================ */
+
+.sku5-narrative-block,
+.sku5-note-block,
+.sku5-fallback-json,
+.sku5-hybrid-wrap,
+.sku5-kpi-card {
+    background: var(--sku5-surface-alt);
+    border: 1px solid var(--sku5-border);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.sku5-narrative-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--sku5-text);
+}
+
+.sku5-notes-list {
+    margin: 0;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sku5-hybrid-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.sku5-hybrid-narrative {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.sku5-hybrid-data {
+    overflow: auto;
+}
+
+.sku5-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.sku5-kpi-label {
+    font-size: 12px;
+    color: var(--sku5-text-soft);
+    margin-bottom: 6px;
+}
+
+.sku5-kpi-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--sku5-title);
+}
+
+.sku5-kpi-subtext {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--sku5-text-soft);
+}
+
+/* ============================================================
+   JSON / Debug / Fallback
+   ============================================================ */
+
+.sku5-fallback-title,
+.sku5-panel-error-title,
+.sku5-panel-empty-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--sku5-title);
+    margin-bottom: 6px;
+}
+
+.sku5-panel-error-message,
+.sku5-panel-empty-message {
+    font-size: 13px;
+    color: var(--sku5-text-soft);
+}
+
+.sku5-json-preview {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #1e293b;
+}
+
+/* ============================================================
+   Status States
+   ============================================================ */
+
+.sku5-panel-empty {
+    background: #fcfcfd;
+}
+
+.sku5-panel-error {
+    background: #fff6f6;
+    border-color: #f1c7c7;
+}
+
+.sku5-panel-error-title {
+    color: var(--sku5-error);
+}
+
+.sku5-panel-unsupported {
+    background: #fffaf2;
+    border-color: #f2ddb3;
+}
+
+/* ============================================================
+   Loading / Fatal
+   ============================================================ */
+
+[data-sku5-root][data-sku5-loading="true"] {
+    opacity: 0.94;
+}
+
+.sku5-fatal-state {
+    background: #fff6f6;
+    border: 1px solid #f1c7c7;
+    border-radius: var(--sku5-radius);
+    padding: 16px;
+    color: var(--sku5-error);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 980px) {
+    .sku5-main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sku5-kpi-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    [data-sku5-root] {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .sku5-header-title {
+        font-size: 22px;
+    }
+
+    .sku5-journey-shell {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .sku5-journey-right {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .sku5-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sku5-meta-chip {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* ============================================================
+   Canonical Axes Block
+   ============================================================ */
+
+.sku5-canonical-axes-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.sku5-canonical-intro {
+    background: var(--sku5-surface-alt);
+    border: 1px solid var(--sku5-border);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.sku5-canonical-center-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--sku5-title);
+    margin-bottom: 6px;
+}
+
+.sku5-canonical-center-value {
+    font-size: 14px;
+    color: var(--sku5-text);
+}
+
+.sku5-axis-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.sku5-axis-card {
+    background: var(--sku5-surface-alt);
+    border: 1px solid var(--sku5-border);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.sku5-axis-id {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--sku5-accent);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.sku5-axis-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--sku5-title);
+    line-height: 1.5;
+}
+
+
+.sku5-canonical-cloud-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku5-cloud-hero {
+    position: relative;
+    height: 220px;
+    border: 1px solid var(--sku5-border);
+    border-radius: 14px;
+    background: var(--sku5-surface-alt);
+    overflow: hidden;
+}
+
+.sku5-cloud-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: #b8bec8;
+}
+
+.sku5-cloud-dot-center {
+    width: 18px;
+    height: 18px;
+    background: var(--sku5-accent);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.sku5-cloud-dot-1 {
+    left: 30%;
+    top: 35%;
+}
+
+.sku5-cloud-dot-2 {
+    left: 60%;
+    top: 30%;
+}
+
+.sku5-cloud-dot-3 {
+    left: 42%;
+    top: 70%;
+}
+
+.sku5-cloud-dot-4 {
+    left: 72%;
+    top: 58%;
+}
+
+.sku5-cloud-dot-5 {
+    left: 22%;
+    top: 60%;
+}
+
+.sku5-cloud-summary {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    background: var(--sku5-surface-alt);
+    border: 1px solid var(--sku5-border);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+/* Hospital dot css */
+
+.sku5-hospital-dot-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku5-hospital-hero {
+    position: relative;
+    height: 220px;
+    border: 1px solid var(--sku5-border);
+    border-radius: 14px;
+    background: var(--sku5-surface-alt);
+    overflow: hidden;
+}
+
+.sku5-hospital-cloud-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: #b8bec8;
+}
+
+.sku5-hospital-cloud-dot-1 {
+    left: 24%;
+    top: 62%;
+}
+
+.sku5-hospital-cloud-dot-2 {
+    left: 32%;
+    top: 38%;
+}
+
+.sku5-hospital-cloud-dot-3 {
+    left: 43%;
+    top: 70%;
+}
+
+.sku5-hospital-cloud-dot-4 {
+    left: 61%;
+    top: 34%;
+}
+
+.sku5-hospital-cloud-dot-5 {
+    left: 73%;
+    top: 60%;
+}
+
+.sku5-hospital-main-dot {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: var(--sku5-accent);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.sku5-hospital-label {
+    position: absolute;
+    left: 50%;
+    top: calc(50% + 18px);
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--sku5-accent);
+}
+
+.sku5-hospital-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    background: var(--sku5-surface-alt);
+    border: 1px solid var(--sku5-border);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.sku5-cloud-hero,
+.sku5-hospital-hero,
+.sku5-benchmark-wrap,
+.sku5-graph-shell,
+.sku5-canonical-viewer-shell,
+.sku5-plot-shell {
+    background:
+        radial-gradient(circle at top left,
+            rgba(18, 44, 74, 0.30) 0%,
+            rgba(8, 20, 34, 0.95) 55%,
+            rgba(5, 12, 22, 1) 100%);
+    border: 1px solid rgba(38, 62, 88, 0.95);
+    border-radius: 14px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        inset 0 -20px 40px rgba(0, 0, 0, 0.18);
+}
+
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::before {
+    content: "🦋";
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    font-size: 12px;
+    line-height: 1;
+    opacity: 0.92;
+    pointer-events: none;
+    z-index: 2000;
+}
+
+.sku5-tooltip-target {
+    position: relative;
+    overflow: visible !important;
+}
+
+.sku5-tooltip-marker {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 160px;
+    height: 28px;
+    z-index: 9999;
+    cursor: help;
+    pointer-events: auto;
+    background: transparent;
+}
+
+.sku5-tooltip-marker::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 30px;
+    right: 0;
+    width: 240px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: rgba(8, 18, 32, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #dfe8f5;
+    font-size: 12px;
+    line-height: 1.45;
+    text-align: left;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.08s ease, transform 0.08s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    z-index: 501;
+}
+
+.sku5-tooltip-marker:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sku5-tooltip-anchor {
+    position: relative;
+}
+
+.sku5-tooltip-anchor::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 8px);
+    min-width: 180px;
+    max-width: 260px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: rgba(8, 18, 32, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #dfe8f5;
+    font-size: 11px;
+    line-height: 1.4;
+    white-space: normal;
+    text-align: left;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.08s ease, transform 0.08s ease;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.sku5-tooltip-anchor:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sku5-panel,
+.sku5-panel-content,
+.sku5-content-shell,
+.sku5-content-body,
+.sku5-main-grid {
+    overflow: visible !important;
+}
+
+
+.sku5-tooltip-marker::after {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+.sku5-tooltip-target[data-tooltip]::before {
+    display: none;
+}
+
+.sku5-graph-bee-marker::after {
+    display: none !important;
+}
+
+.sku5-graph-bee-marker::before {
+    display: none !important;
+}
+
+.sku5-tooltip-target[data-tooltip]::before {
+    display: none !important;
+}
+
+.sku5-tooltip-target[data-tooltip]::after {
+    display: none !important;
+}
+
+
+.sku5-legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 12px;
+    align-items: center;
+}
+
+.sku5-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #d9e2f1;
+}
+
+.sku5-legend-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.sku5-legend-label {
+    line-height: 1.2;
+}
+
+.sku553-rhs-section {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku553-section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sku553-section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f5f7fb;
+}
+
+.sku553-section-subtitle {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.sku553-peer-table-wrap {
+    overflow-x: auto;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.sku553-peer-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    color: #e9eef7;
+}
+
+.sku553-peer-table thead {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.sku553-peer-table th,
+.sku553-peer-table td {
+    padding: 10px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.sku553-peer-table th {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 700;
+}
+
+.sku553-peer-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+
+
+.sku553-cohort-section {
+    margin-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 18px;
+}
+
+.sku553-percentile-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.sku553-percentile-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.sku553-percentile-toprow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.sku553-percentile-metric {
+    font-size: 14px;
+    font-weight: 700;
+    color: #f5f7fb;
+}
+
+.sku553-percentile-badge {
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.sku553-badge-top {
+    background: rgba(0, 200, 120, 0.18);
+    color: #7dffbf;
+}
+
+.sku553-badge-above {
+    background: rgba(60, 140, 255, 0.18);
+    color: #8fc0ff;
+}
+
+.sku553-badge-median {
+    background: rgba(255, 255, 255, 0.12);
+    color: #dce6f5;
+}
+
+.sku553-badge-below {
+    background: rgba(255, 180, 0, 0.18);
+    color: #ffd27d;
+}
+
+.sku553-badge-low {
+    background: rgba(255, 80, 80, 0.18);
+    color: #ff9f9f;
+}
+
+.sku553-percentile-values {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.sku553-value-label {
+    color: rgba(255, 255, 255, 0.55);
+    margin-right: 4px;
+}
+
+.sku553-value-text {
+    color: #f5f7fb;
+    font-weight: 600;
+}
+
+/* ------------------------------------------------------------
+   SKU5.54 RHS premium cards
+------------------------------------------------------------ */
+
+.sku554-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku554-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku554-rhs-hero-left {
+    flex: 1;
+}
+
+.sku554-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku554-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku554-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku554-rhs-hero-right {
+    min-width: 180px;
+}
+
+.sku554-rhs-stat-card {
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+    padding: 14px 16px;
+}
+
+.sku554-rhs-stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku554-rhs-stat-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku554-rhs-priority-card {
+    border: 1px solid rgba(246, 211, 101, 0.28);
+    border-radius: 18px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(52, 56, 36, 0.48) 0%, rgba(20, 28, 26, 0.92) 100%);
+}
+
+.sku554-rhs-priority-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.sku554-rhs-priority-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.sku554-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #f6d365;
+    margin-bottom: 4px;
+}
+
+.sku554-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku554-rhs-priority-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #dbe5ef;
+    margin-bottom: 14px;
+}
+
+.sku554-rhs-priority-pill-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku554-rhs-pill,
+.sku554-rhs-delta-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.sku554-rhs-pill.positive,
+.sku554-rhs-delta-chip.positive {
+    color: #80f0c8;
+    background: rgba(26, 120, 92, 0.28);
+    border-color: rgba(80, 220, 170, 0.24);
+}
+
+.sku554-rhs-pill.negative,
+.sku554-rhs-delta-chip.negative {
+    color: #ff9c9c;
+    background: rgba(130, 44, 44, 0.28);
+    border-color: rgba(255, 120, 120, 0.22);
+}
+
+.sku554-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku554-rhs-metric-card {
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 18px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+}
+
+.sku554-rhs-metric-card.bee-highlight {
+    border-color: rgba(246, 211, 101, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.sku554-rhs-metric-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.sku554-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku554-rhs-bee-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #f6d365;
+    background: rgba(246, 211, 101, 0.12);
+    border: 1px solid rgba(246, 211, 101, 0.24);
+}
+
+.sku554-rhs-metric-interpretation {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #9fb4cc;
+    margin-bottom: 14px;
+}
+
+.sku554-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.sku554-rhs-value-box {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 12px 14px;
+}
+
+.sku554-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku554-rhs-value-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku554-rhs-value-number.muted {
+    color: #e0e9f3;
+}
+
+.sku554-rhs-delta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku554-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku554-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a8bdd5;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+    .sku554-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku554-rhs-hero-right {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .sku554-rhs-metric-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* SKU5.54 RHS premium cards */
+
+
+
+/* ------------------------------------------------------------
+   SKU5.55 RHS premium cards start
+------------------------------------------------------------ */
+
+.sku555-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku555-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku555-rhs-hero-left {
+    flex: 1;
+}
+
+.sku555-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku555-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku555-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku555-rhs-hero-right {
+    min-width: 180px;
+}
+
+.sku555-rhs-stat-card {
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+    padding: 14px 16px;
+}
+
+.sku555-rhs-stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku555-rhs-stat-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku555-rhs-priority-card {
+    border: 1px solid rgba(246, 211, 101, 0.28);
+    border-radius: 18px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(52, 56, 36, 0.48) 0%, rgba(20, 28, 26, 0.92) 100%);
+}
+
+.sku555-rhs-priority-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.sku555-rhs-priority-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.sku555-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #f6d365;
+    margin-bottom: 4px;
+}
+
+.sku555-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku555-rhs-priority-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #dbe5ef;
+    margin-bottom: 14px;
+}
+
+.sku555-rhs-priority-pill-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku555-rhs-pill,
+.sku555-rhs-delta-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.sku555-rhs-pill.positive,
+.sku555-rhs-delta-chip.positive {
+    color: #80f0c8;
+    background: rgba(26, 120, 92, 0.28);
+    border-color: rgba(80, 220, 170, 0.24);
+}
+
+.sku555-rhs-pill.negative,
+.sku555-rhs-delta-chip.negative {
+    color: #ff9c9c;
+    background: rgba(130, 44, 44, 0.28);
+    border-color: rgba(255, 120, 120, 0.22);
+}
+
+.sku555-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku555-rhs-metric-card {
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 18px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+}
+
+.sku555-rhs-metric-card.bee-highlight {
+    border-color: rgba(246, 211, 101, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.sku555-rhs-metric-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.sku555-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku555-rhs-bee-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #f6d365;
+    background: rgba(246, 211, 101, 0.12);
+    border: 1px solid rgba(246, 211, 101, 0.24);
+}
+
+.sku555-rhs-metric-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e7eef8;
+    margin-bottom: 6px;
+}
+
+.sku555-rhs-metric-interpretation {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #9fb4cc;
+    margin-bottom: 14px;
+}
+
+.sku555-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.sku555-rhs-value-box {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 12px 14px;
+}
+
+.sku555-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku555-rhs-value-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku555-rhs-value-number.muted {
+    color: #e0e9f3;
+}
+
+.sku555-rhs-delta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku555-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku555-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a8bdd5;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+    .sku555-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku555-rhs-hero-right {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .sku555-rhs-metric-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ------------------------------------------------------------
+   SKU5.55 RHS premium cards end
+------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------
+   SKU5.56 RHS premium cards start
+------------------------------------------------------------ */
+
+.sku556-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku556-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku556-rhs-hero-left {
+    flex: 1;
+}
+
+.sku556-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku556-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku556-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku556-rhs-hero-right {
+    min-width: 180px;
+}
+
+.sku556-rhs-stat-card {
+    border: 1px solid rgba(255, 132, 132, 0.16);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(42, 18, 24, 0.92) 0%, rgba(18, 8, 12, 0.96) 100%);
+    padding: 14px 16px;
+}
+
+.sku556-rhs-stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #c8a7ad;
+    margin-bottom: 6px;
+}
+
+.sku556-rhs-stat-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku556-rhs-priority-card {
+    border: 1px solid rgba(255, 120, 120, 0.28);
+    border-radius: 18px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(64, 24, 28, 0.52) 0%, rgba(24, 10, 14, 0.94) 100%);
+}
+
+.sku556-rhs-priority-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.sku556-rhs-priority-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.sku556-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ff9f9f;
+    margin-bottom: 4px;
+}
+
+.sku556-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku556-rhs-priority-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #f0d9dd;
+    margin-bottom: 14px;
+}
+
+.sku556-rhs-priority-pill-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku556-rhs-pill,
+.sku556-rhs-delta-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.sku556-rhs-pill.positive,
+.sku556-rhs-delta-chip.positive {
+    color: #80f0c8;
+    background: rgba(26, 120, 92, 0.28);
+    border-color: rgba(80, 220, 170, 0.24);
+}
+
+.sku556-rhs-pill.negative,
+.sku556-rhs-delta-chip.negative {
+    color: #ff9c9c;
+    background: rgba(130, 44, 44, 0.28);
+    border-color: rgba(255, 120, 120, 0.22);
+}
+
+.sku556-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku556-rhs-metric-card {
+    border: 1px solid rgba(255, 132, 132, 0.14);
+    border-radius: 18px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(28, 18, 25, 0.94) 0%, rgba(12, 8, 14, 0.98) 100%);
+}
+
+.sku556-rhs-metric-card.priority-highlight {
+    border-color: rgba(255, 120, 120, 0.26);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.sku556-rhs-metric-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.sku556-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku556-rhs-priority-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffb1b1;
+    background: rgba(255, 120, 120, 0.12);
+    border: 1px solid rgba(255, 120, 120, 0.24);
+}
+
+.sku556-rhs-metric-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f2e9ec;
+    margin-bottom: 6px;
+}
+
+.sku556-rhs-metric-interpretation {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #c9b5bb;
+    margin-bottom: 14px;
+}
+
+.sku556-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.sku556-rhs-value-box {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 12px 14px;
+}
+
+.sku556-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #bca0a7;
+    margin-bottom: 6px;
+}
+
+.sku556-rhs-value-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku556-rhs-value-number.muted {
+    color: #eadfe3;
+}
+
+.sku556-rhs-value-number.negative {
+    color: #ffb0b0;
+}
+
+.sku556-rhs-delta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku556-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku556-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #c9b5bb;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+    .sku556-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku556-rhs-hero-right {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .sku556-rhs-metric-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ------------------------------------------------------------
+   SKU5.56 RHS premium cards end
+------------------------------------------------------------ */
+
+
+/* ________this is jiust above the graph for sku5.56__________ */
+
+.sku556-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: 6px 0 14px 0;
+}
+
+.sku556-kpi-card {
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px 12px;
+    min-height: 84px;
+}
+
+.sku556-kpi-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+    line-height: 1.2;
+}
+
+.sku556-kpi-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.05;
+}
+
+.sku556-kpi-sub {
+    margin-top: 4px;
+    font-size: 11px;
+    color: #b8c7d8;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ________this is jiust above the graph for sku5.56__________ */
+
+.sku556-narrative-block {
+    margin-top: 18px;
+    padding-top: 8px;
+}
+
+.sku556-section-title {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+}
+
+.sku556-chart-shell {
+    margin-top: 10px;
+    padding: 10px 10px 2px 10px;
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(10, 20, 34, 0.96) 0%, rgba(5, 12, 22, 0.98) 100%);
+}
+
+.sku556-chart-host {
+    width: 100%;
+    height: 360px;
+}
+
+
+/* ------------------------------------------------------------
+   SKU5.58 RHS premium cards start
+------------------------------------------------------------ */
+
+.sku558-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku558-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku558-rhs-hero-left {
+    flex: 1;
+}
+
+.sku558-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku558-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku558-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku558-rhs-hero-right {
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sku558-rhs-stat-card {
+    border: 1px solid rgba(80, 220, 170, 0.18);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(16, 38, 34, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+    padding: 14px 16px;
+}
+
+.sku558-rhs-stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku558-rhs-stat-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku558-rhs-priority-card {
+    border: 1px solid rgba(80, 220, 170, 0.22);
+    border-radius: 18px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(18, 52, 42, 0.55) 0%, rgba(10, 24, 23, 0.94) 100%);
+}
+
+.sku558-rhs-priority-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.sku558-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #80f0c8;
+    margin-bottom: 4px;
+}
+
+.sku558-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku558-rhs-priority-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #dbe5ef;
+    margin-bottom: 14px;
+}
+
+.sku558-rhs-priority-pill-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku558-rhs-pill,
+.sku558-rhs-delta-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.sku558-rhs-pill.positive,
+.sku558-rhs-delta-chip.positive {
+    color: #80f0c8;
+    background: rgba(26, 120, 92, 0.28);
+    border-color: rgba(80, 220, 170, 0.24);
+}
+
+.sku558-rhs-pill.muted,
+.sku558-rhs-delta-chip.muted {
+    color: #d6e2ef;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.sku558-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku558-rhs-metric-card {
+    border: 1px solid rgba(80, 220, 170, 0.14);
+    border-radius: 18px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+}
+
+.sku558-rhs-metric-card.priority-highlight {
+    border-color: rgba(80, 220, 170, 0.26);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.sku558-rhs-metric-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.sku558-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku558-rhs-metric-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e7eef8;
+    margin-bottom: 6px;
+}
+
+.sku558-rhs-metric-interpretation {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #9fb4cc;
+    margin-bottom: 14px;
+}
+
+.sku558-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.sku558-rhs-value-box {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 12px 14px;
+}
+
+.sku558-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku558-rhs-value-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku558-rhs-value-number.positive {
+    color: #80f0c8;
+}
+
+.sku558-rhs-value-number.muted {
+    color: #e0e9f3;
+}
+
+.sku558-rhs-delta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku558-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku558-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a8bdd5;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+    .sku558-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku558-rhs-hero-right {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .sku558-rhs-metric-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ------------------------------------------------------------
+   SKU5.58 RHS premium cards end
+------------------------------------------------------------ */
+
+/* ------------------------------------------------------------
+   SKU5.58 LHS KPI block premium cards start 
+------------------------------------------------------------ */
+
+.sku558-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 14px 0 18px 0;
+}
+
+.sku558-kpi-card {
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(126, 166, 255, 0.18);
+    background: linear-gradient(180deg, rgba(12, 24, 40, 0.95), rgba(6, 14, 24, 0.98));
+}
+
+.sku558-kpi-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(180, 200, 230, 0.65);
+    margin-bottom: 6px;
+}
+
+.sku558-kpi-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #e6f0ff;
+}
+
+.sku558-kpi-sub {
+    font-size: 12px;
+    color: rgba(180, 200, 230, 0.7);
+    margin-top: 2px;
+}
+
+
+/* ------------------------------------------------------------
+   SKU5.58 LHS KPI block premium cards start 
+------------------------------------------------------------ */
+
+/* ------------------------------------------------------------
+   SKU5.60 RHS premium cards start
+------------------------------------------------------------ */
+
+.sku560-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku560-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku560-rhs-hero-left {
+    flex: 1;
+}
+
+.sku560-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku560-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku560-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku560-rhs-hero-right {
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sku560-rhs-stat-card {
+    border: 1px solid rgba(255, 138, 101, 0.18);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(52, 26, 20, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+    padding: 14px 16px;
+}
+
+.sku560-rhs-stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku560-rhs-stat-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku560-rhs-priority-card {
+    border: 1px solid rgba(255, 138, 101, 0.22);
+    border-radius: 18px;
+    padding: 18px;
+    background: linear-gradient(180deg, rgba(58, 27, 22, 0.55) 0%, rgba(10, 24, 23, 0.94) 100%);
+}
+
+.sku560-rhs-priority-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.sku560-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffab91;
+    margin-bottom: 4px;
+}
+
+.sku560-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku560-rhs-priority-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #dbe5ef;
+    margin-bottom: 14px;
+}
+
+.sku560-rhs-priority-pill-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku560-rhs-pill,
+.sku560-rhs-delta-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.sku560-rhs-pill.negative,
+.sku560-rhs-delta-chip.negative {
+    color: #ffab91;
+    background: rgba(132, 54, 39, 0.28);
+    border-color: rgba(255, 138, 101, 0.24);
+}
+
+.sku560-rhs-pill.muted,
+.sku560-rhs-delta-chip.muted {
+    color: #d6e2ef;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.sku560-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku560-rhs-metric-card {
+    border: 1px solid rgba(255, 138, 101, 0.14);
+    border-radius: 18px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+}
+
+.sku560-rhs-metric-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.sku560-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku560-rhs-metric-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e7eef8;
+    margin-bottom: 6px;
+}
+
+.sku560-rhs-metric-interpretation {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #9fb4cc;
+    margin-bottom: 14px;
+}
+
+.sku560-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.sku560-rhs-value-box {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 12px 14px;
+}
+
+.sku560-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku560-rhs-value-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+}
+
+.sku560-rhs-value-number.negative {
+    color: #ffab91;
+}
+
+.sku560-rhs-value-number.muted {
+    color: #e0e9f3;
+}
+
+.sku560-rhs-delta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku560-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku560-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a8bdd5;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+    .sku560-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku560-rhs-hero-right {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .sku560-rhs-metric-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ------------------------------------------------------------
+   SKU5.60 RHS premium cards end
+------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------
+   SKU5.60 LHS KPI block premium cards start
+------------------------------------------------------------ */
+.sku560-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 14px 0 18px 0;
+}
+
+.sku560-kpi-card {
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 107, 107, 0.18);
+    background: linear-gradient(180deg, rgba(20, 18, 26, 0.95), rgba(10, 8, 14, 0.98));
+}
+
+.sku560-kpi-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 180, 180, 0.65);
+    margin-bottom: 6px;
+}
+
+.sku560-kpi-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffeaea;
+}
+
+.sku560-kpi-sub {
+    font-size: 12px;
+    color: rgba(255, 200, 200, 0.7);
+    margin-top: 2px;
+}
+
+/* ------------------------------------------------------------
+   SKU5.60 LHS KPI block premium cards end
+------------------------------------------------------------ */
+
+/* ============================================================
+   SKU5.62 — ICU Utilization Efficiency (LHS)
+   ============================================================ */
+
+.sku562-shell {
+    padding: 6px 6px 10px 6px;
+}
+
+/* ---------- HEADER ---------- */
+
+.sku562-header {
+    margin-bottom: 6px;
+}
+
+.sku562-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.sku562-subtitle {
+    font-size: 13px;
+    color: rgba(200, 215, 235, 0.7);
+}
+
+/* ---------- KPI GRID ---------- */
+
+.sku562-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.sku562-kpi-card {
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: linear-gradient(180deg,
+            rgba(18, 32, 54, 0.95) 0%,
+            rgba(8, 18, 32, 0.98) 100%);
+    border: 1px solid rgba(126, 166, 255, 0.16);
+}
+
+.sku562-kpi-label {
+    font-size: 11px;
+    color: rgba(200, 215, 235, 0.65);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.sku562-kpi-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.sku562-kpi-sub {
+    font-size: 12px;
+    color: rgba(200, 215, 235, 0.7);
+    margin-top: 2px;
+}
+
+/* ---------- CHART SECTION ---------- */
+
+.sku562-chart-section {
+    margin-top: 16px;
+}
+
+.sku562-chart-header {
+    margin-bottom: 6px;
+}
+
+.sku562-chart-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.sku562-chart-subtitle {
+    font-size: 12px;
+    color: rgba(200, 215, 235, 0.65);
+}
+
+.sku562-chart-shell {
+    margin-top: 10px;
+    padding: 10px 10px 2px 10px;
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 16px;
+    background: linear-gradient(180deg,
+            rgba(10, 20, 34, 0.96) 0%,
+            rgba(5, 12, 22, 0.98) 100%);
+}
+
+.sku562-chart-host {
+    width: 100%;
+    height: 360px;
+}
+
+/* ---------- NARRATIVE ---------- */
+
+.sku562-narrative-block {
+    margin-top: 18px;
+    padding-top: 8px;
+}
+
+.sku562-section-title {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+}
+
+.sku562-narrative-block p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(210, 225, 245, 0.75);
+    margin-bottom: 8px;
+}
+
+/* ============================================================
+   SKU5.62 — ICU Utilization Efficiency (RHS)
+   ============================================================ */
+
+.sku562-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.sku562-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku562-rhs-hero-left {
+    flex: 1;
+}
+
+.sku562-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku562-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku562-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku562-rhs-hero-right {
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sku562-rhs-stat-card,
+.sku562-rhs-priority-card,
+.sku562-rhs-metric-card {
+    border: 1px solid rgba(126, 166, 255, 0.16);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(18, 31, 51, 0.92) 0%, rgba(8, 19, 31, 0.96) 100%);
+}
+
+.sku562-rhs-stat-card {
+    padding: 14px 16px;
+}
+
+.sku562-rhs-stat-label,
+.sku562-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku562-rhs-stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku562-rhs-priority-card {
+    padding: 18px;
+}
+
+.sku562-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #7ea6ff;
+    margin-bottom: 4px;
+}
+
+.sku562-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku562-rhs-priority-description,
+.sku562-rhs-metric-interpretation {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #dbe5ef;
+    margin: 10px 0 14px 0;
+}
+
+.sku562-rhs-priority-pill-row,
+.sku562-rhs-delta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.sku562-rhs-pill,
+.sku562-rhs-delta-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
+}
+
+.sku562-rhs-pill.positive,
+.sku562-rhs-delta-chip.positive {
+    color: #80f0c8;
+    background: rgba(26, 120, 92, 0.28);
+    border-color: rgba(80, 220, 170, 0.24);
+}
+
+.sku562-rhs-pill.muted,
+.sku562-rhs-delta-chip.muted {
+    color: #d6e2ef;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.sku562-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku562-rhs-metric-card {
+    padding: 16px 18px;
+}
+
+.sku562-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku562-rhs-metric-values {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.sku562-rhs-value-box {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    padding: 12px 14px;
+}
+
+.sku562-rhs-value-number {
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku562-rhs-value-number.positive {
+    color: #80f0c8;
+}
+
+.sku562-rhs-value-number.muted {
+    color: #e0e9f3;
+}
+
+.sku562-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku562-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a8bdd5;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 900px) {
+    .sku562-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku562-rhs-hero-right {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .sku562-rhs-metric-values {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ============================================================
+   SKU5.64 — Coding Integrity Risk (LHS)
+   ============================================================ */
+
+.sku564-shell {
+    padding: 6px 6px 10px 6px;
+}
+
+/* ---------- HEADER ---------- */
+
+.sku564-header {
+    margin-bottom: 6px;
+}
+
+.sku564-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.sku564-subtitle {
+    font-size: 13px;
+    color: rgba(200, 215, 235, 0.7);
+}
+
+/* ---------- KPI GRID ---------- */
+
+.sku564-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.sku564-kpi-card {
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: linear-gradient(180deg,
+            rgba(18, 32, 54, 0.95) 0%,
+            rgba(8, 18, 32, 0.98) 100%);
+    border: 1px solid rgba(126, 166, 255, 0.16);
+}
+
+.sku564-kpi-label {
+    font-size: 11px;
+    color: rgba(200, 215, 235, 0.65);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.sku564-kpi-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.sku564-kpi-sub {
+    font-size: 12px;
+    color: rgba(200, 215, 235, 0.7);
+    margin-top: 2px;
+}
+
+/* ---------- CHART SECTION ---------- */
+
+.sku564-chart-section {
+    margin-top: 16px;
+}
+
+.sku564-chart-header {
+    margin-bottom: 6px;
+}
+
+.sku564-chart-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.sku564-chart-subtitle {
+    font-size: 12px;
+    color: rgba(200, 215, 235, 0.65);
+}
+
+.sku564-chart-shell {
+    margin-top: 10px;
+    padding: 10px 10px 2px 10px;
+    border: 1px solid rgba(126, 166, 255, 0.14);
+    border-radius: 16px;
+    background: linear-gradient(180deg,
+            rgba(10, 20, 34, 0.96) 0%,
+            rgba(5, 12, 22, 0.98) 100%);
+}
+
+.sku564-chart-host {
+    width: 100%;
+    height: 360px;
+}
+
+/* ---------- NARRATIVE ---------- */
+
+.sku564-narrative-block {
+    margin-top: 18px;
+    padding-top: 8px;
+}
+
+.sku564-section-title {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+}
+
+.sku564-narrative-block p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(210, 225, 245, 0.75);
+    margin-bottom: 8px;
+}
+
+
+/* ============================================================
+   SKU5.64 — Coding Integrity Risk (RHS)
+   ============================================================ */
+
+.sku564-rhs-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* ---------- HERO ---------- */
+
+.sku564-rhs-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.sku564-rhs-hero-left {
+    flex: 1;
+}
+
+.sku564-rhs-kicker {
+    font-size: 14px;
+    font-weight: 700;
+    color: #dfe8f5;
+    margin-bottom: 6px;
+}
+
+.sku564-rhs-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+
+.sku564-rhs-subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #a8bdd5;
+    max-width: 760px;
+}
+
+.sku564-rhs-hero-right {
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ---------- CARDS ---------- */
+
+.sku564-rhs-stat-card,
+.sku564-rhs-priority-card,
+.sku564-rhs-metric-card {
+    border: 1px solid rgba(126, 166, 255, 0.16);
+    border-radius: 18px;
+    background: linear-gradient(180deg,
+            rgba(18, 31, 51, 0.92) 0%,
+            rgba(8, 19, 31, 0.96) 100%);
+}
+
+.sku564-rhs-stat-card {
+    padding: 14px 16px;
+}
+
+.sku564-rhs-stat-label,
+.sku564-rhs-value-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8ea3bc;
+    margin-bottom: 6px;
+}
+
+.sku564-rhs-stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+/* ---------- PRIORITY ---------- */
+
+.sku564-rhs-priority-card {
+    padding: 18px;
+}
+
+.sku564-rhs-priority-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ff8a80;
+    /* risk tone */
+    margin-bottom: 4px;
+}
+
+.sku564-rhs-priority-metric {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku564-rhs-priority-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #dbe5ef;
+    margin: 10px 0 14px 0;
+}
+
+/* ---------- GRID ---------- */
+
+.sku564-rhs-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sku564-rhs-metric-card {
+    padding: 16px 18px;
+}
+
+.sku564-rhs-metric-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.sku564-rhs-metric-name {
+    font-size: 13px;
+    color: #a8bdd5;
+    margin-bottom: 8px;
+}
+
+.sku564-rhs-metric-values {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    color: #dbe5ef;
+}
+
+/* ---------- NOTES ---------- */
+
+.sku564-rhs-notes-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sku564-rhs-note {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #a8bdd5;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 900px) {
+    .sku564-rhs-hero {
+        flex-direction: column;
+    }
+
+    .sku564-rhs-hero-right {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+/* ---------- RISK BAND COLORS ---------- */
+
+.sku564-risk-high {
+    border-left: 4px solid #ff6b6b;
+    box-shadow: 0 0 0 1px rgba(255, 107, 107, 0.15);
+}
+
+.sku564-risk-moderate {
+    border-left: 4px solid #ffd54f;
+    box-shadow: 0 0 0 1px rgba(255, 213, 79, 0.15);
+}
+
+.sku564-risk-low {
+    border-left: 4px solid #34c759;
+    box-shadow: 0 0 0 1px rgba(52, 199, 89, 0.15);
+}
+
+/* ---------- SKU5.64+ REVENUE LOSS TABLE ---------- */
+
+.sku564-rhs-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.sku564-rhs-hero {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    align-items: stretch;
+}
+
+.sku564-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid rgba(126, 166, 255, 0.18);
+    border-radius: 14px;
+    background: rgba(8, 19, 31, 0.65);
+}
+
+.sku564-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.sku564-table th,
+.sku564-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(126, 166, 255, 0.12);
+    white-space: nowrap;
+}
+
+.sku564-table th {
+    color: #9fb3c8;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.sku564-table td {
+    color: #e6edf7;
+}
+
+.sku564-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.sku564-table tbody tr:hover {
+    background: rgba(126, 166, 255, 0.06);
+}
+
+.sku564-footnote {
+    font-size: 11px;
+    line-height: 1.45;
+    color: #9fb3c8;
+    padding: 8px 2px 0;
+}
+
+
+/* Journey panel css */
+
+.sku5-journey-strip {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+}
+
+.sku5-pill {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.sku5-pill-visited {
+    background: rgba(52,199,89,0.15);
+    color: #34c759;
+    cursor: pointer;
+}
+
+.sku5-pill-active {
+    background: #7ea6ff;
+    color: white;
+}
+
+.sku5-pill-locked {
+    opacity: 0.35;
+}
+
+/* ============================================================
+   SKU5 — Independent LHS/RHS Scroll Layout
+   ============================================================ */
+
+[data-sku5-root] {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.sku5-main-grid,
+.sku5-panel-grid,
+.sku5-content-grid {
+    height: calc(100vh - 170px);
+    overflow: hidden;
+}
+
+[data-sku5-panel="panel3"],
+[data-sku5-panel="panel4"] {
+    min-height: 0;
+    max-height: calc(100vh - 190px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+/* Keep RHS scrolling inside the intelligence body */
+[data-sku5-panel="panel4"] .sku5-content-body {
+    max-height: calc(100vh - 230px);
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+/* Optional: keep LHS graph/viewer stable */
+[data-sku5-panel="panel3"] .sku5-content-body {
+    max-height: calc(100vh - 230px);
+    overflow-y: auto;
+}
+
+/* Make scrollbars subtle */
+[data-sku5-panel="panel3"]::-webkit-scrollbar,
+[data-sku5-panel="panel4"]::-webkit-scrollbar,
+[data-sku5-panel="panel3"] .sku5-content-body::-webkit-scrollbar,
+[data-sku5-panel="panel4"] .sku5-content-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+[data-sku5-panel="panel3"]::-webkit-scrollbar-thumb,
+[data-sku5-panel="panel4"]::-webkit-scrollbar-thumb,
+[data-sku5-panel="panel3"] .sku5-content-body::-webkit-scrollbar-thumb,
+[data-sku5-panel="panel4"] .sku5-content-body::-webkit-scrollbar-thumb {
+    background: rgba(126, 166, 255, 0.25);
+    border-radius: 8px;
+}

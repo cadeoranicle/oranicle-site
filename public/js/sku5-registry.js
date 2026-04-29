@@ -1,9 +1,9 @@
-// sku4-registry.js
-// SKU4 permanent truth registry
+// sku5-registry.js
+// SKU5 permanent truth registry
 // Registry = structural truth
 // Session = runtime truth
 
-(function initSKU4Registry(global) {
+(function initSKU5Registry(global) {
     "use strict";
 
     // ------------------------------------------------------------
@@ -108,12 +108,12 @@
     function makeHeaderContract({
         title,
         subtitle = "",
-        shell_theme = "sku4-default",
+        shell_theme = "sku5-default",
         accent_color = "red"
     }) {
         return makePanelContract({
             panel_type: PANEL_TYPES.HEADER,
-            component: "sku4-header-shell",
+            component: "sku5-header-shell",
             title,
             subtitle,
             props: {
@@ -136,7 +136,7 @@
     }) {
         return makePanelContract({
             panel_type: PANEL_TYPES.JOURNEY,
-            component: "sku4-journey-shell",
+            component: "sku5-journey-shell",
             title: breadcrumb_label,
             props: {
                 breadcrumb_label,
@@ -162,7 +162,7 @@
     }) {
         return makePanelContract({
             panel_type: PANEL_TYPES.VIEWER,
-            component: "sku4-viewer",
+            component: "sku5-viewer",
             data_binding_key,
             title,
             visible,
@@ -184,7 +184,7 @@
     }) {
         return makePanelContract({
             panel_type: PANEL_TYPES.NARRATIVE,
-            component: "sku4-narrative",
+            component: "sku5-narrative",
             data_binding_key,
             title,
             visible,
@@ -203,7 +203,7 @@
     }) {
         return makePanelContract({
             panel_type: PANEL_TYPES.NOTES,
-            component: "sku4-notes",
+            component: "sku5-notes",
             data_binding_key: notes_key,
             title,
             visible,
@@ -221,7 +221,7 @@
     }) {
         return makePanelContract({
             panel_type: PANEL_TYPES.GRAPH,
-            component: "sku4-graph",
+            component: "sku5-graph",
             data_binding_key,
             title,
             visible,
@@ -238,7 +238,7 @@
     }) {
         return makePanelContract({
             panel_type: PANEL_TYPES.DATA_TABLE,
-            component: "sku4-data-table",
+            component: "sku5-data-table",
             data_binding_key,
             title,
             visible
@@ -256,7 +256,7 @@
     }) {
         return makePanelContract({
             panel_type: PANEL_TYPES.HYBRID,
-            component: "sku4-hybrid-block",
+            component: "sku5-hybrid-block",
             data_binding_key,
             title,
             visible,
@@ -278,7 +278,7 @@
             payment_required: false,
             token_cost: 0,
 
-            shell_theme: "sku4-default",
+            shell_theme: "sku5-default",
             accent_color: "red",
             viewer_mode: VIEWER_MODES.NONE,
             rhs_visible: true,
@@ -310,7 +310,7 @@
         // ============================================================
 
         withBase({
-            sku_id: "SKU4.01",
+            sku_id: "SKU5.01",
             sequence: 1,
             range_group: RANGE_GROUPS.CANONICAL,
             intelligence_class: INTELLIGENCE_CLASS.DESCRIPTIVE,
@@ -321,7 +321,7 @@
             cta_label: "View Position",
 
             previous_sku_id: null,
-            next_sku_id: "SKU4.50",
+            next_sku_id: "SKU5.50",
             status_label: "Canonical Cloud",
             next_status_label: "View Benchmark with Deltas",
             next_cta_label: "Next",
@@ -347,7 +347,7 @@
             ],
 
             panel_1_contract: makeHeaderContract({
-                title: "SKU4.01 — Canonical Positioning Foundation",
+                title: "SKU5.01 — Canonical Positioning Foundation",
                 subtitle: "Establish the hospital position inside the regional canonical frame"
             }),
 
@@ -375,14 +375,230 @@
                 notes_key: "canonical_layer_1_notes"
             })
         }),
+/* 
+        withBase({
+            sku_id: "SKU5.02",
+            sequence: 2,
+            range_group: RANGE_GROUPS.CANONICAL,
+            intelligence_class: INTELLIGENCE_CLASS.DESCRIPTIVE,
 
+            title: "Canonical Cloud",
+            breadcrumb_label: "Canonical Foundation",
+            pill_label: "Cloud",
+            cta_label: "View Cloud",
+
+            lhs_contract: "canonical_cloud",
+            rhs_contract: "narrative_2",
+            notes: "Canonical Layer 2",
+
+            viewer_mode: VIEWER_MODES.CANONICAL_3D,
+            graph_visible: false,
+            layout_mode: LAYOUT_MODES.CANONICAL_FOCUS,
+            legend_mode: LEGEND_MODES.STANDARD,
+            accumulate_from_previous: true,
+
+            panel_1_contract: makeHeaderContract({
+                title: "SKU5.02 — Canonical Cloud",
+                subtitle: "Add regional hospital cloud structure"
+            }),
+            panel_2_contract: makeJourneyContract({
+                breadcrumb_label: "Canonical Foundation",
+                pill_label: "Cloud",
+                cta_label: "View Cloud"
+            }),
+            panel_3_contract: makeViewerContract({
+                title: "Canonical Cloud",
+                data_binding_key: "canonical_cloud",
+                viewer_mode: VIEWER_MODES.CANONICAL_3D,
+                legend_mode: LEGEND_MODES.STANDARD,
+                accumulate_from_previous: true
+            }),
+            panel_4_contract: makeNarrativeContract({
+                title: "Cloud Narrative",
+                narrative_key: "narrative_2",
+                data_binding_key: "narrative_2"
+            }),
+            panel_5_contract: makeNotesContract({
+                title: "Canonical Layer Notes",
+                notes_key: "canonical_layer_2_notes"
+            })
+        }),
+
+        withBase({
+            sku_id: "SKU5.03",
+            sequence: 3,
+            range_group: RANGE_GROUPS.CANONICAL,
+            intelligence_class: INTELLIGENCE_CLASS.DESCRIPTIVE,
+
+            title: "Hospital Dot",
+            breadcrumb_label: "Canonical Position",
+            pill_label: "Hospital",
+            cta_label: "View Hospital",
+
+            lhs_contract: "canonical_axes_center",
+            rhs_contract: "narrative_3",
+            notes: "Canonical Layer 3",
+
+            viewer_mode: VIEWER_MODES.CANONICAL_3D,
+            layout_mode: LAYOUT_MODES.CANONICAL_FOCUS,
+            accumulate_from_previous: true,
+
+            viewer_layers: [
+                "axis_u1",
+                "axis_u2",
+                "axis_u3",
+                "region_centroid",
+                "hospital_point"
+            ],
+
+            panel_1_contract: makeHeaderContract({
+                title: "SKU5.03 — Hospital Dot",
+                subtitle: "Place the hospital in canonical space"
+            }),
+            panel_2_contract: makeJourneyContract({
+                breadcrumb_label: "Canonical Position",
+                pill_label: "Hospital",
+                cta_label: "View Hospital"
+            }),
+            panel_3_contract: makeViewerContract({
+                title: "Hospital Position",
+                data_binding_key: "canonical_axes_center",
+                viewer_mode: VIEWER_MODES.CANONICAL_3D,
+                accumulate_from_previous: true
+            }),
+            panel_4_contract: makeNarrativeContract({
+                title: "Hospital Narrative",
+                narrative_key: "narrative_3",
+                data_binding_key: "narrative_3"
+            }),
+            panel_5_contract: makeNotesContract({
+                title: "Canonical Layer Notes",
+                notes_key: "canonical_layer_3_notes"
+            })
+        }),
+
+        withBase({
+            sku_id: "SKU5.04",
+            sequence: 4,
+            range_group: RANGE_GROUPS.CANONICAL,
+            intelligence_class: INTELLIGENCE_CLASS.DESCRIPTIVE,
+
+            title: "Peer Cohort Dot",
+            breadcrumb_label: "Peer Context",
+            pill_label: "Peer Cohort",
+            cta_label: "View Peers",
+
+            lhs_contract: "canonical_axes_center",
+            rhs_contract: "peer_context_narrative",
+            notes: "Canonical Layer 4",
+
+            viewer_mode: VIEWER_MODES.CANONICAL_PEER,
+            layout_mode: LAYOUT_MODES.CANONICAL_FOCUS,
+            accumulate_from_previous: true,
+
+            viewer_layers: [
+                "axis_u1",
+                "axis_u2",
+                "axis_u3",
+                "region_centroid",
+                "hospital_point",
+                "peer_cohort_point"
+            ],
+
+            panel_1_contract: makeHeaderContract({
+                title: "SKU5.04 — Peer Cohort Dot",
+                subtitle: "Overlay peer cohort reference position"
+            }),
+            panel_2_contract: makeJourneyContract({
+                breadcrumb_label: "Peer Context",
+                pill_label: "Peer Cohort",
+                cta_label: "View Peers"
+            }),
+            panel_3_contract: makeViewerContract({
+                title: "Peer Cohort Position",
+                data_binding_key: "canonical_axes_center",
+                viewer_mode: VIEWER_MODES.CANONICAL_PEER,
+                accumulate_from_previous: true
+            }),
+            panel_4_contract: makeNarrativeContract({
+                title: "Peer Context Narrative",
+                narrative_key: "peer_context_narrative",
+                data_binding_key: "peer_context_narrative"
+            }),
+            panel_5_contract: makeNotesContract({
+                title: "Canonical Layer Notes",
+                notes_key: "canonical_layer_4_notes"
+            })
+        }),
+
+        withBase({
+            sku_id: "SKU5.05",
+            sequence: 5,
+            range_group: RANGE_GROUPS.CANONICAL,
+            intelligence_class: INTELLIGENCE_CLASS.DESCRIPTIVE,
+
+            title: "Focused Canonical View",
+            breadcrumb_label: "Canonical Focus",
+            pill_label: "Focus",
+            cta_label: "Focus View",
+
+            previous_sku_id: "sku5.01",
+            next_sku_id: "SKU5.51",
+            status_label: "Canonical Cloud",
+            next_status_label: "Next",
+            next_cta_label: "View Peer Benchmarks with deltas",
+
+            lhs_contract: "canonical_axes_center",
+            rhs_contract: "focused_view_narrative",
+            notes: "Canonical Layer 5 - cloud disappears and focus tightens",
+
+            viewer_mode: VIEWER_MODES.CANONICAL_PEER,
+            layout_mode: LAYOUT_MODES.CANONICAL_FOCUS,
+            legend_mode: LEGEND_MODES.MINIMAL,
+            accumulate_from_previous: false,
+
+            viewer_layers: [
+                "axis_u1",
+                "axis_u2",
+                "axis_u3",
+                "region_centroid",
+                "hospital_point",
+                "peer_cohort_point",
+                "provider_peer_connector"
+            ],
+
+            panel_1_contract: makeHeaderContract({
+                title: "SKU5.05 — Focused Canonical View",
+                subtitle: "Suppress cloud and tighten hospital-peer comparison"
+            }),
+            panel_2_contract: makeJourneyContract({
+                breadcrumb_label: "Canonical Focus",
+                pill_label: "Focus",
+                cta_label: "Focus View"
+            }),
+            panel_3_contract: makeViewerContract({
+                title: "Focused Canonical View",
+                data_binding_key: "canonical_axes_center",
+                viewer_mode: VIEWER_MODES.CANONICAL_PEER,
+                legend_mode: LEGEND_MODES.MINIMAL
+            }),
+            panel_4_contract: makeNarrativeContract({
+                title: "Focused View Narrative",
+                narrative_key: "focused_view_narrative",
+                data_binding_key: "focused_view_narrative"
+            }),
+            panel_5_contract: makeNotesContract({
+                title: "Canonical Layer Notes",
+                notes_key: "canonical_layer_5_notes"
+            })
+        }), */
 
         // ============================================================
         // DESCRIPTIVE RANGE
         // ============================================================
 
         withBase({
-            sku_id: "SKU4.50",
+            sku_id: "SKU5.50",
             sequence: 50,
             range_group: RANGE_GROUPS.DESCRIPTIVE,
             intelligence_class: INTELLIGENCE_CLASS.DESCRIPTIVE,
@@ -392,8 +608,8 @@
             pill_label: "Region Benchmark",
             cta_label: "View Region",
 
-            previous_sku_id: "SKU4.01",
-            next_sku_id: "SKU4.51",
+            previous_sku_id: "SKU5.01",
+            next_sku_id: "SKU5.51",
             status_label: "Region Benchmark",
             next_status_label: "View Peer Benchmark with Deltas",
             next_cta_label: "Next",
@@ -407,7 +623,7 @@
             layout_mode: LAYOUT_MODES.DATA_GRAPH_SPLIT,
 
             panel_1_contract: makeHeaderContract({
-                title: "SKU4.50 — Region Benchmark",
+                title: "SKU5.50 — Region Benchmark",
                 subtitle: "Hospital compared with region-wide benchmark"
             }),
 
@@ -425,7 +641,7 @@
 
             panel_4_contract: makeDataTableContract({
                 title: "Region Benchmark Data",
-                data_binding_key: "provider_vs_region_benchmark_rhs"
+                data_binding_key: "provider_vs_region_benchmark"
             }),
 
             panel_5_contract: makeNotesContract({
@@ -436,7 +652,7 @@
 
 
         withBase({
-            sku_id: "SKU4.51",
+            sku_id: "SKU5.51",
             sequence: 51,
             range_group: RANGE_GROUPS.DESCRIPTIVE,
             intelligence_class: INTELLIGENCE_CLASS.DESCRIPTIVE,
@@ -446,8 +662,8 @@
             pill_label: "Peer Benchmark",
             cta_label: "View Peer",
 
-            previous_sku_id: "SKU4.50",
-            next_sku_id: "SKU4.52",
+            previous_sku_id: "SKU5.50",
+            next_sku_id: "SKU5.52",
             status_label: "Peer Benchmark",
             next_status_label: "View Canonical Trajectory",
             next_cta_label: "Next",
@@ -461,7 +677,7 @@
             layout_mode: LAYOUT_MODES.DATA_GRAPH_SPLIT,
 
             panel_1_contract: makeHeaderContract({
-                title: "SKU4.51 — Peer Benchmark",
+                title: "SKU5.51 — Peer Benchmark",
                 subtitle: "Hospital compared with peer cohort benchmark"
             }),
 
@@ -479,7 +695,7 @@
 
             panel_4_contract: makeDataTableContract({
                 title: "Peer Benchmark Data",
-                data_binding_key: "provider_vs_peer_benchmark_rhs"
+                data_binding_key: "provider_vs_peer_benchmark"
             }),
 
             panel_5_contract: makeNotesContract({
@@ -489,7 +705,7 @@
         }),
 
         withBase({
-            sku_id: "SKU4.52",
+            sku_id: "SKU5.52",
             sequence: 52,
             range_group: RANGE_GROUPS.DESCRIPTIVE,
             intelligence_class: INTELLIGENCE_CLASS.DESCRIPTIVE,
@@ -499,14 +715,14 @@
             pill_label: "Trajectory",
             cta_label: "View Trajectory",
 
-            previous_sku_id: "SKU4.51",
-            next_sku_id: "SKU4.53",
+            previous_sku_id: "SKU5.51",
+            next_sku_id: "SKU5.53",
             status_label: "Canonical Trajectory",
             next_status_label: "View Top Comparable Providers",
             next_cta_label: "Next",
 
-            lhs_contract: "viewer",
-            rhs_contract: "data_table",
+            lhs_contract: "canonical_trajectory",
+            rhs_contract: "trajectory_metrics",
             notes: "Trajectory",
 
             viewer_mode: VIEWER_MODES.CANONICAL_TRAJECTORY,
@@ -514,7 +730,7 @@
             graph_visible: false,
 
             panel_1_contract: makeHeaderContract({
-                title: "SKU4.52 — Canonical Trajectory",
+                title: "SKU5.52 — Canonical Trajectory",
                 subtitle: "Longitudinal movement across canonical space"
             }),
 
@@ -552,7 +768,7 @@
 
 
         withBase({
-            sku_id: "SKU4.53",
+            sku_id: "SKU5.53",
             sequence: 53,
             range_group: RANGE_GROUPS.DESCRIPTIVE,
             intelligence_class: INTELLIGENCE_CLASS.DESCRIPTIVE,
@@ -562,14 +778,14 @@
             pill_label: "Comparable Providers",
             cta_label: "View Comparable Providers",
 
-            previous_sku_id: "SKU4.52",
-            next_sku_id: "SKU4.54",
+            previous_sku_id: "SKU5.52",
+            next_sku_id: "SKU5.54",
             status_label: "Top Comparable Providers",
             next_status_label: "Cohort & Percentile",
             next_cta_label: "Next",
 
-            lhs_contract: "viewer",
-            rhs_contract: "data_table",
+            lhs_contract: "top_comparable_providers",
+            rhs_contract: "top_comparable_providers_table",
             notes: "Comparable Providers",
 
             viewer_mode: VIEWER_MODES.COMPARABLE_PROVIDERS,
@@ -577,7 +793,7 @@
             graph_visible: false,
 
             panel_1_contract: makeHeaderContract({
-                title: "SKU4.53 — Top Comparable Providers",
+                title: "SKU5.53 — Top Comparable Providers",
                 subtitle: "Closest comparable providers around the selected hospital"
             }),
 
@@ -613,7 +829,7 @@
         }),
 
         withBase({
-            sku_id: "SKU4.54",
+            sku_id: "SKU5.54",
             sequence: 54,
             range_group: RANGE_GROUPS.DESCRIPTIVE,
             intelligence_class: INTELLIGENCE_CLASS.DESCRIPTIVE,
@@ -623,14 +839,14 @@
             pill_label: "Benchmark Metrics",
             cta_label: "View Benchmark Metrics",
 
-            previous_sku_id: "SKU4.53",
-            next_sku_id: "SKU4.55",
+            previous_sku_id: "SKU5.53",
+            next_sku_id: "SKU5.55",
             status_label: "Cohort Median and Percentile Metrics",
             next_status_label: "CPT Overperformance",
             next_cta_label: "Next",
 
-            lhs_contract: "viewer",
-            rhs_contract: "data_table",
+            lhs_contract: "cohort_percentile_metrics",
+            rhs_contract: "cohort_percentile_metrics_rhs",
             notes: "Benchmark Metrics",
 
             viewer_mode: VIEWER_MODES.FINANCIAL_INTELLIGENCE,
@@ -638,7 +854,7 @@
             graph_visible: true,
 
             panel_1_contract: makeHeaderContract({
-                title: "SKU4.54 — Cohort Median and Percentile Metrics",
+                title: "SKU5.54 — Cohort Median and Percentile Metrics",
                 subtitle: "Compare reimbursement, utilization, service breadth, and care mix against peer hospitals and regional benchmarks"
             }),
 
@@ -673,27 +889,26 @@
             })
         }),
         // ------------------------------------------------------------
-        // SKU4.55
+        // SKU5.55
         // Overperforming CPT Areas
         // Descriptive CPT performance SKU highlighting areas where
         // provider-level CPT economics outperform benchmark patterns.
         // ------------------------------------------------------------
         withBase({
-            sku_id: "SKU4.55",
+            sku_id: "SKU5.55",
             sequence: 55,
             range_group: RANGE_GROUPS.DESCRIPTIVE,
             intelligence_class: INTELLIGENCE_CLASS.DESCRIPTIVE,
 
-            title: "CPT Overperformance",
+            title: "Overperforming CPT Areas",
             breadcrumb_label: "Descriptive Intelligence",
-            pill_label: "CPT Overperformance",
+            pill_label: "CPT Strengths",
             cta_label: "View CPT Strengths",
 
-            previous_sku_id: "SKU4.54",
-            next_sku_id: "SKU4.56",
-
-            status_label: "CPT Overperformance",
-            next_status_label: "View CPT Underperformance",
+            previous_sku_id: "SKU5.54",
+            next_sku_id: "SKU5.56",
+            status_label: "Overperforming CPT Areas",
+            next_status_label: "View Next SKU",
             next_cta_label: "Next",
 
             lhs_contract: "overperforming_cpt_areas",
@@ -703,71 +918,60 @@
             viewer_mode: VIEWER_MODES.FINANCIAL_INTELLIGENCE,
             layout_mode: LAYOUT_MODES.VIEWER_DATA_SPLIT,
             graph_visible: true,
-            graph_type: GRAPH_TYPES.DELTA_BAR,
 
             panel_1_contract: makeHeaderContract({
-                title: "SKU4.55 — CPT Overperformance",
-                subtitle: "Identify CPT areas where the provider is outperforming benchmark and peer patterns across reimbursement, volume, and economic contribution."
+                title: "SKU5.55 — Overperforming CPT Areas",
+                subtitle: "Identify CPTs where the provider is outperforming peer and benchmark patterns across reimbursement and economic strength"
             }),
 
             panel_2_contract: makeJourneyContract({
                 breadcrumb_label: "Descriptive Intelligence",
-                pill_label: "CPT Overperformance",
+                pill_label: "CPT Strengths",
                 cta_label: "View CPT Strengths"
             }),
 
             panel_3_contract: makeGraphContract({
-                title: "CPT Overperformance Viewer",
+                title: "Overperforming CPT Viewer",
                 data_binding_key: "overperforming_cpt_areas",
                 viewer_mode: VIEWER_MODES.FINANCIAL_INTELLIGENCE,
                 props: {
                     panel_role: "viewer_only",
-                    chart_intent: "ranked_positive_delta",
                     legend_items: [
                         { color: "#ff4d4f", label: "Provider Advantage" },
                         { color: "#ffd54f", label: "Benchmark" },
-                        { color: "#7ea6ff", label: "High-Value CPT Area" }
+                        { color: "#7ea6ff", label: "Top CPT Areas" }
                     ]
                 }
             }),
 
             panel_4_contract: makeDataTableContract({
-                title: "CPT Overperformance Money Table",
-                data_binding_key: "overperforming_cpt_areas_rhs",
-                props: {
-                    panel_role: "money_narrative",
-                    table_intent: "ranked_cpt_opportunity",
-                    metric_focus: [
-                        "provider_allowed_amount",
-                        "benchmark_allowed_amount",
-                        "delta_amount",
-                        "delta_percent",
-                        "contribution_rank"
-                    ]
-                }
+                title: "Overperforming CPT Table",
+                data_binding_key: "overperforming_cpt_areas_rhs"
             }),
 
             panel_5_contract: makeNotesContract({
-                title: "CPT Overperformance Notes",
+                title: "Overperforming CPT Notes",
                 notes_key: "overperforming_cpt_notes"
             })
         }),
 
+
+
         withBase({
-            sku_id: "SKU4.56",
+            sku_id: "SKU5.56",
             sequence: 56,
             range_group: RANGE_GROUPS.DESCRIPTIVE,
             intelligence_class: INTELLIGENCE_CLASS.DESCRIPTIVE,
 
-            title: "CPT Underperformance",
+            title: "Underperforming CPT Areas",
             breadcrumb_label: "Descriptive Intelligence",
             pill_label: "CPT Weaknesses",
             cta_label: "View CPT Weaknesses",
 
-            previous_sku_id: "SKU4.55",
-            next_sku_id: "SKU4.58",
+            previous_sku_id: "SKU5.55",
+            next_sku_id: "SKU5.58",
             status_label: "Underperforming CPT Areas",
-            next_status_label: "Monetizable CPT Areas",
+            next_status_label: "Monetizable CPT's",
             next_cta_label: "Next",
 
             lhs_contract: "underperforming_cpt_areas",
@@ -779,8 +983,8 @@
             graph_visible: true,
 
             panel_1_contract: makeHeaderContract({
-                title: "SKU4.56 — Underperforming CPT Areas",
-                subtitle: "Identify CPT areas where reimbursement falls below benchmark and quantify revenue leakage across claim volume."
+                title: "SKU5.56 — Underperforming CPT Areas",
+                subtitle: "Identify CPTs where the provider is underperforming regional benchmark patterns across reimbursement and economic strength"
             }),
 
             panel_2_contract: makeJourneyContract({
@@ -796,9 +1000,9 @@
                 props: {
                     panel_role: "viewer_only",
                     legend_items: [
-                        { color: "#ff4d4f", label: "Negative Delta (Leakage)" },
+                        { color: "#ff4d4f", label: "Provider Weakness" },
                         { color: "#ffd54f", label: "Benchmark" },
-                        { color: "#7ea6ff", label: "At-Risk CPT Areas" }
+                        { color: "#7ea6ff", label: "Underperforming CPT Areas" }
                     ]
                 }
             }),
@@ -815,7 +1019,7 @@
         }),
 
         withBase({
-            sku_id: "SKU4.58",
+            sku_id: "SKU5.58",
             sequence: 58,
             range_group: RANGE_GROUPS.PRESCRIPTIVE,
             intelligence_class: INTELLIGENCE_CLASS.PRESCRIPTIVE,
@@ -825,11 +1029,10 @@
             pill_label: "CPT Growth",
             cta_label: "View Monetizable CPTs",
 
-            previous_sku_id: "SKU4.56",
-            next_sku_id: "SKU4.60",
-
+            previous_sku_id: "SKU5.56",
+            next_sku_id: "SKU5.60",
             status_label: "Monetizable CPT Areas",
-            next_status_label: "CPT Portfolio Risk",
+            next_status_label: "CPT Risk",
             next_cta_label: "Next",
 
             lhs_contract: "monetizable_cpt_areas",
@@ -841,8 +1044,8 @@
             graph_visible: true,
 
             panel_1_contract: makeHeaderContract({
-                title: "SKU4.58 — Monetizable CPT Areas",
-                subtitle: "Identify CPT areas with positive reimbursement spread, claim-volume headroom, and scalable growth potential."
+                title: "SKU5.58 — Monetizable CPT Areas",
+                subtitle: "Identify CPTs with positive reimbursement spread and scalable growth potential across provider operations"
             }),
 
             panel_2_contract: makeJourneyContract({
@@ -857,7 +1060,6 @@
                 viewer_mode: VIEWER_MODES.FINANCIAL_INTELLIGENCE,
                 props: {
                     panel_role: "viewer_only",
-                    chart_intent: "ranked_growth_upside",
                     legend_items: [
                         { color: "#34c759", label: "Growth Opportunity" },
                         { color: "#ffd54f", label: "Benchmark" },
@@ -867,12 +1069,8 @@
             }),
 
             panel_4_contract: makeDataTableContract({
-                title: "Monetizable CPT Money Table",
-                data_binding_key: "monetizable_cpt_areas_rhs",
-                props: {
-                    panel_role: "growth_narrative",
-                    table_intent: "ranked_cpt_growth_upside"
-                }
+                title: "Monetizable CPT Table",
+                data_binding_key: "monetizable_cpt_areas_rhs"
             }),
 
             panel_5_contract: makeNotesContract({
@@ -881,8 +1079,9 @@
             })
         }),
 
+
         withBase({
-            sku_id: "SKU4.60",
+            sku_id: "SKU5.60",
             sequence: 60,
             range_group: RANGE_GROUPS.PREDICTIVE,
             intelligence_class: INTELLIGENCE_CLASS.PREDICTIVE,
@@ -892,9 +1091,8 @@
             pill_label: "CPT Risk",
             cta_label: "View CPT Risk",
 
-            previous_sku_id: "SKU4.58",
-            next_sku_id: "SKU4.62",
-
+            previous_sku_id: "SKU5.58",
+            next_sku_id: "SKU5.62",
             status_label: "CPT Portfolio Risk",
             next_status_label: "ICU Efficiency",
             next_cta_label: "Next",
@@ -908,8 +1106,8 @@
             graph_visible: true,
 
             panel_1_contract: makeHeaderContract({
-                title: "SKU4.60 — CPT Portfolio Risk",
-                subtitle: "Identify CPT areas where claim concentration and reimbursement sensitivity combine into predictive portfolio risk."
+                title: "SKU5.60 — CPT Portfolio Risk",
+                subtitle: "Identify CPT exposure where concentration and reimbursement fragility combine into portfolio risk"
             }),
 
             panel_2_contract: makeJourneyContract({
@@ -919,12 +1117,11 @@
             }),
 
             panel_3_contract: makeGraphContract({
-                title: "CPT Portfolio Risk Viewer",
+                title: "CPT Risk Viewer",
                 data_binding_key: "cpt_portfolio_risk",
                 viewer_mode: VIEWER_MODES.FINANCIAL_INTELLIGENCE,
                 props: {
                     panel_role: "viewer_only",
-                    chart_intent: "ranked_portfolio_risk",
                     legend_items: [
                         { color: "#ff8a65", label: "Risk Exposure" },
                         { color: "#ffd54f", label: "Benchmark Sensitivity" },
@@ -932,6 +1129,7 @@
                     ]
                 }
             }),
+
             panel_4_contract: makeDataTableContract({
                 title: "CPT Risk Table",
                 data_binding_key: "cpt_portfolio_risk_rhs"
@@ -945,7 +1143,7 @@
 
 
         withBase({
-            sku_id: "SKU4.62",
+            sku_id: "SKU5.62",
             sequence: 62,
             range_group: RANGE_GROUPS.PREDICTIVE,
             intelligence_class: INTELLIGENCE_CLASS.PREDICTIVE,
@@ -955,8 +1153,8 @@
             pill_label: "ICU Efficiency",
             cta_label: "View ICU Efficiency",
 
-            previous_sku_id: "SKU4.60",
-            next_sku_id: "SKU4.64",
+            previous_sku_id: "SKU5.60",
+            next_sku_id: "SKU5.64",
             status_label: "ICU Utilization Efficiency",
             next_status_label: "Coding Integrity Risk",
             next_cta_label: "Next",
@@ -970,7 +1168,7 @@
             graph_visible: true,
 
             panel_1_contract: makeHeaderContract({
-                title: "SKU4.62 — ICU Utilization Efficiency",
+                title: "SKU5.62 — ICU Utilization Efficiency",
                 subtitle: "Evaluate ICU/CCU utilization intensity and reimbursement efficiency relative to regional benchmark behavior"
             }),
 
@@ -1007,7 +1205,7 @@
 
 
         withBase({
-            sku_id: "SKU4.64",
+            sku_id: "SKU5.64",
             sequence: 64,
             range_group: RANGE_GROUPS.PREDICTIVE,
             intelligence_class: INTELLIGENCE_CLASS.PREDICTIVE,
@@ -1017,8 +1215,8 @@
             pill_label: "Coding Risk",
             cta_label: "View Coding Risk",
 
-            previous_sku_id: "SKU4.62",
-            next_sku_id: null,   // update later if you add SKU4.66
+            previous_sku_id: "SKU5.62",
+            next_sku_id: null,   // update later if you add SKU5.66
             status_label: "Coding Integrity Risk",
             next_status_label: "",
             next_cta_label: "Next",
@@ -1032,7 +1230,7 @@
             graph_visible: true,
 
             panel_1_contract: makeHeaderContract({
-                title: "SKU4.64 — Coding Integrity Risk",
+                title: "SKU5.64 — Coding Integrity Risk",
                 subtitle: "Identify CPTs where reimbursement gaps and claim volume indicate potential undercoding, documentation gaps, or coding leakage"
             }),
 
@@ -1119,7 +1317,7 @@
     }
 
     function getDefaultSkuId() {
-        return "SKU4.01";
+        return "SKU5.01";
     }
 
     function getFirstSkuIdByRange(rangeGroup) {
@@ -1152,6 +1350,6 @@
         getFirstSkuIdByRange
     });
 
-    global.SKU4Registry = registryApi;
+    global.SKU5Registry = registryApi;
 
 })(window);
