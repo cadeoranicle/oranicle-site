@@ -165,14 +165,27 @@
         const btn = document.getElementById("enterBtn");
         const error = document.getElementById("errorBox");
 
+        function showError(msg) {
+            error.textContent = msg;
+            error.style.display = "block";
+        }
+
+        function clearError() {
+            error.style.display = "none";
+        }
+
         async function enter() {
+            clearError();
+
             const value = input.value.trim();
 
             if (!value) {
-                error.textContent = "Enter passkey.";
-                error.style.display = "block";
+                showError("Enter passkey.");
                 return;
             }
+
+            btn.disabled = true;
+            btn.textContent = "Verifying...";
 
             try {
                 const res = await fetch("/api/verify-passkey", {
@@ -183,6 +196,10 @@
                     body: JSON.stringify({ passkey: value })
                 });
 
+                if (!res.ok) {
+                    throw new Error("Network response not OK");
+                }
+
                 const data = await res.json();
 
                 if (data.ok) {
@@ -190,12 +207,13 @@
                     return;
                 }
 
-                error.textContent = "Invalid passkey.";
-                error.style.display = "block";
+                showError("Invalid passkey.");
             } catch (err) {
-                console.error(err);
-                error.textContent = "Access verification failed.";
-                error.style.display = "block";
+                console.error("Passkey verification error:", err);
+                showError("Access verification failed.");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Enter";
             }
         }
 
