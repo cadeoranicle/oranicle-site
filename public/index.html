@@ -161,16 +161,40 @@
     </div>
 
     <script>
-        const PASSKEY = "demo123"; // change manually after each demo
-
         const input = document.getElementById("passkey");
         const btn = document.getElementById("enterBtn");
         const error = document.getElementById("errorBox");
 
-        function enter() {
-            if (input.value === PASSKEY) {
-                window.location.href = "hero.html";
-            } else {
+        async function enter() {
+            const value = input.value.trim();
+
+            if (!value) {
+                error.textContent = "Enter passkey.";
+                error.style.display = "block";
+                return;
+            }
+
+            try {
+                const res = await fetch("/api/verify-passkey", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ passkey: value })
+                });
+
+                const data = await res.json();
+
+                if (data.ok) {
+                    window.location.href = "hero.html";
+                    return;
+                }
+
+                error.textContent = "Invalid passkey.";
+                error.style.display = "block";
+            } catch (err) {
+                console.error(err);
+                error.textContent = "Access verification failed.";
                 error.style.display = "block";
             }
         }
