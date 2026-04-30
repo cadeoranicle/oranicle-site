@@ -1,131 +1,80 @@
-async function initIndex() {
-    const input = document.getElementById("npiInput");
-    const checkBtn = document.getElementById("checkBtn");
-    const viewBtn = document.getElementById("viewBtn");
-    const regionSelect = document.getElementById("regionSelect");
-    const geometryMode = document.getElementById("geometryMode");
-    const npiStatus = document.getElementById("npiStatus");
+document.addEventListener("DOMContentLoaded", () => {
+    let selected = "sku4";
 
-    let supported = new Set();
-    let southeastProviderSet = new Set();
+    const pill4 = document.getElementById("pill-sku4");
+    const pill5 = document.getElementById("pill-sku5");
+    const launchBtn = document.getElementById("launchBtn");
+    const npiInput = document.getElementById("npiInput");
+    const errorBox = document.getElementById("errorBox");
 
-    try {
-        const res = await fetch("providers/provider_index.json", { cache: "no-store" });
-        const data = await res.json();
-        supported = new Set(data.supported_npis || []);
-    } catch (err) {
-        console.error(err);
+    function showError(msg) {
+        if (!errorBox) return;
+        errorBox.textContent = msg;
+        errorBox.classList.remove("hidden");
     }
 
-    try {
-        const southeastIndex = await window.SKU3Loader.loadProviderIndex("southeast");
-        const southeastNpis = (southeastIndex.providers || []).map(p => String(p.provider_npi));
-        southeastProviderSet = new Set(southeastNpis);
-    } catch (err) {
-        console.error("Southeast provider index unavailable", err);
+    function clearError() {
+        if (!errorBox) return;
+        errorBox.classList.add("hidden");
     }
 
-    function cleanNpi(value) {
-        return String(value || "").replace(/\D/g, "");
+    function selectSku(sku) {
+        selected = sku;
+
+        pill4?.classList.toggle("active", sku === "sku4");
+        pill5?.classList.toggle("active", sku === "sku5");
     }
 
-    function resetViewButton() {
-        viewBtn.disabled = true;
-        viewBtn.removeAttribute("data-npi");
-    }
+    function routeToSku(sku, npi) {
+        if (sku === "sku4") {
+            window.location.href =
+                `sku4.html?region=NYNJCT&family=provider_cpt&model=CPT%20Billing&npi=${encodeURIComponent(npi)}`;
+            return;
+        }
 
-    function applyRegionRules() {
-        const region = regionSelect.value;
-
-        if (region === "tristate") {
-            geometryMode.value = "pca3d";
-            geometryMode.disabled = true;
-        } else if (region === "southeast") {
-            geometryMode.disabled = false;
+        if (sku === "sku5") {
+            window.location.href =
+                `sku5.html?sku=SKU5.01&region=NYNJCT&family=hospital_canonical&npi=${encodeURIComponent(npi)}`;
         }
     }
 
-    applyRegionRules();
+    pill4?.addEventListener("click", () => selectSku("sku4"));
+    pill5?.addEventListener("click", () => selectSku("sku5"));
 
-    regionSelect.addEventListener("change", () => {
-        resetViewButton();
-        npiStatus.className = "npi-status";
-        npiStatus.textContent = "";
-        applyRegionRules();
-    });
+    launchBtn?.addEventListener("click", () => {
+        clearError();
 
-    checkBtn.addEventListener("click", async () => {
-        const npi = cleanNpi(input.value);
-        const region = regionSelect.value;
-
-        resetViewButton();
-
-        npiStatus.className = "npi-status";
-        npiStatus.textContent = "";
+        const npi = (npiInput?.value || "").replace(/\D/g, "");
 
         if (npi.length !== 10) {
-            npiStatus.className = "npi-status warn";
-            npiStatus.textContent = "Enter a valid 10-digit NPI";
+            showError("Enter valid 10-digit NPI.");
             return;
         }
 
-        if (region === "tristate") {
-            if (supported.has(npi)) {
-                npiStatus.className = "npi-status ok";
-                npiStatus.textContent = "Provider available in Tri-State canonical";
+        routeToSku(selected, npi);
+    });
 
-                viewBtn.disabled = false;
-                viewBtn.setAttribute("data-npi", npi);
-                return;
-            }
-
-            npiStatus.className = "npi-status warn";
-            npiStatus.textContent = "Provider not yet mapped in current Tri-State canonical";
-            return;
-        }
-
-        if (region === "southeast") {
-            if (southeastProviderSet.has(npi)) {
-                npiStatus.className = "npi-status ok";
-                npiStatus.textContent = "Provider available in Southeast pilot index";
-
-                viewBtn.disabled = false;
-                viewBtn.setAttribute("data-npi", npi);
-                return;
-            }
-
-            npiStatus.className = "npi-status warn";
-            npiStatus.textContent = "Provider not yet available in Southeast pilot index";
-            return;
+    npiInput?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            launchBtn?.click();
         }
     });
 
-    viewBtn.addEventListener("click", async () => {
-        const npi = viewBtn.getAttribute("data-npi");
-        const region = regionSelect.value;
+    document.querySelectorAll(".demo-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const sku = btn.dataset.sku;
+            const npi = btn.dataset.npi;
 
-        if (!npi) return;
-
-        if (region === "tristate") {
-            window.location.href = `sku2.html?npi=${encodeURIComponent(npi)}&mode=pca3d`;
-            return;
-        }
-
-        if (region === "southeast") {
-            try {
-                await window.SKU3Viewer.loadRegion(
-                    "southeast",
-                    geometryMode.value,
-                    npi
-                );
-            } catch (err) {
-                console.error(err);
-
-                npiStatus.className = "npi-status warn";
-                npiStatus.textContent = "Viewer failed to load Southeast canonical.";
+            if (!sku || !npi) {
+                showError("Demo preset is missing SKU or NPI.");
+                return;
             }
-        }
-    });
-}
 
-window.addEventListener("DOMContentLoaded", initIndex);
+            routeToSku(sku, npi);
+        });
+    });
+
+    selectSku("sku4");
+    console.log("[Oranical] hero router loaded");
+});

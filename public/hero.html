@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Oranical | Canonical Intelligence</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <div class="app-shell">
+
+        <!-- LEFT: INTERACTION -->
+        <div class="panel left-panel">
+            <div class="panel-inner">
+
+                <h1 class="page-title">Oranical</h1>
+                <p class="page-subtitle">
+                    Structured intelligence from complex healthcare systems.
+                </p>
+
+                <!-- MODEL SELECTION -->
+                <div class="section">
+                    <div class="section-title">Model Selection</div>
+
+                    <div class="pills">
+                        <div class="pill active" id="pill-sku4">CPT Billing</div>
+                        <div class="pill" id="pill-sku5">ICU / CCU</div>
+                    </div>
+                </div>
+
+                <!-- NPI INPUT -->
+                <div class="section">
+                    <div class="section-title">Provider</div>
+
+                    <div class="input-group">
+                        <input id="npiInput" class="input" placeholder="Enter 10-digit NPI" />
+                    </div>
+                </div>
+
+                <!-- ACTION -->
+                <div class="button-row">
+                    <button class="btn btn-primary" id="launchBtn">Launch</button>
+                </div>
+
+                <div id="errorBox" class="status-card error hidden"></div>
+
+                <!-- QUICK DEMO -->
+                <div class="section">
+                    <div class="section-title">Quick Demo</div>
+
+                    <div class="button-row">
+                        <button class="btn btn-ghost demo-btn" data-sku="sku4" data-npi="1003089491">
+                            CPT • Balanced
+                        </button>
+
+                        <button class="btn btn-ghost demo-btn" data-sku="sku4" data-npi="1790701787">
+                            CPT • Outlier
+                        </button>
+
+                        <button class="btn btn-ghost demo-btn" data-sku="sku5" data-npi="1508815333">
+                            ICU • Typical
+                        </button>
+
+                        <button class="btn btn-ghost demo-btn" data-sku="sku5" data-npi="1669462420">
+                            ICU • High Intensity
+                        </button>
+                    </div>
+                </div>
+
+                <!-- NOTE -->
+                <div class="note" style="margin-top:14px;">
+                    Select a model or use a preset to explore representative provider profiles.
+                </div>
+
+
+
+                <!-- RIGHT: NARRATIVE -->
+                <div class="panel right-panel">
+                    <div class="panel-inner">
+
+                        <h2 class="section-title">Canonical Intelligence</h2>
+
+                        <p class="copy">
+                            Oranical establishes a canonical model of healthcare reality—creating a stable
+                            reference frame across providers, procedures, and regions before any analysis begins.
+                        </p>
+
+                        <div class="section">
+                            <h3 class="section-title">Position</h3>
+                            <p class="copy">
+                                Every provider is mapped within this system, revealing true structure,
+                                relative standing, and underlying behavioral patterns.
+                            </p>
+                        </div>
+
+                        <div class="section">
+                            <h3 class="section-title">Insight</h3>
+                            <p class="copy">
+                                Benchmarking against peers and regions exposes inefficiencies,
+                                variation, and latent opportunity with precision.
+                            </p>
+                        </div>
+
+                        <div class="section">
+                            <h3 class="section-title">Outcome</h3>
+                            <p class="copy">
+                                Intelligence is translated into clear direction—what to fix,
+                                where to scale, and how to drive measurable economic impact.
+                            </p>
+                        </div>
+
+                        <div class="section">
+                            <div class="badge">Define → Understand → Act</div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <script src="js/index.js"></script>
+
+</body>
+
+</html>

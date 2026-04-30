@@ -461,6 +461,7 @@ a:hover {
     padding: 8px;
     border-radius: 6px;
 }
+
 /* inline NPI validation */
 
 .npi-status {
@@ -502,4 +503,42 @@ a:hover {
 .meta-row b {
     font-size: 14px;
     color: #dce6f2;
+}
+
+/* ======================================
+   Oranical Index Hero Pills
+====================================== */
+
+.pills {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.pill {
+    flex: 1;
+    padding: 12px 14px;
+    text-align: center;
+    border-radius: 999px;
+    border: 1px solid rgba(87, 184, 255, 0.45);
+    background: rgba(87, 184, 255, 0.08);
+    color: #cfe6ff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 650;
+    user-select: none;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.pill:hover {
+    transform: translateY(-1px);
+    border-color: rgba(87, 184, 255, 0.75);
+    background: rgba(87, 184, 255, 0.14);
+}
+
+.pill.active {
+    background: linear-gradient(135deg, var(--accent), #2a8fe0);
+    border-color: var(--accent);
+    color: #07111a;
 }
